@@ -1,4 +1,4 @@
-function d(){
+function draw(){
     if(game_running){
         frames += 1;
 
@@ -308,7 +308,7 @@ function setmode(newmode){
 
         resize();
 
-        interval = setInterval('d()',settings[0])/*ms/frame*/
+        interval = setInterval('draw()',settings[0])/*ms/frame*/
 
     /*main menu mode*/
     }else{
