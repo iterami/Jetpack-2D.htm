@@ -3,14 +3,14 @@ function draw(){
         frames += 1;
 
         /*if new obstacle should be added this frame, add one*/
-        if(frames%frames_per_obstacle === 0){
+        if(frames % frames_per_obstacle === 0){
             i = random_number(30) + 40;
             obstacles.splice(
                 0,
                 0,
                 [
-                    width + i,
-                    y + (random_number(500) - 250),
+                    x + i,
+                    random_number(500) - 250,
                     i,
                     random_number(30) + 40
                 ]
@@ -18,7 +18,7 @@ function draw(){
         }
 
         /*if obstacle frequency increase should happen this frame, do it*/
-        if(settings[4] > 0 && frames_per_obstacle > 1 && frames%settings[4] === 0){
+        if(settings[4] > 0 && frames_per_obstacle > 1 && frames % settings[4] === 0){
             /*obstacle frequency increase*/
             frames_per_obstacle -= 1
         }
@@ -29,7 +29,10 @@ function draw(){
             smoke.splice(
                 0,
                 0,
-                [-20,player_y - 10]
+                [
+                    -20,
+                    player_y - 10
+                ]
             )
 
         /*else apply gravity*/
@@ -95,35 +98,37 @@ function draw(){
 
     i = obstacles.length - 1;
     if(i >= 0){
-        j = y - player_y;
+        if(game_running){
+            do{
+                /*delete obstacles that are past left side of screen*/
+                if(obstacles[i][0] < -x){
+                    obstacles.splice(i,1)
+                }else{
+                    /*move obstacles left*/
+                    obstacles[i][0] -= 10;
 
-        do{
-            /*delete obstacles that are past left side of screen*/
-            if(obstacles[i][0] < 0){
-                obstacles.splice(i,1)
-            }else if(game_running){
-                /*move obstacles left*/
-                obstacles[i][0] -= 10;
-
-                /*check for player collision with obstacle*/
-                if(obstacles[i][0] >= x - 25 - obstacles[i][2] / 2 &&
-                   obstacles[i][0] <= x + 25 + obstacles[i][2] / 2 &&
-                   obstacles[i][1] >= j - 25 - obstacles[i][3] / 2 &&
-                   obstacles[i][1] <= j + 25 + obstacles[i][3] / 2){
-                    game_running = 0;
-                    update_best()
+                    /*check for player collision with obstacle*/
+                    if(obstacles[i][0] >= -25 - obstacles[i][2] / 2 &&
+                       obstacles[i][0] <=  25 + obstacles[i][2] / 2 &&
+                       obstacles[i][1] >= -player_y - 25 - obstacles[i][3] / 2 &&
+                       obstacles[i][1] <= -player_y + 25 + obstacles[i][3] / 2){
+                        game_running = 0;
+                        update_best()
+                    }
                 }
-            }
-        }while(i--);
+            }while(i--);
+
+            /*get new amount of obstacles, some may have been spliced*/
+            i = obstacles.length - 1
+        }
 
         /*draw obstacles*/
-        i = obstacles.length - 1;
         if(i >= 0){
             buffer.fillStyle = '#555';
             do{
                 buffer.fillRect(
-                    obstacles[i][0] - obstacles[i][2] / 2,
-                    obstacles[i][1] - obstacles[i][3] / 2,
+                    x + obstacles[i][0] - obstacles[i][2] / 2,
+                    y + obstacles[i][1] - obstacles[i][3] / 2,
                     obstacles[i][2],
                     obstacles[i][3]
                 )
@@ -133,17 +138,21 @@ function draw(){
 
     i = smoke.length-1;
     if(i >= 0){
-        /*delete smoke trails past left side of screen, else move left*/
-        do{
-            if(smoke[i][0] < -x){
-                smoke.splice(i,1)
-            }else if(game_running){
-                smoke[i][0] -= 10
-            }
-        }while(i--);
+        if(game_running){
+            /*delete smoke trails past left side of screen, else move left*/
+            do{
+                if(smoke[i][0] < -x){
+                    smoke.splice(i,1)
+                }else if(game_running){
+                    smoke[i][0] -= 10
+                }
+            }while(i--);
+
+            /*get new amount of smoke, some may have been spliced*/
+            i = smoke.length - 1
+        }
 
         /*draw smoke trails behind the player*/
-        i = smoke.length - 1;
         if(i >= 0){
             buffer.fillStyle = '#777';
             do{
@@ -171,6 +180,7 @@ function draw(){
             }
             played_explosion_sound = 1
         }
+
         i = y / 2;
         if(frames > best_display){
             buffer.fillText(
