@@ -396,15 +396,15 @@ window.onkeydown = function(e){
         if(String.fromCharCode(i) === settings[6]){/*activate jetpack key*/
             key_jetpack = 1
         }else if(String.fromCharCode(i) === settings[7]){/*restart key*/
-            obstacles = [];
-            smoke = [];
             best_display = best;
             frames = 0;
             frames_per_obstacle = settings[3];/*obstacle frequency*/
             game_running = 1;
+            obstacles = [];
             played_explosion_sound = 0;
             player_speed = 0;
-            player_y = 0
+            player_y = 0;
+            smoke = []
         }else if(i === 27){/*ESC*/
             setmode(0)
         }
