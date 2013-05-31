@@ -195,12 +195,12 @@ function draw(){
             i
         );
         buffer.fillText(
-            settings[7] + '=Restart',/*restart key*/
+            settings[7] + ' = Restart',/*restart key*/
             x,
             i + 60
         );
         buffer.fillText(
-            'ESC=Main Menu',
+            'ESC = Main Menu',
             x,
             i+120
         )
@@ -337,7 +337,17 @@ function setmode(newmode){
         buffer = 0;
         canvas = 0;
 
-        get('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack</b></div><hr><div class=c><a onclick=setmode(1)>Cave Corridor</a> (Best: ' + best + ')</div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c><input disabled size=9 style=border:0 type=text value="Mouse Click">Activate Jetpack<br><input id=jetpack-key maxlength=1 size=9 type=text value=' + settings[6] + '>Activate Jetpack<br><input disabled size=9 style=border:0 type=text value=ESC>Main Menu<br><input id=restart-key maxlength=1 size=9 type=text value=' + settings[7] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value=' + settings[5] + '>Audio<br><label><input ' + (settings[8] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><a onclick="if(confirm(\'Reset settings?\')){get(\'clear\').checked=get(\'gravity\').value=get(\'audio-volume\').value=1;get(\'jetpack-key\').value=\'W\';get(\'restart-key\').value=\'H\';get(\'jetpack-power\').value=2;get(\'obstacle-frequency\').value=23;get(\'obstacle-increase\').value=115;get(\'ms-per-frame\').value=30;save();setmode(0)}">Reset Settings</a><br><a onclick="get(\'hack-span\').style.display=get(\'hack-span\').style.display===\'none\'?\'inline\':\'none\'">Hack</a><span id=hack-span style=display:none><br><br><input id=gravity size=1 type=text value=' + settings[1] + '>Gravity<br><input id=jetpack-power size=1 type=text value=' + settings[2] + '>Jetpack Power<br><input id=ms-per-frame size=1 type=text value=' + settings[0] + '>ms/Frame<br><input id=obstacle-frequency size=1 type=text value=' + settings[3] + '>Obstacle Frequency<br><input id=obstacle-increase size=1 type=text value=' + settings[4] + '>Obstacle Increase</span></div></div>'
+        get('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack</b></div><hr><div class=c><a onclick=setmode(1)>Cave Corridor</a> (Best: '
+            + best + ')</div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c><input disabled size=9 style=border:0 type=text value="Mouse Click">Activate Jetpack<br><input id=jetpack-key maxlength=1 size=9 type=text value='
+            + settings[6] + '>Activate Jetpack<br><input disabled size=9 style=border:0 type=text value=ESC>Main Menu<br><input id=restart-key maxlength=1 size=9 type=text value='
+            + settings[7] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
+            + settings[5] + '>Audio<br><label><input '
+            + (settings[8] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><a onclick="if(confirm(\'Reset settings?\')){get(\'clear\').checked=get(\'gravity\').value=get(\'audio-volume\').value=1;get(\'jetpack-key\').value=\'W\';get(\'restart-key\').value=\'H\';get(\'jetpack-power\').value=2;get(\'obstacle-frequency\').value=23;get(\'obstacle-increase\').value=115;get(\'ms-per-frame\').value=30;save();setmode(0)}">Reset Settings</a><br><a onclick="get(\'hack-span\').style.display=get(\'hack-span\').style.display===\'none\'?\'inline\':\'none\'">Hack</a><span id=hack-span style=display:none><br><br><input id=gravity size=1 type=text value='
+            + settings[1] + '>Gravity<br><input id=jetpack-power size=1 type=text value='
+            + settings[2] + '>Jetpack Power<br><input id=ms-per-frame size=1 type=text value='
+            + settings[0] + '>ms/Frame<br><input id=obstacle-frequency size=1 type=text value='
+            + settings[3] + '>Obstacle Frequency<br><input id=obstacle-increase size=1 type=text value='
+            + settings[4] + '>Obstacle Increase</span></div></div>'
     }
 }
 
@@ -393,6 +403,7 @@ window.onkeydown = function(e){
     if(mode > 0){
         i = window.event ? event : e;
         i = i.charCode ? i.charCode : i.keyCode;
+
         if(String.fromCharCode(i) === settings[6]){/*activate jetpack key*/
             key_jetpack = 1
         }else if(String.fromCharCode(i) === settings[7]){/*restart key*/
@@ -414,6 +425,7 @@ window.onkeydown = function(e){
 window.onkeyup = function(e){
     i = window.event ? event : e;
     i = i.charCode ? i.charCode : i.keyCode;
+
     if(String.fromCharCode(i) === settings[6]){/*activate jetpack key*/
         key_jetpack = 0
     }
