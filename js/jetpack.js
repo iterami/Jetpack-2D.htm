@@ -62,7 +62,7 @@ function draw(){
     );
 
     /* draw player body */
-    buffer.fillStyle = '#fff';
+    buffer.fillStyle = '#090';
     buffer.fillRect(
         x,
         y - player_y - 25,
@@ -171,7 +171,7 @@ function draw(){
     buffer.font = '23pt sans-serif';
     buffer.textAlign = 'center';
     buffer.textBaseline = 'top';
-    buffer.fillStyle = '#afa';
+    buffer.fillStyle = '#fff';
 
     /* if game is over, display game over messages */
     if(!game_running){
