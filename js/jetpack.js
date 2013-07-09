@@ -220,6 +220,7 @@ function draw(){
         32
     );
 
+
     if(settings[8]){/* clear? */
         canvas.clearRect(
             0,
@@ -438,6 +439,8 @@ window.onkeydown = function(e){
             key_jetpack = 1;
 
         }else if(String.fromCharCode(i) === settings[7]){/* restart key */
+            update_best();
+
             best_display = best;
             frames = 0;
             frames_per_obstacle = settings[3];/* obstacle frequency */
@@ -449,6 +452,7 @@ window.onkeydown = function(e){
             smoke = [];
 
         }else if(i === 27){/* ESC */
+            update_best();
             setmode(0);
         }
     }
