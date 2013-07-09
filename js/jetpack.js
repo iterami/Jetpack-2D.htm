@@ -102,7 +102,7 @@ function draw(){
             do{
                 /* delete obstacles that are past left side of screen */
                 if(obstacles[i][0] < -x){
-                    obstacles.splice(i,1);
+                    obstacles.splice(i, 1);
 
                 }else{
                     /* move obstacles left */
@@ -144,6 +144,7 @@ function draw(){
             do{
                 if(smoke[i][0] < -x){
                     smoke.splice(i, 1);
+
                 }else if(game_running){
                     smoke[i][0] -= 10;
                 }
@@ -220,7 +221,6 @@ function draw(){
         32
     );
 
-
     if(settings[8]){/* clear? */
         canvas.clearRect(
             0,
@@ -246,8 +246,13 @@ function random_number(i){
 
 function resize(){
     if(mode > 0){
-        width = get('buffer').width = get('canvas').width = window.innerWidth;
-        height = get('buffer').height = get('canvas').height = window.innerHeight;
+        width = window.innerWidth;
+        get('buffer').width = width;
+        get('canvas').width = width;
+
+        height = window.innerHeight;
+        get('buffer').height = height;
+        get('canvas').height = height;
 
         x = width / 2;
         y = height / 2;
@@ -278,6 +283,7 @@ function save(){
             'obstacle-increase',
             'audio-volume'
         ][i];
+
         if(isNaN(get(j).value) || get(j).value === [30, 1, 2, 23, 115, 1][i]){
             ls.removeItem('jetpack-' + i);
             settings[i] = [
@@ -289,6 +295,7 @@ function save(){
                 1
             ][i];
             get(j).value = settings[i];
+
         }else{
             settings[i] = parseFloat(get(j).value);
             ls.setItem(
@@ -302,6 +309,7 @@ function save(){
     if(get('jetpack-key').value === 'W'){
         ls.removeItem('jetpack-6');
         settings[6] = 'W';
+
     }else{
         settings[6] = get('jetpack-key').value;
         ls.setItem(
@@ -313,6 +321,7 @@ function save(){
     if(get('restart-key').value === 'H'){
         ls.removeItem('jetpack-7');
         settings[7] = 'H';
+
     }else{
         settings[7] = get('restart-key').value;
         ls.setItem(
@@ -324,6 +333,7 @@ function save(){
     settings[8] = get('clear').checked;
     if(settings[8]){
         ls.removeItem('jetpack-8');
+
     }else{
         ls.setItem(
             'jetpack-8',
@@ -388,6 +398,7 @@ function update_best(){
             'jetpack-best',
             best
         );
+
     }else{
         ls.removeItem('jetpack-best');
     }
@@ -413,12 +424,12 @@ var player_speed = 0;
 var player_y = 0;
 var frames_per_obstacle = 0;
 var settings = [
-    ls.getItem('jetpack-0') === null ? 30 : parseInt(ls.getItem('jetpack-0')),/* ms/frame */
-    ls.getItem('jetpack-1') === null ? 1 : parseFloat(ls.getItem('jetpack-1')),/* gravity */
-    ls.getItem('jetpack-2') === null ? 2 : parseFloat(ls.getItem('jetpack-2')),/* jetpack power */
-    ls.getItem('jetpack-3') === null ? 23 : parseInt(ls.getItem('jetpack-3')),/* obstacle frequency */
+    ls.getItem('jetpack-0') === null ?  30 : parseInt(ls.getItem('jetpack-0')),/* ms/frame */
+    ls.getItem('jetpack-1') === null ?   1 : parseFloat(ls.getItem('jetpack-1')),/* gravity */
+    ls.getItem('jetpack-2') === null ?   2 : parseFloat(ls.getItem('jetpack-2')),/* jetpack power */
+    ls.getItem('jetpack-3') === null ?  23 : parseInt(ls.getItem('jetpack-3')),/* obstacle frequency */
     ls.getItem('jetpack-4') === null ? 115 : parseInt(ls.getItem('jetpack-4')),/* obstacle increase */
-    ls.getItem('jetpack-5') === null ? 1 : parseFloat(ls.getItem('jetpack-5')),/* audio volume */
+    ls.getItem('jetpack-5') === null ?   1 : parseFloat(ls.getItem('jetpack-5')),/* audio volume */
     ls.getItem('jetpack-6') === null ? 'W' : ls.getItem('jetpack-6'),/* activate jetpack key */
     ls.getItem('jetpack-7') === null ? 'H' : ls.getItem('jetpack-7'),/* restart key */
     ls.getItem('jetpack-8') === null/* clear? */
