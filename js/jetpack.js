@@ -101,7 +101,7 @@ function draw(){
         if(game_running){
             do{
                 // delete obstacles that are past left side of screen
-                if(obstacles[i][0] < -x){
+                if(obstacles[i][0] < -x - 70){
                     obstacles.splice(i, 1);
 
                 }else{
@@ -109,7 +109,7 @@ function draw(){
                     obstacles[i][0] -= 10;
 
                     // check for player collision with obstacle
-                    if(obstacles[i][0] >= -40
+                    if(obstacles[i][0] >= -30
                      && obstacles[i][0] <=  obstacles[i][2]
                      && obstacles[i][1] >= -player_y - 25 - obstacles[i][3] * 2
                      && obstacles[i][1] <= -player_y + 25){
