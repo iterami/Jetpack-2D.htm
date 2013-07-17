@@ -4,7 +4,7 @@ function draw(){
 
         // if new obstacle should be added this frame, add one
         if(frames % frames_per_obstacle === 0){
-            i = random_number(30) + 40;
+            i = random_number(15) + 20;
             obstacles.splice(
                 0,
                 0,
@@ -12,7 +12,7 @@ function draw(){
                     x + i,
                     random_number(500) - 250,
                     i,
-                    random_number(30) + 40
+                    random_number(15) + 20
                 ]
             );
         }
@@ -109,10 +109,10 @@ function draw(){
                     obstacles[i][0] -= 10;
 
                     // check for player collision with obstacle
-                    if(obstacles[i][0] >= -25 - obstacles[i][2] / 2
-                     && obstacles[i][0] <=  25 + obstacles[i][2] / 2
-                     && obstacles[i][1] >= -player_y - 25 - obstacles[i][3] / 2
-                     && obstacles[i][1] <= -player_y + 25 + obstacles[i][3] / 2){
+                    if(obstacles[i][0] >= -40
+                     && obstacles[i][0] <=  obstacles[i][2]
+                     && obstacles[i][1] >= -player_y - 25 - obstacles[i][3] * 2
+                     && obstacles[i][1] <= -player_y + 25){
                         game_running = 0;
                         update_best();
                     }
@@ -128,10 +128,10 @@ function draw(){
             buffer.fillStyle = '#555';
             do{
                 buffer.fillRect(
-                    x + obstacles[i][0] - obstacles[i][2] / 2,
-                    y + obstacles[i][1] - obstacles[i][3] / 2,
-                    obstacles[i][2],
-                    obstacles[i][3]
+                    x + obstacles[i][0],
+                    y + obstacles[i][1],
+                    obstacles[i][2] * 2,
+                    obstacles[i][3] * 2
                 );
             }while(i--);
         }
