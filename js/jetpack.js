@@ -374,8 +374,8 @@ function setmode(newmode){
         buffer = 0;
         canvas = 0;
 
-        get('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack</b></div><hr><div class=c><ol><li><a onclick=setmode(1)>Cave Corridor</a> (Best: '
-            + best + ')</ol></div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c><input disabled size=9 style=border:0 value="Mouse Click">Activate Jetpack<br><input id=jetpack-key maxlength=1 size=9 value='
+        get('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack</b></div><hr><div class=c><ul><li><a onclick=setmode(1)>Cave Corridor</a> (Best: '
+            + best + ')</ul></div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c><input disabled size=9 style=border:0 value="Mouse Click">Activate Jetpack<br><input id=jetpack-key maxlength=1 size=9 value='
             + settings[6] + '>Activate Jetpack<br><input disabled size=9 style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 size=9 value='
             + settings[7] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
             + settings[5] + '>Audio<br><label><input '
@@ -442,10 +442,9 @@ var y = 0;
 setmode(0);
 
 window.onkeydown = function(e){
-    i = window.event ? event : e;
-    i = i.charCode ? i.charCode : i.keyCode;
-
     if(mode > 0){
+        i = window.event ? event : e;
+        i = i.charCode ? i.charCode : i.keyCode;
 
         if(String.fromCharCode(i) === settings[6]){// activate jetpack key
             key_jetpack = 1;
@@ -467,10 +466,6 @@ window.onkeydown = function(e){
             update_best();
             setmode(0);
         }
-
-    // 1, menu hotkey for Cave Corridor
-    }else if(i === 49){
-        setmode(1);
     }
 };
 
