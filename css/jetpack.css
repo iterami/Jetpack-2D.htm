@@ -32,3 +32,6 @@ input{
     font-size: 100%;
     text-align: center;
 }
+ol{
+    margin: 0;
+}
