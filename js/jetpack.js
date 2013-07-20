@@ -109,10 +109,10 @@ function draw(){
                     obstacles[i][0] -= 10;
 
                     // check for player collision with obstacle
-                    if(obstacles[i][0] >= -30
-                     && obstacles[i][0] <=  obstacles[i][2]
-                     && obstacles[i][1] >= -player_y - 25 - obstacles[i][3] * 2
-                     && obstacles[i][1] <= -player_y + 25){
+                    if(obstacles[i][0] > -obstacles[i][2] * 2
+                     && obstacles[i][0] < obstacles[i][2]
+                     && obstacles[i][1] > -player_y - 25 - obstacles[i][3] * 2
+                     && obstacles[i][1] < -player_y + 25){
                         game_running = 0;
                         update_best();
                     }
