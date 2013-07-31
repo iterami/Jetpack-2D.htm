@@ -43,7 +43,7 @@ function draw(){
         player_y += player_speed;
     }
 
-    if(settings[8]){// clear?
+    if(settings[9]){// clear?
         buffer.clearRect(
             0,
             0,
@@ -105,8 +105,8 @@ function draw(){
                     obstacles.splice(i, 1);
 
                 }else{
-                    // move obstacles left
-                    obstacles[i][0] -= 10;
+                    // move obstacles left at speed
+                    obstacles[i][0] -= settings[6];
 
                     // check for player collision with obstacle
                     if(obstacles[i][0] > -obstacles[i][2] * 2
@@ -146,7 +146,7 @@ function draw(){
                     smoke.splice(i, 1);
 
                 }else if(game_running){
-                    smoke[i][0] -= 10;
+                    smoke[i][0] -= settings[6];// speed
                 }
             }while(i--);
 
@@ -197,7 +197,7 @@ function draw(){
             i
         );
         buffer.fillText(
-            settings[7] + ' = Restart',// restart key
+            settings[8] + ' = Restart',// restart key
             x,
             i + 60
         );
@@ -221,7 +221,7 @@ function draw(){
         32
     );
 
-    if(settings[8]){// clear?
+    if(settings[9]){// clear?
         canvas.clearRect(
             0,
             0,
@@ -260,20 +260,28 @@ function resize(){
 }
 
 function save(){
-    i = 3;
+    i = 4;
     do{
-        if(isNaN(get(['ms-per-frame', 'obstacle-frequency', 'obstacle-increase', 'audio-volume'][i]).value)
-              || get(['ms-per-frame', 'obstacle-frequency', 'obstacle-increase', 'audio-volume'][i]).value < [1, 1, 0, 0][i]){
-            get('si').value = [
+        j = [
+            'ms-per-frame',
+            'obstacle-frequency',
+            'obstacle-increase',
+            'audio-volume',
+            'speed'
+        ][i];
+
+        if(isNaN(get(j).value) || get(j).value < [1, 1, 0, 0, 10][i]){
+            get(j).value = [
                 30,
                 23,
                 115,
-                1
+                1,
+                10
             ][i];
         }
     }while(i--);
 
-    i = 5;
+    i = 6;
     do{
         j = [
             'ms-per-frame',
@@ -281,10 +289,11 @@ function save(){
             'jetpack-power',
             'obstacle-frequency',
             'obstacle-increase',
-            'audio-volume'
+            'audio-volume',
+            'speed'
         ][i];
 
-        if(isNaN(get(j).value) || get(j).value === [30, 1, 2, 23, 115, 1][i]){
+        if(isNaN(get(j).value) || get(j).value === [30, 1, 2, 23, 115, 1, 10][i]){
             ls.removeItem('jetpack-' + i);
             settings[i] = [
                 30,
@@ -292,7 +301,8 @@ function save(){
                 2,
                 23,
                 115,
-                1
+                1,
+                10
             ][i];
             get(j).value = settings[i];
 
@@ -307,36 +317,36 @@ function save(){
 
 
     if(get('jetpack-key').value === 'W'){
-        ls.removeItem('jetpack-6');
-        settings[6] = 'W';
-
-    }else{
-        settings[6] = get('jetpack-key').value;
-        ls.setItem(
-            'jetpack-6',
-            settings[6]
-        );
-    }
-
-    if(get('restart-key').value === 'H'){
         ls.removeItem('jetpack-7');
-        settings[7] = 'H';
+        settings[7] = 'W';
 
     }else{
-        settings[7] = get('restart-key').value;
+        settings[7] = get('jetpack-key').value;
         ls.setItem(
             'jetpack-7',
             settings[7]
         );
     }
 
-    settings[8] = get('clear').checked;
-    if(settings[8]){
+    if(get('restart-key').value === 'H'){
         ls.removeItem('jetpack-8');
+        settings[8] = 'H';
+
+    }else{
+        settings[8] = get('restart-key').value;
+        ls.setItem(
+            'jetpack-8',
+            settings[8]
+        );
+    }
+
+    settings[9] = get('clear').checked;
+    if(settings[9]){
+        ls.removeItem('jetpack-9');
 
     }else{
         ls.setItem(
-            'jetpack-8',
+            'jetpack-9',
             0
         );
     }
@@ -376,15 +386,16 @@ function setmode(newmode){
 
         get('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack</b></div><hr><div class=c><ul><li><a onclick=setmode(1)>Cave Corridor</a> (Best: '
             + best + ')</ul></div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c><input disabled size=9 style=border:0 value="Mouse Click">Activate Jetpack<br><input id=jetpack-key maxlength=1 size=9 value='
-            + settings[6] + '>Activate Jetpack<br><input disabled size=9 style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 size=9 value='
-            + settings[7] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
+            + settings[7] + '>Activate Jetpack<br><input disabled size=9 style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 size=9 value='
+            + settings[8] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
             + settings[5] + '>Audio<br><label><input '
-            + (settings[8] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><a onclick="if(confirm(\'Reset settings?\')){get(\'clear\').checked=get(\'gravity\').value=get(\'audio-volume\').value=1;get(\'jetpack-key\').value=\'W\';get(\'restart-key\').value=\'H\';get(\'jetpack-power\').value=2;get(\'obstacle-frequency\').value=23;get(\'obstacle-increase\').value=115;get(\'ms-per-frame\').value=30;save();setmode(0)}">Reset Settings</a><br><a onclick="get(\'hack-span\').style.display=get(\'hack-span\').style.display===\'none\'?\'inline\':\'none\'">Hack</a><span id=hack-span style=display:none><br><br><input id=gravity size=1 value='
+            + (settings[9] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><a onclick="if(confirm(\'Reset settings?\')){get(\'clear\').checked=get(\'gravity\').value=get(\'audio-volume\').value=1;get(\'jetpack-key\').value=\'W\';get(\'restart-key\').value=\'H\';get(\'jetpack-power\').value=2;get(\'obstacle-frequency\').value=23;get(\'obstacle-increase\').value=115;get(\'ms-per-frame\').value=30;get(\'speed\').value=10;save();setmode(0)}">Reset Settings</a><br><a onclick="get(\'hack-span\').style.display=get(\'hack-span\').style.display===\'none\'?\'inline\':\'none\'">Hack</a><span id=hack-span style=display:none><br><br><input id=gravity size=1 value='
             + settings[1] + '>Gravity<br><input id=jetpack-power size=1 value='
             + settings[2] + '>Jetpack Power<br><input id=ms-per-frame size=1 value='
             + settings[0] + '>ms/Frame<br><input id=obstacle-frequency size=1 value='
             + settings[3] + '>Obstacle Frequency<br><input id=obstacle-increase size=1 value='
-            + settings[4] + '>Obstacle Increase</span></div></div>';
+            + settings[4] + '>Obstacle Increase<br><input id=speed size=1 value='
+            + settings[6] + '>Speed</span></span></div></div>';
     }
 }
 
@@ -430,9 +441,10 @@ var settings = [
     ls.getItem('jetpack-3') === null ?  23 : parseInt(ls.getItem('jetpack-3')),// obstacle frequency
     ls.getItem('jetpack-4') === null ? 115 : parseInt(ls.getItem('jetpack-4')),// obstacle increase
     ls.getItem('jetpack-5') === null ?   1 : parseFloat(ls.getItem('jetpack-5')),// audio volume
-    ls.getItem('jetpack-6') === null ? 'W' : ls.getItem('jetpack-6'),// activate jetpack key
-    ls.getItem('jetpack-7') === null ? 'H' : ls.getItem('jetpack-7'),// restart key
-    ls.getItem('jetpack-8') === null// clear?
+    ls.getItem('jetpack-6') === null ?  10 : parseFloat(ls.getItem('jetpack-6')),// speed
+    ls.getItem('jetpack-7') === null ? 'W' : ls.getItem('jetpack-7'),// activate jetpack key
+    ls.getItem('jetpack-8') === null ? 'H' : ls.getItem('jetpack-8'),// restart key
+    ls.getItem('jetpack-9') === null// clear?
 ];
 var smoke = [];
 var width = 0;
@@ -446,10 +458,10 @@ window.onkeydown = function(e){
         i = window.event ? event : e;
         i = i.charCode ? i.charCode : i.keyCode;
 
-        if(String.fromCharCode(i) === settings[6]){// activate jetpack key
+        if(String.fromCharCode(i) === settings[7]){// activate jetpack key
             key_jetpack = 1;
 
-        }else if(String.fromCharCode(i) === settings[7]){// restart key
+        }else if(String.fromCharCode(i) === settings[8]){// restart key
             update_best();
 
             best_display = best;
@@ -473,7 +485,7 @@ window.onkeyup = function(e){
     i = window.event ? event : e;
     i = i.charCode ? i.charCode : i.keyCode;
 
-    if(String.fromCharCode(i) === settings[6]){// activate jetpack key
+    if(String.fromCharCode(i) === settings[7]){// activate jetpack key
         key_jetpack = 0;
     }
 };
