@@ -170,7 +170,7 @@ function draw(){
 
     // setup text display
     buffer.font = '23pt sans-serif';
-    buffer.textAlign = 'center';
+    buffer.textAlign = 'left';
     buffer.textBaseline = 'top';
     buffer.fillStyle = '#fff';
 
@@ -183,33 +183,31 @@ function draw(){
             played_explosion_sound = 1;
         }
 
-        i = y / 2;
         if(frames > best_display){
             buffer.fillText(
                 'NEW BEST SCORE!',
-                x,
-                i - 60
+                5,
+                height - 125
             );
         }
         buffer.fillText(
             'You crashed... ☹',
-            x,
-            i
+            5,
+            height - 95
         );
         buffer.fillText(
             settings[8] + ' = Restart',// restart key
-            x,
-            i + 60
+            5,
+            height - 65
         );
         buffer.fillText(
             'ESC = Main Menu',
-            x,
-            i+120
+            5,
+            height - 35
         );
     }
 
-    // top left text displays
-    buffer.textAlign = 'left';
+    // top frame counter and best text displays
     buffer.fillText(
         frames,
         5,
