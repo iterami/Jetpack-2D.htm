@@ -387,13 +387,13 @@ function setmode(newmode){
             + settings[7] + '>Activate Jetpack<br><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
             + settings[8] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
             + settings[5] + '>Audio<br><label><input '
-            + (settings[9] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><a onclick="if(confirm(\'Reset settings?\')){get(\'clear\').checked=get(\'gravity\').value=get(\'audio-volume\').value=1;get(\'jetpack-key\').value=\'W\';get(\'restart-key\').value=\'H\';get(\'jetpack-power\').value=2;get(\'obstacle-frequency\').value=23;get(\'obstacle-increase\').value=115;get(\'ms-per-frame\').value=30;get(\'speed\').value=10;save();setmode(0)}">Reset Settings</a><br><a onclick="get(\'hack-span\').style.display=get(\'hack-span\').style.display===\'none\'?\'inline\':\'none\'">Hack</a><span id=hack-span style=display:none><br><br><input id=gravity value='
+            + (settings[9] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><input id=gravity value='
             + settings[1] + '>Gravity<br><input id=jetpack-power value='
             + settings[2] + '>Jetpack Power<br><input id=ms-per-frame value='
             + settings[0] + '>ms/Frame<br><input id=obstacle-frequency value='
             + settings[3] + '>Obstacle Frequency<br><input id=obstacle-increase value='
             + settings[4] + '>Obstacle Increase<br><input id=speed value='
-            + settings[6] + '>Speed</span></span></div></div>';
+            + settings[6] + '>Speed<br><a onclick="if(confirm(\'Reset settings?\')){get(\'clear\').checked=get(\'gravity\').value=get(\'audio-volume\').value=1;get(\'jetpack-key\').value=\'W\';get(\'restart-key\').value=\'H\';get(\'jetpack-power\').value=2;get(\'obstacle-frequency\').value=23;get(\'obstacle-increase\').value=115;get(\'ms-per-frame\').value=30;get(\'speed\').value=10;save();setmode(0)}">Reset Settings</a></div></div>';
     }
 }
 
