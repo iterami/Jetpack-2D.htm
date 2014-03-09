@@ -228,29 +228,41 @@ function draw(){
         );
     }
     canvas.drawImage(
-        get('buffer'),
+        document.getElementById('buffer'),
         0,
         0
     );
-}
-
-function get(i){
-    return document.getElementById(i);
 }
 
 function random_number(i){
     return Math.floor(Math.random() * i);
 }
 
+function reset(){
+    if(confirm('Reset settings?')){
+        document.getElementById('audio-volume').value = 1;
+        document.getElementById('clear').checked = 1;
+        document.getElementById('gravity').value = 1;
+        document.getElementById('jetpack-key').value = 'W';
+        document.getElementById('jetpack-power').value = 2;
+        document.getElementById('ms-per-frame').value = 30;
+        document.getElementById('obstacle-frequency').value = 23;
+        document.getElementById('obstacle-increase').value = 115;
+        document.getElementById('restart-key').value = 'H';
+        document.getElementById('speed').value = 10;
+        save();
+    }
+}
+
 function resize(){
     if(mode > 0){
         width = window.innerWidth;
-        get('buffer').width = width;
-        get('canvas').width = width;
+        document.getElementById('buffer').width = width;
+        document.getElementById('canvas').width = width;
 
         height = window.innerHeight;
-        get('buffer').height = height;
-        get('canvas').height = height;
+        document.getElementById('buffer').height = height;
+        document.getElementById('canvas').height = height;
 
         x = width / 2;
         y = height / 2;
@@ -268,8 +280,8 @@ function save(){
             'speed'
         ][i];
 
-        if(isNaN(get(j).value) || get(j).value < [1, 1, 0, 0, 10][i]){
-            get(j).value = [
+        if(isNaN(document.getElementById(j).value) || document.getElementById(j).value < [1, 1, 0, 0, 10][i]){
+            document.getElementById(j).value = [
                 30,
                 23,
                 115,
@@ -291,7 +303,7 @@ function save(){
             'speed'
         ][i];
 
-        if(isNaN(get(j).value) || get(j).value === [30, 1, 2, 23, 115, 1, 10][i]){
+        if(isNaN(document.getElementById(j).value) || document.getElementById(j).value === [30, 1, 2, 23, 115, 1, 10][i]){
             ls.removeItem('jetpack-' + i);
             settings[i] = [
                 30,
@@ -302,10 +314,10 @@ function save(){
                 1,
                 10
             ][i];
-            get(j).value = settings[i];
+            document.getElementById(j).value = settings[i];
 
         }else{
-            settings[i] = parseFloat(get(j).value);
+            settings[i] = parseFloat(document.getElementById(j).value);
             ls.setItem(
                 'jetpack-' + i,
                 settings[i]
@@ -314,31 +326,31 @@ function save(){
     }while(i--);
 
 
-    if(get('jetpack-key').value === 'W'){
+    if(document.getElementById('jetpack-key').value === 'W'){
         ls.removeItem('jetpack-7');
         settings[7] = 'W';
 
     }else{
-        settings[7] = get('jetpack-key').value;
+        settings[7] = document.getElementById('jetpack-key').value;
         ls.setItem(
             'jetpack-7',
             settings[7]
         );
     }
 
-    if(get('restart-key').value === 'H'){
+    if(document.getElementById('restart-key').value === 'H'){
         ls.removeItem('jetpack-8');
         settings[8] = 'H';
 
     }else{
-        settings[8] = get('restart-key').value;
+        settings[8] = document.getElementById('restart-key').value;
         ls.setItem(
             'jetpack-8',
             settings[8]
         );
     }
 
-    settings[9] = get('clear').checked;
+    settings[9] = document.getElementById('clear').checked;
     if(settings[9]){
         ls.removeItem('jetpack-9');
 
@@ -369,9 +381,9 @@ function setmode(newmode){
         player_speed = 0;
         player_y = 0;
 
-        get('page').innerHTML='<canvas id=canvas></canvas>';
-        buffer = get('buffer').getContext('2d');
-        canvas = get('canvas').getContext('2d');
+        document.getElementById('page').innerHTML='<canvas id=canvas></canvas>';
+        buffer = document.getElementById('buffer').getContext('2d');
+        canvas = document.getElementById('canvas').getContext('2d');
 
         resize();
 
@@ -382,7 +394,7 @@ function setmode(newmode){
         buffer = 0;
         canvas = 0;
 
-        get('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack</b></div><hr><div class=c><ul><li><a onclick=setmode(1)>Cave Corridor</a> (Best: '
+        document.getElementById('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack</b></div><hr><div class=c><ul><li><a onclick=setmode(1)>Cave Corridor</a> (Best: '
             + best + ')</ul></div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c><input disabled style=border:0 value=Click>Activate Jetpack<br><input id=jetpack-key maxlength=1 value='
             + settings[7] + '>Activate Jetpack<br><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
             + settings[8] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
@@ -393,7 +405,7 @@ function setmode(newmode){
             + settings[0] + '>ms/Frame<br><input id=obstacle-frequency value='
             + settings[3] + '>Obstacle Frequency<br><input id=obstacle-increase value='
             + settings[4] + '>Obstacle Increase<br><input id=speed value='
-            + settings[6] + '>Speed<br><a onclick="if(confirm(\'Reset settings?\')){get(\'clear\').checked=get(\'gravity\').value=get(\'audio-volume\').value=1;get(\'jetpack-key\').value=\'W\';get(\'restart-key\').value=\'H\';get(\'jetpack-power\').value=2;get(\'obstacle-frequency\').value=23;get(\'obstacle-increase\').value=115;get(\'ms-per-frame\').value=30;get(\'speed\').value=10;save();setmode(0)}">Reset Settings</a></div></div>';
+            + settings[6] + '>Speed<br><a onclick=reset()>Reset Settings</a></div></div>';
     }
 }
 
