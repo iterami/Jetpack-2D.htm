@@ -304,7 +304,7 @@ function save(){
         ][i];
 
         if(isNaN(document.getElementById(j).value) || document.getElementById(j).value === [30, 1, 2, 23, 115, 1, 10][i]){
-            ls.removeItem('jetpack-' + i);
+            window.localStorage.removeItem('jetpack-' + i);
             settings[i] = [
                 30,
                 1,
@@ -318,7 +318,7 @@ function save(){
 
         }else{
             settings[i] = parseFloat(document.getElementById(j).value);
-            ls.setItem(
+            window.localStorage.setItem(
                 'jetpack-' + i,
                 settings[i]
             );
@@ -327,24 +327,24 @@ function save(){
 
 
     if(document.getElementById('jetpack-key').value === 'W'){
-        ls.removeItem('jetpack-7');
+        window.localStorage.removeItem('jetpack-7');
         settings[7] = 'W';
 
     }else{
         settings[7] = document.getElementById('jetpack-key').value;
-        ls.setItem(
+        window.localStorage.setItem(
             'jetpack-7',
             settings[7]
         );
     }
 
     if(document.getElementById('restart-key').value === 'H'){
-        ls.removeItem('jetpack-8');
+        window.localStorage.removeItem('jetpack-8');
         settings[8] = 'H';
 
     }else{
         settings[8] = document.getElementById('restart-key').value;
-        ls.setItem(
+        window.localStorage.setItem(
             'jetpack-8',
             settings[8]
         );
@@ -352,10 +352,10 @@ function save(){
 
     settings[9] = document.getElementById('clear').checked;
     if(settings[9]){
-        ls.removeItem('jetpack-9');
+        window.localStorage.removeItem('jetpack-9');
 
     }else{
-        ls.setItem(
+        window.localStorage.setItem(
             'jetpack-9',
             0
         );
@@ -415,19 +415,19 @@ function update_best(){
     }
 
     if(best > 0){
-        ls.setItem(
+        window.localStorage.setItem(
             'jetpack-best',
             best
         );
 
     }else{
-        ls.removeItem('jetpack-best');
+        window.localStorage.removeItem('jetpack-best');
     }
 }
 
-var ls = window.localStorage;
-
-var best = ls.getItem('jetpack-best') === null ? 0 : parseInt(ls.getItem('jetpack-best'));
+var best = window.localStorage.getItem('jetpack-best') === null
+  ? 0
+  : parseInt(window.localStorage.getItem('jetpack-best'));
 var best_display = 0;
 var buffer = 0;
 var canvas = 0;
@@ -445,16 +445,16 @@ var player_speed = 0;
 var player_y = 0;
 var frames_per_obstacle = 0;
 var settings = [
-    ls.getItem('jetpack-0') === null ?  30 : parseInt(ls.getItem('jetpack-0')),// ms/frame
-    ls.getItem('jetpack-1') === null ?   1 : parseFloat(ls.getItem('jetpack-1')),// gravity
-    ls.getItem('jetpack-2') === null ?   2 : parseFloat(ls.getItem('jetpack-2')),// jetpack power
-    ls.getItem('jetpack-3') === null ?  23 : parseInt(ls.getItem('jetpack-3')),// obstacle frequency
-    ls.getItem('jetpack-4') === null ? 115 : parseInt(ls.getItem('jetpack-4')),// obstacle increase
-    ls.getItem('jetpack-5') === null ?   1 : parseFloat(ls.getItem('jetpack-5')),// audio volume
-    ls.getItem('jetpack-6') === null ?  10 : parseFloat(ls.getItem('jetpack-6')),// speed
-    ls.getItem('jetpack-7') === null ? 'W' : ls.getItem('jetpack-7'),// activate jetpack key
-    ls.getItem('jetpack-8') === null ? 'H' : ls.getItem('jetpack-8'),// restart key
-    ls.getItem('jetpack-9') === null// clear?
+    window.localStorage.getItem('jetpack-0') === null ?  30 : parseInt(window.localStorage.getItem('jetpack-0')),// ms/frame
+    window.localStorage.getItem('jetpack-1') === null ?   1 : parseFloat(window.localStorage.getItem('jetpack-1')),// gravity
+    window.localStorage.getItem('jetpack-2') === null ?   2 : parseFloat(window.localStorage.getItem('jetpack-2')),// jetpack power
+    window.localStorage.getItem('jetpack-3') === null ?  23 : parseInt(window.localStorage.getItem('jetpack-3')),// obstacle frequency
+    window.localStorage.getItem('jetpack-4') === null ? 115 : parseInt(window.localStorage.getItem('jetpack-4')),// obstacle increase
+    window.localStorage.getItem('jetpack-5') === null ?   1 : parseFloat(window.localStorage.getItem('jetpack-5')),// audio volume
+    window.localStorage.getItem('jetpack-6') === null ?  10 : parseFloat(window.localStorage.getItem('jetpack-6')),// speed
+    window.localStorage.getItem('jetpack-7') === null ? 'W' : window.localStorage.getItem('jetpack-7'),// activate jetpack key
+    window.localStorage.getItem('jetpack-8') === null ? 'H' : window.localStorage.getItem('jetpack-8'),// restart key
+    window.localStorage.getItem('jetpack-9') === null// clear?
 ];
 var smoke = [];
 var width = 0;
