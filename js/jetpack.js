@@ -6,14 +6,14 @@ function draw(){
         if(frames % frames_per_obstacle === 0){
             i = random_number(15) + 20;
             obstacles.splice(
-                0,
-                0,
-                [
-                    x + i,
-                    random_number(500) - 250,
-                    i,
-                    random_number(15) + 20
-                ]
+              0,
+              0,
+              [
+                x + i,
+                random_number(500) - 250,
+                i,
+                random_number(15) + 20
+              ]
             );
         }
 
@@ -27,12 +27,12 @@ function draw(){
         if(key_jetpack){
             player_speed += settings[2];// jetpack power
             smoke.splice(
-                0,
-                0,
-                [
-                    -20,
-                    player_y - 10
-                ]
+              0,
+              0,
+              [
+                -20,
+                player_y - 10
+              ]
             );
 
         // else apply gravity
@@ -45,48 +45,48 @@ function draw(){
 
     if(settings[9]){// clear?
         buffer.clearRect(
-            0,
-            0,
-            width,
-            height
+          0,
+          0,
+          width,
+          height
         );
     }
 
     // draw corridor over grey background
     buffer.fillStyle = '#000';
     buffer.fillRect(
-        0,
-        y - 250,
-        width,
-        500
+      0,
+      y - 250,
+      width,
+      500
     );
 
     // draw player body
     buffer.fillStyle = '#090';
     buffer.fillRect(
-        x,
-        y - player_y - 25,
-        25,
-        50
+      x,
+      y - player_y - 25,
+      25,
+      50
     );
 
     // draw jetpack
     buffer.fillStyle = '#aaa';
     buffer.fillRect(
-        x - 25,
-        y - player_y - 15,
-        25,
-        20
+      x - 25,
+      y - player_y - 15,
+      25,
+      20
     );
 
     // draw activated jetpack fire
     if(game_running && key_jetpack){
         buffer.fillStyle = '#f00';
         buffer.fillRect(
-            x - 22,
-            y - player_y + 5,
-            18,
-            10
+          x - 22,
+          y - player_y + 5,
+          18,
+          10
         );
     }
 
@@ -110,9 +110,9 @@ function draw(){
 
                     // check for player collision with obstacle
                     if(obstacles[i][0] > -obstacles[i][2] * 2
-                     && obstacles[i][0] < obstacles[i][2]
-                     && obstacles[i][1] > -player_y - 25 - obstacles[i][3] * 2
-                     && obstacles[i][1] < -player_y + 25){
+                      && obstacles[i][0] < obstacles[i][2]
+                      && obstacles[i][1] > -player_y - 25 - obstacles[i][3] * 2
+                      && obstacles[i][1] < -player_y + 25){
                         game_running = 0;
                         update_best();
                     }
@@ -128,10 +128,10 @@ function draw(){
             buffer.fillStyle = '#555';
             do{
                 buffer.fillRect(
-                    x + obstacles[i][0],
-                    y + obstacles[i][1],
-                    obstacles[i][2] * 2,
-                    obstacles[i][3] * 2
+                  x + obstacles[i][0],
+                  y + obstacles[i][1],
+                  obstacles[i][2] * 2,
+                  obstacles[i][3] * 2
                 );
             }while(i--);
         }
@@ -143,7 +143,10 @@ function draw(){
             // delete smoke trails past left side of screen, else move left
             do{
                 if(smoke[i][0] < -x){
-                    smoke.splice(i, 1);
+                    smoke.splice(
+                      i,
+                      1
+                    );
 
                 }else if(game_running){
                     smoke[i][0] -= settings[6];// speed
@@ -159,10 +162,10 @@ function draw(){
             buffer.fillStyle = '#777';
             do{
                 buffer.fillRect(
-                    x + smoke[i][0],
-                    y - smoke[i][1],
-                    10,
-                    10
+                  x + smoke[i][0],
+                  y - smoke[i][1],
+                  10,
+                  10
                 );
             }while(i--);
         }
@@ -185,52 +188,52 @@ function draw(){
 
         if(frames > best_display){
             buffer.fillText(
-                'NEW BEST SCORE!',
-                5,
-                height - 125
+              'NEW BEST SCORE!',
+              5,
+              height - 125
             );
         }
         buffer.fillText(
-            'You crashed... ☹',
-            5,
-            height - 95
+          'You crashed... ☹',
+          5,
+          height - 95
         );
         buffer.fillText(
-            settings[8] + ' = Restart',// restart key
-            5,
-            height - 65
+          settings[8] + ' = Restart',// restart key
+          5,
+          height - 65
         );
         buffer.fillText(
-            'ESC = Main Menu',
-            5,
-            height - 35
+          'ESC = Main Menu',
+          5,
+          height - 35
         );
     }
 
     // top frame counter and best text displays
     buffer.fillText(
-        frames,
-        5,
-        0
+      frames,
+      5,
+      0
     );
     buffer.fillText(
-        best_display,
-        5,
-        32
+      best_display,
+      5,
+      32
     );
 
     if(settings[9]){// clear?
         canvas.clearRect(
-            0,
-            0,
-            width,
-            height
+          0,
+          0,
+          width,
+          height
         );
     }
     canvas.drawImage(
-        document.getElementById('buffer'),
-        0,
-        0
+      document.getElementById('buffer'),
+      0,
+      0
     );
 }
 
@@ -256,16 +259,15 @@ function reset(){
 
 function resize(){
     if(mode > 0){
-        width = window.innerWidth;
-        document.getElementById('buffer').width = width;
-        document.getElementById('canvas').width = width;
-
         height = window.innerHeight;
         document.getElementById('buffer').height = height;
         document.getElementById('canvas').height = height;
-
-        x = width / 2;
         y = height / 2;
+
+        width = window.innerWidth;
+        document.getElementById('buffer').width = width;
+        document.getElementById('canvas').width = width;
+        x = width / 2;
     }
 }
 
@@ -273,20 +275,20 @@ function save(){
     i = 4;
     do{
         j = [
-            'ms-per-frame',
-            'obstacle-frequency',
-            'obstacle-increase',
-            'audio-volume',
-            'speed'
+          'ms-per-frame',
+          'obstacle-frequency',
+          'obstacle-increase',
+          'audio-volume',
+          'speed'
         ][i];
 
         if(isNaN(document.getElementById(j).value) || document.getElementById(j).value < [1, 1, 0, 0, 10][i]){
             document.getElementById(j).value = [
-                30,
-                23,
-                115,
-                1,
-                10
+              30,
+              23,
+              115,
+              1,
+              10
             ][i];
         }
     }while(i--);
@@ -294,33 +296,33 @@ function save(){
     i = 6;
     do{
         j = [
-            'ms-per-frame',
-            'gravity',
-            'jetpack-power',
-            'obstacle-frequency',
-            'obstacle-increase',
-            'audio-volume',
-            'speed'
+          'ms-per-frame',
+          'gravity',
+          'jetpack-power',
+          'obstacle-frequency',
+          'obstacle-increase',
+          'audio-volume',
+          'speed'
         ][i];
 
         if(isNaN(document.getElementById(j).value) || document.getElementById(j).value === [30, 1, 2, 23, 115, 1, 10][i]){
             window.localStorage.removeItem('jetpack-' + i);
             settings[i] = [
-                30,
-                1,
-                2,
-                23,
-                115,
-                1,
-                10
+              30,
+              1,
+              2,
+              23,
+              115,
+              1,
+              10
             ][i];
             document.getElementById(j).value = settings[i];
 
         }else{
             settings[i] = parseFloat(document.getElementById(j).value);
             window.localStorage.setItem(
-                'jetpack-' + i,
-                settings[i]
+              'jetpack-' + i,
+              settings[i]
             );
         }
     }while(i--);
@@ -333,8 +335,8 @@ function save(){
     }else{
         settings[7] = document.getElementById('jetpack-key').value;
         window.localStorage.setItem(
-            'jetpack-7',
-            settings[7]
+          'jetpack-7',
+          settings[7]
         );
     }
 
@@ -345,8 +347,8 @@ function save(){
     }else{
         settings[8] = document.getElementById('restart-key').value;
         window.localStorage.setItem(
-            'jetpack-8',
-            settings[8]
+          'jetpack-8',
+          settings[8]
         );
     }
 
@@ -356,8 +358,8 @@ function save(){
 
     }else{
         window.localStorage.setItem(
-            'jetpack-9',
-            0
+          'jetpack-9',
+          0
         );
     }
 }
@@ -381,13 +383,16 @@ function setmode(newmode){
         player_speed = 0;
         player_y = 0;
 
-        document.getElementById('page').innerHTML='<canvas id=canvas></canvas>';
+        document.getElementById('page').innerHTML = '<canvas id=canvas></canvas>';
         buffer = document.getElementById('buffer').getContext('2d');
         canvas = document.getElementById('canvas').getContext('2d');
 
         resize();
 
-        interval = setInterval('draw()', settings[0]);// ms/frame
+        interval = setInterval(
+          'draw()',
+          settings[0]// ms/frame
+        );
 
     // main menu mode
     }else{
@@ -395,17 +400,18 @@ function setmode(newmode){
         canvas = 0;
 
         document.getElementById('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack</b></div><hr><div class=c><ul><li><a onclick=setmode(1)>Cave Corridor</a> (Best: '
-            + best + ')</ul></div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c><input disabled style=border:0 value=Click>Activate Jetpack<br><input id=jetpack-key maxlength=1 value='
-            + settings[7] + '>Activate Jetpack<br><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
-            + settings[8] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
-            + settings[5] + '>Audio<br><label><input '
-            + (settings[9] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><input id=gravity value='
-            + settings[1] + '>Gravity<br><input id=jetpack-power value='
-            + settings[2] + '>Jetpack Power<br><input id=ms-per-frame value='
-            + settings[0] + '>ms/Frame<br><input id=obstacle-frequency value='
-            + settings[3] + '>Obstacle Frequency<br><input id=obstacle-increase value='
-            + settings[4] + '>Obstacle Increase<br><input id=speed value='
-            + settings[6] + '>Speed<br><a onclick=reset()>Reset Settings</a></div></div>';
+          + best
+          + ')</ul></div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c><input disabled style=border:0 value=Click>Activate Jetpack<br><input id=jetpack-key maxlength=1 value='
+          + settings[7] + '>Activate Jetpack<br><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
+          + settings[8] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
+          + settings[5] + '>Audio<br><label><input '
+          + (settings[9] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><input id=gravity value='
+          + settings[1] + '>Gravity<br><input id=jetpack-power value='
+          + settings[2] + '>Jetpack Power<br><input id=ms-per-frame value='
+          + settings[0] + '>ms/Frame<br><input id=obstacle-frequency value='
+          + settings[3] + '>Obstacle Frequency<br><input id=obstacle-increase value='
+          + settings[4] + '>Obstacle Increase<br><input id=speed value='
+          + settings[6] + '>Speed<br><a onclick=reset()>Reset Settings</a></div></div>';
     }
 }
 
@@ -416,8 +422,8 @@ function update_best(){
 
     if(best > 0){
         window.localStorage.setItem(
-            'jetpack-best',
-            best
+          'jetpack-best',
+          best
         );
 
     }else{
@@ -445,16 +451,34 @@ var player_speed = 0;
 var player_y = 0;
 var frames_per_obstacle = 0;
 var settings = [
-    window.localStorage.getItem('jetpack-0') === null ?  30 : parseInt(window.localStorage.getItem('jetpack-0')),// ms/frame
-    window.localStorage.getItem('jetpack-1') === null ?   1 : parseFloat(window.localStorage.getItem('jetpack-1')),// gravity
-    window.localStorage.getItem('jetpack-2') === null ?   2 : parseFloat(window.localStorage.getItem('jetpack-2')),// jetpack power
-    window.localStorage.getItem('jetpack-3') === null ?  23 : parseInt(window.localStorage.getItem('jetpack-3')),// obstacle frequency
-    window.localStorage.getItem('jetpack-4') === null ? 115 : parseInt(window.localStorage.getItem('jetpack-4')),// obstacle increase
-    window.localStorage.getItem('jetpack-5') === null ?   1 : parseFloat(window.localStorage.getItem('jetpack-5')),// audio volume
-    window.localStorage.getItem('jetpack-6') === null ?  10 : parseFloat(window.localStorage.getItem('jetpack-6')),// speed
-    window.localStorage.getItem('jetpack-7') === null ? 'W' : window.localStorage.getItem('jetpack-7'),// activate jetpack key
-    window.localStorage.getItem('jetpack-8') === null ? 'H' : window.localStorage.getItem('jetpack-8'),// restart key
-    window.localStorage.getItem('jetpack-9') === null// clear?
+  window.localStorage.getItem('jetpack-0') === null
+    ? 30
+    : parseInt(window.localStorage.getItem('jetpack-0')),// ms/frame
+  window.localStorage.getItem('jetpack-1') === null
+    ? 1
+    : parseFloat(window.localStorage.getItem('jetpack-1')),// gravity
+  window.localStorage.getItem('jetpack-2') === null
+    ? 2
+    : parseFloat(window.localStorage.getItem('jetpack-2')),// jetpack power
+  window.localStorage.getItem('jetpack-3') === null
+    ? 23
+    : parseInt(window.localStorage.getItem('jetpack-3')),// obstacle frequency
+  window.localStorage.getItem('jetpack-4') === null
+    ? 115
+    : parseInt(window.localStorage.getItem('jetpack-4')),// obstacle increase
+  window.localStorage.getItem('jetpack-5') === null
+    ? 1
+    : parseFloat(window.localStorage.getItem('jetpack-5')),// audio volume
+  window.localStorage.getItem('jetpack-6') === null
+    ? 10
+    : parseFloat(window.localStorage.getItem('jetpack-6')),// speed
+  window.localStorage.getItem('jetpack-7') === null
+    ? 'W'
+    : window.localStorage.getItem('jetpack-7'),// activate jetpack key
+  window.localStorage.getItem('jetpack-8') === null
+    ? 'H'
+    : window.localStorage.getItem('jetpack-8'),// restart key
+  window.localStorage.getItem('jetpack-9') === null// clear?
 ];
 var smoke = [];
 var width = 0;
@@ -465,13 +489,13 @@ setmode(0);
 
 window.onkeydown = function(e){
     if(mode > 0){
-        i = window.event ? event : e;
-        i = i.charCode ? i.charCode : i.keyCode;
+        var key = window.event ? event : e;
+        key = key.charCode ? key.charCode : key.keyCode;
 
-        if(String.fromCharCode(i) === settings[7]){// activate jetpack key
+        if(String.fromCharCode(key) === settings[7]){// activate jetpack key
             key_jetpack = 1;
 
-        }else if(String.fromCharCode(i) === settings[8]){// restart key
+        }else if(String.fromCharCode(key) === settings[8]){// restart key
             update_best();
 
             best_display = best;
@@ -484,7 +508,7 @@ window.onkeydown = function(e){
             player_y = 0;
             smoke = [];
 
-        }else if(i === 27){// ESC
+        }else if(key === 27){// ESC
             update_best();
             setmode(0);
         }
@@ -492,10 +516,10 @@ window.onkeydown = function(e){
 };
 
 window.onkeyup = function(e){
-    i = window.event ? event : e;
-    i = i.charCode ? i.charCode : i.keyCode;
+    var key = window.event ? event : e;
+    key = key.charCode ? key.charCode : key.keyCode;
 
-    if(String.fromCharCode(i) === settings[7]){// activate jetpack key
+    if(String.fromCharCode(key) === settings[7]){// activate jetpack key
         key_jetpack = 0;
     }
 };
