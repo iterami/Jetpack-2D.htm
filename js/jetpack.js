@@ -4,21 +4,23 @@ function draw(){
 
         // if new obstacle should be added this frame, add one
         if(frames % frames_per_obstacle === 0){
-            i = random_number(15) + 20;
+            var obstalce_width = random_number(15) + 20;
             obstacles.splice(
               0,
               0,
               [
-                x + i,
+                x + obstalce_width,
                 random_number(500) - 250,
-                i,
+                obstalce_width,
                 random_number(15) + 20
               ]
             );
         }
 
         // if obstacle frequency increase should happen this frame, do it
-        if(settings[4] > 0 && frames_per_obstacle > 1 && frames % settings[4] === 0){
+        if(settings[4] > 0
+          && frames_per_obstacle > 1
+          && frames % settings[4] === 0){
             // obstacle frequency increase
             frames_per_obstacle -= 1;
         }
@@ -80,7 +82,8 @@ function draw(){
     );
 
     // draw activated jetpack fire
-    if(game_running && key_jetpack){
+    if(game_running
+      && key_jetpack){
         buffer.fillStyle = '#f00';
         buffer.fillRect(
           x - 22,
@@ -91,83 +94,87 @@ function draw(){
     }
 
     // check if player is outside of game boundaries
-    if(player_y + 25 > 250 || player_y - 25 < -250){
+    if(player_y + 25 > 250
+      || player_y - 25 < -250){
         game_running = 0;
         update_best();
     }
 
-    i = obstacles.length - 1;
-    if(i >= 0){
+    var loop_counter = obstacles.length - 1;
+    if(loop_counter >= 0){
         if(game_running){
             do{
                 // delete obstacles that are past left side of screen
-                if(obstacles[i][0] < -x - 70){
-                    obstacles.splice(i, 1);
+                if(obstacles[loop_counter][0] < -x - 70){
+                    obstacles.splice(
+                      loop_counter,
+                      1
+                    );
 
                 }else{
                     // move obstacles left at speed
-                    obstacles[i][0] -= settings[6];
+                    obstacles[loop_counter][0] -= settings[6];
 
                     // check for player collision with obstacle
-                    if(obstacles[i][0] > -obstacles[i][2] * 2
-                      && obstacles[i][0] < obstacles[i][2]
-                      && obstacles[i][1] > -player_y - 25 - obstacles[i][3] * 2
-                      && obstacles[i][1] < -player_y + 25){
+                    if(obstacles[loop_counter][0] > -obstacles[loop_counter][2] * 2
+                      && obstacles[loop_counter][0] < obstacles[loop_counter][2]
+                      && obstacles[loop_counter][1] > -player_y - 25 - obstacles[loop_counter][3] * 2
+                      && obstacles[loop_counter][1] < -player_y + 25){
                         game_running = 0;
                         update_best();
                     }
                 }
-            }while(i--);
+            }while(loop_counter--);
 
             // get new amount of obstacles, some may have been spliced
-            i = obstacles.length - 1;
+            loop_counter = obstacles.length - 1;
         }
 
         // draw obstacles
-        if(i >= 0){
+        if(loop_counter >= 0){
             buffer.fillStyle = '#555';
             do{
                 buffer.fillRect(
-                  x + obstacles[i][0],
-                  y + obstacles[i][1],
-                  obstacles[i][2] * 2,
-                  obstacles[i][3] * 2
+                  x + obstacles[loop_counter][0],
+                  y + obstacles[loop_counter][1],
+                  obstacles[loop_counter][2] * 2,
+                  obstacles[loop_counter][3] * 2
                 );
-            }while(i--);
+            }while(loop_counter--);
         }
     }
 
-    i = smoke.length-1;
-    if(i >= 0){
+    loop_counter = smoke.length-1;
+    if(loop_counter >= 0){
         if(game_running){
             // delete smoke trails past left side of screen, else move left
             do{
-                if(smoke[i][0] < -x){
+                if(smoke[loop_counter][0] < -x){
                     smoke.splice(
-                      i,
+                      loop_counter,
                       1
                     );
 
                 }else if(game_running){
-                    smoke[i][0] -= settings[6];// speed
+                    smoke[loop_counter][0] -= settings[6];// speed
                 }
-            }while(i--);
+            }while(loop_counter--);
 
             // get new amount of smoke, some may have been spliced
-            i = smoke.length - 1;
+            loop_counter = smoke.length - 1;
         }
 
         // draw smoke trails behind the player
-        if(i >= 0){
+        if(loop_counter >= 0){
             buffer.fillStyle = '#777';
             do{
                 buffer.fillRect(
-                  x + smoke[i][0],
-                  y - smoke[i][1],
+                  x + smoke[loop_counter][0],
+                  y - smoke[loop_counter][1],
                   10,
                   10
                 );
-            }while(i--);
+            }while(loop_counter--);
         }
     }
 
@@ -272,7 +279,7 @@ function resize(){
 }
 
 function save(){
-    i = 4;
+    var loop_counter = 4;
     do{
         j = [
           'ms-per-frame',
@@ -280,20 +287,21 @@ function save(){
           'obstacle-increase',
           'audio-volume',
           'speed'
-        ][i];
+        ][loop_counter];
 
-        if(isNaN(document.getElementById(j).value) || document.getElementById(j).value < [1, 1, 0, 0, 10][i]){
+        if(isNaN(document.getElementById(j).value)
+          || document.getElementById(j).value < [1, 1, 0, 0, 10][loop_counter]){
             document.getElementById(j).value = [
               30,
               23,
               115,
               1,
               10
-            ][i];
+            ][loop_counter];
         }
-    }while(i--);
+    }while(loop_counter--);
 
-    i = 6;
+    loop_counter = 6;
     do{
         j = [
           'ms-per-frame',
@@ -303,11 +311,12 @@ function save(){
           'obstacle-increase',
           'audio-volume',
           'speed'
-        ][i];
+        ][loop_counter];
 
-        if(isNaN(document.getElementById(j).value) || document.getElementById(j).value === [30, 1, 2, 23, 115, 1, 10][i]){
-            window.localStorage.removeItem('jetpack-' + i);
-            settings[i] = [
+        if(isNaN(document.getElementById(j).value)
+          || document.getElementById(j).value === [30, 1, 2, 23, 115, 1, 10][loop_counter]){
+            window.localStorage.removeItem('jetpack-' + loop_counter);
+            settings[loop_counter] = [
               30,
               1,
               2,
@@ -315,17 +324,17 @@ function save(){
               115,
               1,
               10
-            ][i];
-            document.getElementById(j).value = settings[i];
+            ][loop_counter];
+            document.getElementById(j).value = settings[loop_counter];
 
         }else{
-            settings[i] = parseFloat(document.getElementById(j).value);
+            settings[loop_counter] = parseFloat(document.getElementById(j).value);
             window.localStorage.setItem(
-              'jetpack-' + i,
-              settings[i]
+              'jetpack-' + loop_counter,
+              settings[loop_counter]
             );
         }
-    }while(i--);
+    }while(loop_counter--);
 
 
     if(document.getElementById('jetpack-key').value === 'W'){
@@ -440,7 +449,6 @@ var canvas = 0;
 var frames = 0;
 var game_running = 0;
 var height = 0;
-var i = 0;
 var interval = 0;
 var j = 0;
 var key_jetpack = 0;
@@ -492,25 +500,29 @@ window.onkeydown = function(e){
         var key = window.event ? event : e;
         key = key.charCode ? key.charCode : key.keyCode;
 
-        if(String.fromCharCode(key) === settings[7]){// activate jetpack key
-            key_jetpack = 1;
-
-        }else if(String.fromCharCode(key) === settings[8]){// restart key
-            update_best();
-
-            best_display = best;
-            frames = 0;
-            frames_per_obstacle = settings[3];// obstacle frequency
-            game_running = 1;
-            obstacles = [];
-            played_explosion_sound = 0;
-            player_speed = 0;
-            player_y = 0;
-            smoke = [];
-
-        }else if(key === 27){// ESC
+        if(key === 27){// ESC
             update_best();
             setmode(0);
+        
+        }else{
+            key = String.fromCharCode(key);
+
+            if(key === settings[7]){// activate jetpack key
+                key_jetpack = 1;
+
+            }else if(key === settings[8]){// restart key
+                update_best();
+
+                best_display = best;
+                frames = 0;
+                frames_per_obstacle = settings[3];// obstacle frequency
+                game_running = 1;
+                obstacles = [];
+                played_explosion_sound = 0;
+                player_speed = 0;
+                player_y = 0;
+                smoke = [];
+            }
         }
     }
 };
