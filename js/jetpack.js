@@ -415,12 +415,12 @@ function setmode(newmode){
           + settings[8] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
           + settings[5] + '>Audio<br><label><input '
           + (settings[9] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><input id=gravity value='
-          + settings[1] + '>Gravity<br><input id=jetpack-power value='
-          + settings[2] + '>Jetpack Power<br><input id=ms-per-frame value='
+          + settings[1] + '>Gravity<br>Jetpack:<ul><li><input id=jetpack-power value='
+          + settings[2] + '>Power<li><input id=speed value='
+          + settings[6] + '>Speed</ul><input id=ms-per-frame value='
           + settings[0] + '>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency value='
           + settings[3] + '>Frequency<li><input id=obstacle-increase value='
-          + settings[4] + '>Increase</ul><input id=speed value='
-          + settings[6] + '>Speed<br><a onclick=reset()>Reset Settings</a></div></div>';
+          + settings[4] + '>Increase</ul><a onclick=reset()>Reset Settings</a></div></div>';
     }
 }
 
