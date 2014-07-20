@@ -4,15 +4,15 @@ function draw(){
 
         // if new obstacle should be added this frame, add one
         if(frames % frames_per_obstacle === 0){
-            var obstalce_width = random_number(15) + 20;
+            var obstalce_width = Math.floor(Math.random() * 15) + 20;
             obstacles.splice(
               0,
               0,
               [
                 x + obstalce_width,
-                random_number(500) - 250,
+                Math.floor(Math.random() * 500) - 250,
                 obstalce_width,
-                random_number(15) + 20
+                Math.floor(Math.random() * 15) + 20
               ]
             );
         }
@@ -244,10 +244,6 @@ function draw(){
     );
 }
 
-function random_number(i){
-    return Math.floor(Math.random() * i);
-}
-
 function reset(){
     if(confirm('Reset settings?')){
         document.getElementById('audio-volume').value = 1;
@@ -260,6 +256,7 @@ function reset(){
         document.getElementById('obstacle-increase').value = 115;
         document.getElementById('restart-key').value = 'H';
         document.getElementById('speed').value = 10;
+
         save();
     }
 }
