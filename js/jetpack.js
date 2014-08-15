@@ -247,7 +247,7 @@ function draw(){
 function reset(){
     if(confirm('Reset settings?')){
         document.getElementById('audio-volume').value = 1;
-        document.getElementById('clear').checked = 1;
+        document.getElementById('clear').checked = true;
         document.getElementById('gravity').value = 1;
         document.getElementById('jetpack-key').value = 'W';
         document.getElementById('jetpack-power').value = 2;
