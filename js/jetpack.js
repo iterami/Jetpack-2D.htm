@@ -45,14 +45,12 @@ function draw(){
         player_y += player_speed;
     }
 
-    if(settings[9]){// clear?
-        buffer.clearRect(
-          0,
-          0,
-          width,
-          height
-        );
-    }
+    buffer.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
 
     // draw corridor over grey background
     buffer.fillStyle = '#000';
@@ -229,14 +227,12 @@ function draw(){
       32
     );
 
-    if(settings[9]){// clear?
-        canvas.clearRect(
-          0,
-          0,
-          width,
-          height
-        );
-    }
+    canvas.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
     canvas.drawImage(
       document.getElementById('buffer'),
       0,
@@ -247,7 +243,6 @@ function draw(){
 function reset(){
     if(confirm('Reset settings?')){
         document.getElementById('audio-volume').value = 1;
-        document.getElementById('clear').checked = true;
         document.getElementById('gravity').value = 1;
         document.getElementById('jetpack-key').value = 'W';
         document.getElementById('jetpack-power').value = 2;
@@ -357,17 +352,6 @@ function save(){
           settings[8]
         );
     }
-
-    settings[9] = document.getElementById('clear').checked;
-    if(settings[9]){
-        window.localStorage.removeItem('jetpack-9');
-
-    }else{
-        window.localStorage.setItem(
-          'jetpack-9',
-          0
-        );
-    }
 }
 
 function setmode(newmode){
@@ -410,8 +394,7 @@ function setmode(newmode){
           + ')</ul></div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c>Jetpack:<ul><li><input disabled style=border:0 value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
           + settings[7] + '>Activate</ul><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
           + settings[8] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
-          + settings[5] + '>Audio<br><label><input '
-          + (settings[9] ? 'checked ' : '')+'id=clear type=checkbox>Clear</label><br><input id=gravity value='
+          + settings[5] + '>Audio<br><input id=gravity value='
           + settings[1] + '>Gravity<br>Jetpack:<ul><li><input id=jetpack-power value='
           + settings[2] + '>Power<li><input id=speed value='
           + settings[6] + '>Speed</ul><input id=ms-per-frame value='
@@ -483,7 +466,6 @@ var settings = [
   window.localStorage.getItem('jetpack-8') === null
     ? 'H'
     : window.localStorage.getItem('jetpack-8'),// restart key
-  window.localStorage.getItem('jetpack-9') === null// clear?
 ];
 var smoke = [];
 var width = 0;
