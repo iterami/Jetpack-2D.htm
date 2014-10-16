@@ -18,16 +18,16 @@ function draw(){
         }
 
         // if obstacle frequency increase should happen this frame, do it
-        if(settings[4] > 0
+        if(settings['obstacle-frequency'] > 0
           && frames_per_obstacle > 1
-          && frames % settings[4] === 0){
+          && frames % settings['obstacle-frequency'] === 0){
             // obstacle frequency increase
             frames_per_obstacle -= 1;
         }
 
         // if the player has activated jetpack, increase y speed and add smoke
         if(key_jetpack){
-            player_speed += settings[2];// jetpack power
+            player_speed += settings['jetpack-power'];
             smoke.splice(
               0,
               0,
@@ -39,7 +39,7 @@ function draw(){
 
         // else apply gravity
         }else{
-            player_speed -= settings[1];// gravity
+            player_speed -= settings['gravity'];
         }
 
         player_y += player_speed;
@@ -111,7 +111,7 @@ function draw(){
 
                 }else{
                     // move obstacles left at speed
-                    obstacles[loop_counter][0] -= settings[6];
+                    obstacles[loop_counter][0] -= settings['speed'];
 
                     // check for player collision with obstacle
                     if(obstacles[loop_counter][0] > -obstacles[loop_counter][2] * 2
@@ -154,7 +154,7 @@ function draw(){
                     );
 
                 }else if(game_running){
-                    smoke[loop_counter][0] -= settings[6];// speed
+                    smoke[loop_counter][0] -= settings['speed'];
                 }
             }while(loop_counter--);
 
@@ -185,7 +185,7 @@ function draw(){
     // if game is over, display game over messages
     if(!game_running){
         if(!played_explosion_sound){
-            if(settings[5] > 0){// audio volume
+            if(settings['audio-volume'] > 0){
                 // play explode sound
             }
             played_explosion_sound = 1;
@@ -204,7 +204,7 @@ function draw(){
           height - 95
         );
         buffer.fillText(
-          settings[8] + ' = Restart',// restart key
+          settings['restart-key'] + ' = Restart',// restart key
           5,
           height - 65
         );
@@ -271,85 +271,138 @@ function resize(){
 }
 
 function save(){
-    var loop_counter = 4;
-    do{
-        j = [
-          'ms-per-frame',
-          'obstacle-frequency',
-          'obstacle-increase',
-          'audio-volume',
-          'speed'
-        ][loop_counter];
-
-        if(isNaN(document.getElementById(j).value)
-          || document.getElementById(j).value < [1, 1, 0, 0, 10][loop_counter]){
-            document.getElementById(j).value = [
-              30,
-              23,
-              115,
-              1,
-              10
-            ][loop_counter];
-        }
-    }while(loop_counter--);
-
-    loop_counter = 6;
-    do{
-        j = [
-          'ms-per-frame',
-          'gravity',
-          'jetpack-power',
-          'obstacle-frequency',
-          'obstacle-increase',
-          'audio-volume',
-          'speed'
-        ][loop_counter];
-
-        if(isNaN(document.getElementById(j).value)
-          || document.getElementById(j).value === [30, 1, 2, 23, 115, 1, 10][loop_counter]){
-            window.localStorage.removeItem('jetpack-' + loop_counter);
-            settings[loop_counter] = [
-              30,
-              1,
-              2,
-              23,
-              115,
-              1,
-              10
-            ][loop_counter];
-            document.getElementById(j).value = settings[loop_counter];
-
-        }else{
-            settings[loop_counter] = parseFloat(document.getElementById(j).value);
-            window.localStorage.setItem(
-              'jetpack-' + loop_counter,
-              settings[loop_counter]
-            );
-        }
-    }while(loop_counter--);
-
-
-    if(document.getElementById('jetpack-key').value === 'W'){
-        window.localStorage.removeItem('jetpack-7');
-        settings[7] = 'W';
+    // Save audio-volume setting.
+    if(document.getElementById('audio-volume').value === 1){
+        window.localStorage.removeItem('Jetpack.htm-audio-volume');
+        settings['audio-volume'] = 1;
 
     }else{
-        settings[7] = document.getElementById('jetpack-key').value;
+        settings['audio-volume'] = parseFloat(document.getElementById('audio-volume').value);
         window.localStorage.setItem(
-          'jetpack-7',
-          settings[7]
+          'Jetpack.htm-audio-volume',
+          settings['audio-volume']
         );
     }
 
-    if(document.getElementById('restart-key').value === 'H'){
-        window.localStorage.removeItem('jetpack-8');
-        settings[8] = 'H';
+    // Save gravity setting.
+    if(document.getElementById('gravity').value == 1
+      || isNaN(document.getElementById('gravity').value)
+      || document.getElementById('gravity').value < 1){
+        window.localStorage.removeItem('Jetpack.htm-gravity');
+        document.getElementById('gravity').value = 1;
+        settings['gravity'] = 1;
 
     }else{
-        settings[8] = document.getElementById('restart-key').value;
+        settings['gravity'] = parseInt(document.getElementById('gravity').value);
         window.localStorage.setItem(
-          'jetpack-8',
-          settings[8]
+          'Jetpack.htm-gravity',
+          settings['gravity']
+        );
+    }
+
+    // Save jetpack-key setting.
+    if(document.getElementById('jetpack-key').value == 'W'){
+        window.localStorage.removeItem('Jetpack.htm-jetpack-key');
+        settings['jetpack-key'] = 'W';
+
+    }else{
+        settings['jetpack-key'] = document.getElementById('jetpack-key').value;
+        window.localStorage.setItem(
+          'Jetpack.htm-jetpack-key',
+          settings['jetpack-key']
+        );
+    }
+
+    // Save jetpack-power setting.
+    if(document.getElementById('jetpack-power').value == 2
+      || isNaN(document.getElementById('jetpack-power').value)
+      || document.getElementById('jetpack-power').value < 1){
+        window.localStorage.removeItem('Jetpack.htm-jetpack-power');
+        document.getElementById('jetpack-power').value = 2;
+        settings['jetpack-power'] = 2;
+
+    }else{
+        settings['jetpack-power'] = parseInt(document.getElementById('jetpack-power').value);
+        window.localStorage.setItem(
+          'Jetpack.htm-jetpack-power',
+          settings['jetpack-power']
+        );
+    }
+
+    // Save ms-per-frame setting.
+    if(document.getElementById('ms-per-frame').value == 30
+      || isNaN(document.getElementById('ms-per-frame').value)
+      || document.getElementById('ms-per-frame').value < 1){
+        window.localStorage.removeItem('Jetpack.htm-ms-per-frame');
+        document.getElementById('ms-per-frame').value = 30;
+        settings['ms-per-frame'] = 30;
+
+    }else{
+        settings['ms-per-frame'] = parseInt(document.getElementById('ms-per-frame').value);
+        window.localStorage.setItem(
+          'Jetpack.htm-ms-per-frame',
+          settings['ms-per-frame']
+        );
+    }
+
+    // Save obstacle-frequency setting.
+    if(document.getElementById('obstacle-frequency').value == 23
+      || isNaN(document.getElementById('obstacle-frequency').value)
+      || document.getElementById('obstacle-frequency').value < 1){
+        window.localStorage.removeItem('Jetpack.htm-obstacle-frequency');
+        document.getElementById('obstacle-frequency').value = 23;
+        settings['obstacle-frequency'] = 23;
+
+    }else{
+        settings['obstacle-frequency'] = parseInt(document.getElementById('obstacle-frequency').value);
+        window.localStorage.setItem(
+          'Jetpack.htm-obstacle-frequency',
+          settings['obstacle-frequency']
+        );
+    }
+
+    // Save obstacle-increase setting.
+    if(document.getElementById('obstacle-increase').value == 115
+      || isNaN(document.getElementById('obstacle-increase').value)
+      || document.getElementById('obstacle-increase').value < 0){
+        window.localStorage.removeItem('Jetpack.htm-obstacle-increase');
+        document.getElementById('obstacle-increase').value = 115;
+        settings['obstacle-increase'] = 115;
+
+    }else{
+        settings['obstacle-increase'] = parseInt(document.getElementById('obstacle-increase').value);
+        window.localStorage.setItem(
+          'Jetpack.htm-obstacle-increase',
+          settings['obstacle-increase']
+        );
+    }
+
+    // Save restart-key setting.
+    if(document.getElementById('restart-key').value == 'H'){
+        window.localStorage.removeItem('Jetpack.htm-restart-key');
+        settings['restart-key'] = 'H';
+
+    }else{
+        settings['restart-key'] = document.getElementById('restart-key').value;
+        window.localStorage.setItem(
+          'Jetpack.htm-restart-key',
+          settings['restart-key']
+        );
+    }
+
+    // Save speed setting.
+    if(document.getElementById('speed').value == 10
+      || isNaN(document.getElementById('speed').value)
+      || document.getElementById('speed').value < 0){
+        window.localStorage.removeItem('Jetpack.htm-speed');
+        document.getElementById('speed').value = 10;
+        settings['speed'] = 10;
+
+    }else{
+        settings['speed'] = parseInt(document.getElementById('speed').value);
+        window.localStorage.setItem(
+          'Jetpack.htm-speed',
+          settings['speed']
         );
     }
 }
@@ -367,7 +420,7 @@ function setmode(newmode){
         save();
 
         frames = 0;
-        frames_per_obstacle = settings[3];// obstacle frequency
+        frames_per_obstacle = settings['obstacle-frequency'];// obstacle frequency
         game_running = 1;
         played_explosion_sound = 0;
         player_speed = 0;
@@ -381,7 +434,7 @@ function setmode(newmode){
 
         interval = setInterval(
           'draw()',
-          settings[0]// ms/frame
+          settings['ms-per-frame']// ms/frame
         );
 
     // main menu mode
@@ -392,15 +445,15 @@ function setmode(newmode){
         document.getElementById('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack.htm</b></div><hr><div class=c><ul><li><a onclick=setmode(1)>Cave Corridor</a> (Best: '
           + best
           + ')</ul></div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c>Jetpack:<ul><li><input disabled style=border:0 value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
-          + settings[7] + '>Activate</ul><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
-          + settings[8] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
-          + settings[5] + '>Audio<br><input id=gravity value='
-          + settings[1] + '>Gravity<br>Jetpack:<ul><li><input id=jetpack-power value='
-          + settings[2] + '>Power<li><input id=speed value='
-          + settings[6] + '>Speed</ul><input id=ms-per-frame value='
-          + settings[0] + '>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency value='
-          + settings[3] + '>Frequency<li><input id=obstacle-increase value='
-          + settings[4] + '>Increase</ul><a onclick=reset()>Reset Settings</a></div></div>';
+          + settings['jetpack-key'] + '>Activate</ul><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
+          + settings['restart-key'] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
+          + settings['audio-volume'] + '>Audio<br><input id=gravity value='
+          + settings['gravity'] + '>Gravity<br>Jetpack:<ul><li><input id=jetpack-power value='
+          + settings['jetpack-power'] + '>Power<li><input id=speed value='
+          + settings['speed'] + '>Speed</ul><input id=ms-per-frame value='
+          + settings['ms-per-frame'] + '>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency value='
+          + settings['obstacle-frequency'] + '>Frequency<li><input id=obstacle-increase value='
+          + settings['obstacle-increase'] + '>Increase</ul><a onclick=reset()>Reset Settings</a></div></div>';
     }
 }
 
@@ -438,35 +491,35 @@ var played_explosion_sound = 0;
 var player_speed = 0;
 var player_y = 0;
 var frames_per_obstacle = 0;
-var settings = [
-  window.localStorage.getItem('jetpack-0') === null
-    ? 30
-    : parseInt(window.localStorage.getItem('jetpack-0')),// ms/frame
-  window.localStorage.getItem('jetpack-1') === null
+var settings = {
+  'audio-volume': window.localStorage.getItem('Jetpack.htm-audio-volume') === null
     ? 1
-    : parseFloat(window.localStorage.getItem('jetpack-1')),// gravity
-  window.localStorage.getItem('jetpack-2') === null
-    ? 2
-    : parseFloat(window.localStorage.getItem('jetpack-2')),// jetpack power
-  window.localStorage.getItem('jetpack-3') === null
-    ? 23
-    : parseInt(window.localStorage.getItem('jetpack-3')),// obstacle frequency
-  window.localStorage.getItem('jetpack-4') === null
-    ? 115
-    : parseInt(window.localStorage.getItem('jetpack-4')),// obstacle increase
-  window.localStorage.getItem('jetpack-5') === null
+    : parseFloat(window.localStorage.getItem('Jetpack.htm-audio-volume')),
+  'gravity': window.localStorage.getItem('Jetpack.htm-gravity') === null
     ? 1
-    : parseFloat(window.localStorage.getItem('jetpack-5')),// audio volume
-  window.localStorage.getItem('jetpack-6') === null
-    ? 10
-    : parseFloat(window.localStorage.getItem('jetpack-6')),// speed
-  window.localStorage.getItem('jetpack-7') === null
+    : parseFloat(window.localStorage.getItem('Jetpack.htm-gravity')),
+  'jetpack-key': window.localStorage.getItem('Jetpack.htm-jetpack-key') === null
     ? 'W'
-    : window.localStorage.getItem('jetpack-7'),// activate jetpack key
-  window.localStorage.getItem('jetpack-8') === null
+    : window.localStorage.getItem('Jetpack.htm-jetpack-key'),
+  'jetpack-power': window.localStorage.getItem('Jetpack.htm-jetpack-power') === null
+    ? 2
+    : parseFloat(window.localStorage.getItem('Jetpack.htm-jetpack-power')),
+  'ms-per-frame': window.localStorage.getItem('Jetpack.htm-ms-per-frame') === null
+    ? 30
+    : parseInt(window.localStorage.getItem('Jetpack.htm-ms-per-frame')),
+  'obstacle-frequency': window.localStorage.getItem('Jetpack.htm-obstacle-frequency') === null
+    ? 23
+    : parseInt(window.localStorage.getItem('Jetpack.htm-obstacle-frequency')),
+  'obstacle-increase': window.localStorage.getItem('Jetpack.htm-obstacle-increase') === null
+    ? 115
+    : parseInt(window.localStorage.getItem('Jetpack.htm-obstacle-increase')),
+  'restart-key': window.localStorage.getItem('Jetpack.htm-restart-key') === null
     ? 'H'
-    : window.localStorage.getItem('jetpack-8'),// restart key
-];
+    : window.localStorage.getItem('Jetpack.htm-restart-key'),
+  'speed': window.localStorage.getItem('Jetpack.htm-speed') === null
+    ? 10
+    : parseFloat(window.localStorage.getItem('Jetpack.htm-speed')),
+};
 var smoke = [];
 var width = 0;
 var x = 0;
@@ -486,15 +539,15 @@ window.onkeydown = function(e){
         }else{
             key = String.fromCharCode(key);
 
-            if(key === settings[7]){// activate jetpack key
+            if(key === settings['jetpack-key']){
                 key_jetpack = 1;
 
-            }else if(key === settings[8]){// restart key
+            }else if(key === settings['restart-key']){
                 update_best();
 
                 best_display = best;
                 frames = 0;
-                frames_per_obstacle = settings[3];// obstacle frequency
+                frames_per_obstacle = settings['obstacle-frequency'];
                 game_running = 1;
                 obstacles = [];
                 played_explosion_sound = 0;
@@ -510,7 +563,7 @@ window.onkeyup = function(e){
     var key = window.event ? event : e;
     key = key.charCode ? key.charCode : key.keyCode;
 
-    if(String.fromCharCode(key) === settings[7]){// activate jetpack key
+    if(String.fromCharCode(key) === settings['jetpack-key']){
         key_jetpack = 0;
     }
 };
