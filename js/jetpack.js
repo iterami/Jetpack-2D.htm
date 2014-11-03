@@ -62,7 +62,7 @@ function draw(){
     );
 
     // Draw player body.
-    buffer.fillStyle = '#090';
+    buffer.fillStyle = settings['color'];
     buffer.fillRect(
       x,
       y - player_y - 25,
@@ -246,6 +246,7 @@ function reset(){
     }
 
     document.getElementById('audio-volume').value = 1;
+    document.getElementById('color').value = '#009900';
     document.getElementById('gravity').value = 1;
     document.getElementById('jetpack-key').value = 'W';
     document.getElementById('jetpack-power').value = 2;
@@ -288,6 +289,31 @@ function save(){
         );
     }
 
+    loop_counter = 2;
+    do{
+        id = [
+          'color',
+          'jetpack-key',
+          'restart-key',
+        ][loop_counter];
+
+        if(document.getElementById(id).value === ['#009900', 'W', 'H',][loop_counter]){
+            window.localStorage.removeItem('Jetpack.htm-' + id);
+            settings[id] = [
+              '#009900',
+              'W',
+              'H',
+            ][loop_counter];
+
+        }else{
+            settings[id] = document.getElementById(id).value;
+            window.localStorage.setItem(
+              'Jetpack.htm-' + id,
+              settings[id]
+            );
+        }
+    }while(loop_counter--);
+
     // Save gravity setting.
     if(document.getElementById('gravity').value == 1
       || isNaN(document.getElementById('gravity').value)
@@ -301,19 +327,6 @@ function save(){
         window.localStorage.setItem(
           'Jetpack.htm-gravity',
           settings['gravity']
-        );
-    }
-
-    // Save jetpack-key setting.
-    if(document.getElementById('jetpack-key').value == 'W'){
-        window.localStorage.removeItem('Jetpack.htm-jetpack-key');
-        settings['jetpack-key'] = 'W';
-
-    }else{
-        settings['jetpack-key'] = document.getElementById('jetpack-key').value;
-        window.localStorage.setItem(
-          'Jetpack.htm-jetpack-key',
-          settings['jetpack-key']
         );
     }
 
@@ -381,19 +394,6 @@ function save(){
         );
     }
 
-    // Save restart-key setting.
-    if(document.getElementById('restart-key').value == 'H'){
-        window.localStorage.removeItem('Jetpack.htm-restart-key');
-        settings['restart-key'] = 'H';
-
-    }else{
-        settings['restart-key'] = document.getElementById('restart-key').value;
-        window.localStorage.setItem(
-          'Jetpack.htm-restart-key',
-          settings['restart-key']
-        );
-    }
-
     // Save speed setting.
     if(document.getElementById('speed').value == 10
       || isNaN(document.getElementById('speed').value)
@@ -451,7 +451,8 @@ function setmode(newmode){
           + ')</ul></div><hr><div class=c><a onclick="if(confirm(\'Reset best?\')){best=0;frames=0;update_best();setmode(0)}">Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c>Jetpack:<ul><li><input disabled style=border:0 value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
           + settings['jetpack-key'] + '>Activate</ul><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
           + settings['restart-key'] + '>Restart</div><hr><div class=c><input id=audio-volume max=1 min=0 step=.01 type=range value='
-          + settings['audio-volume'] + '>Audio<br><input id=gravity value='
+          + settings['audio-volume'] + '>Audio<br><input id=color type=color value='
+          + settings['color'] + '>Color<br><input id=gravity value='
           + settings['gravity'] + '>Gravity<br>Jetpack:<ul><li><input id=jetpack-power value='
           + settings['jetpack-power'] + '>Power<li><input id=speed value='
           + settings['speed'] + '>Speed</ul><input id=ms-per-frame value='
@@ -499,6 +500,9 @@ var settings = {
   'audio-volume': window.localStorage.getItem('Jetpack.htm-audio-volume') === null
     ? 1
     : parseFloat(window.localStorage.getItem('Jetpack.htm-audio-volume')),
+  'color': window.localStorage.getItem('Jetpack.htm-color') === null
+    ? '#009900'
+    : window.localStorage.getItem('Jetpack.htm-color'),
   'gravity': window.localStorage.getItem('Jetpack.htm-gravity') === null
     ? 1
     : parseFloat(window.localStorage.getItem('Jetpack.htm-gravity')),
