@@ -114,13 +114,15 @@ function draw(){
                     obstacles[loop_counter][0] -= settings['speed'];
 
                     // Check for player collision with obstacle.
-                    if(obstacles[loop_counter][0] > -obstacles[loop_counter][2] * 2
-                      && obstacles[loop_counter][0] < obstacles[loop_counter][2]
-                      && obstacles[loop_counter][1] > -player_y - 25 - obstacles[loop_counter][3] * 2
-                      && obstacles[loop_counter][1] < -player_y + 25){
-                        game_running = 0;
-                        update_best();
+                    if(obstacles[loop_counter][0] <= -obstacles[loop_counter][2] * 2
+                      || obstacles[loop_counter][0] >= obstacles[loop_counter][2]
+                      || obstacles[loop_counter][1] <= -player_y - 25 - obstacles[loop_counter][3] * 2
+                      || obstacles[loop_counter][1] >= -player_y + 25){
+                        continue;
                     }
+
+                    game_running = 0;
+                    update_best();
                 }
             }while(loop_counter--);
 
