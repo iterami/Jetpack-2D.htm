@@ -503,7 +503,7 @@ var game_running = 0;
 var height = 0;
 var interval = 0;
 var j = 0;
-var key_jetpack = 0;
+var key_jetpack = false;
 var mode = 0;
 var obstacles = [];
 var played_explosion_sound = 0;
@@ -566,7 +566,7 @@ window.onkeydown = function(e){
         key = String.fromCharCode(key);
 
         if(key === settings['jetpack-key']){
-            key_jetpack = 1;
+            key_jetpack = true;
 
         }else if(key === settings['restart-key']){
             update_best();
@@ -589,7 +589,7 @@ window.onkeyup = function(e){
     key = key.charCode ? key.charCode : key.keyCode;
 
     if(String.fromCharCode(key) === settings['jetpack-key']){
-        key_jetpack = 0;
+        key_jetpack = false;
     }
 };
 
@@ -599,11 +599,11 @@ window.onmousedown = function(e){
     }
 
     e.preventDefault();
-    key_jetpack = 1;
+    key_jetpack = true;
 };
 
 window.onmouseup = function(e){
-    key_jetpack = 0;
+    key_jetpack = false;
 };
 
 window.onresize = resize;
