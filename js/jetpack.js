@@ -94,7 +94,7 @@ function draw(){
     // Check if player is outside of game boundaries.
     if(player_y + 25 > 250
       || player_y - 25 < -250){
-        game_running = 0;
+        game_running = false;
         update_best();
     }
 
@@ -121,7 +121,7 @@ function draw(){
                         continue;
                     }
 
-                    game_running = 0;
+                    game_running = false;
                     update_best();
                 }
             }while(loop_counter--);
@@ -190,7 +190,7 @@ function draw(){
             if(settings['audio-volume'] > 0){
                 // Play explode sound here.
             }
-            played_explosion_sound = 1;
+            played_explosion_sound = true;
         }
 
         if(frames > best_display){
@@ -438,8 +438,8 @@ function setmode(newmode){
 
         frames = 0;
         frames_per_obstacle = settings['obstacle-frequency'];
-        game_running = 1;
-        played_explosion_sound = 0;
+        game_running = true;
+        played_explosion_sound = false;
         player_speed = 0;
         player_y = 0;
 
@@ -499,14 +499,13 @@ var best_display = 0;
 var buffer = 0;
 var canvas = 0;
 var frames = 0;
-var game_running = 0;
+var game_running = false;
 var height = 0;
 var interval = 0;
-var j = 0;
 var key_jetpack = false;
 var mode = 0;
 var obstacles = [];
-var played_explosion_sound = 0;
+var played_explosion_sound = false;
 var player_speed = 0;
 var player_y = 0;
 var frames_per_obstacle = 0;
@@ -574,9 +573,9 @@ window.onkeydown = function(e){
             best_display = best;
             frames = 0;
             frames_per_obstacle = settings['obstacle-frequency'];
-            game_running = 1;
+            game_running = true;
             obstacles = [];
-            played_explosion_sound = 0;
+            played_explosion_sound = false;
             player_speed = 0;
             player_y = 0;
             smoke = [];
