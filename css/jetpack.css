@@ -21,7 +21,6 @@ canvas{
     left: 0;
     position: absolute;
     top: 0;
-    user-select: none;
 }
 hr{
     border: 4px solid #222;
