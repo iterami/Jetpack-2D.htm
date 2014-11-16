@@ -606,3 +606,15 @@ window.onmouseup = function(e){
 };
 
 window.onresize = resize;
+
+window.ontouchend = function(e){
+    key_jetpack = false;
+};
+
+window.ontouchstart = function(e){
+    if(mode <= 0){
+        return;
+    }
+
+    key_jetpack = true;
+};
