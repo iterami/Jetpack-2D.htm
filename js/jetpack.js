@@ -1,50 +1,4 @@
 function draw(){
-    if(game_running){
-        frames += 1;
-
-        // If new obstacle should be added this frame, add one.
-        if(frames % frames_per_obstacle === 0){
-            var obstalce_width = Math.floor(Math.random() * 15) + 20;
-            obstacles.splice(
-              0,
-              0,
-              [
-                x + obstalce_width,
-                Math.floor(Math.random() * 500) - 250,
-                obstalce_width,
-                Math.floor(Math.random() * 15) + 20,
-              ]
-            );
-        }
-
-        // If obstacle frequency increase should happen this frame, do it.
-        if(settings['obstacle-frequency'] > 0
-          && frames_per_obstacle > 1
-          && frames % settings['obstacle-frequency'] === 0){
-            // obstacle frequency increase
-            frames_per_obstacle -= 1;
-        }
-
-        // If the player has activated jetpack, increase y speed and add smoke...
-        if(key_jetpack){
-            player_speed += settings['jetpack-power'];
-            smoke.splice(
-              0,
-              0,
-              [
-                -20,
-                player_y - 10,
-              ]
-            );
-
-        // ...else apply gravity.
-        }else{
-            player_speed -= settings['gravity'];
-        }
-
-        player_y += player_speed;
-    }
-
     buffer.clearRect(
       0,
       0,
@@ -91,91 +45,32 @@ function draw(){
         );
     }
 
-    // Check if player is outside of game boundaries.
-    if(player_y + 25 > 250
-      || player_y - 25 < -250){
-        game_running = false;
-        update_best();
-    }
-
     var loop_counter = obstacles.length - 1;
     if(loop_counter >= 0){
-        if(game_running){
-            do{
-                // Delete obstacles that are past left side of screen.
-                if(obstacles[loop_counter][0] < -x - 70){
-                    obstacles.splice(
-                      loop_counter,
-                      1
-                    );
-
-                }else{
-                    // Move obstacles left at speed.
-                    obstacles[loop_counter][0] -= settings['speed'];
-
-                    // Check for player collision with obstacle.
-                    if(obstacles[loop_counter][0] <= -obstacles[loop_counter][2] * 2
-                      || obstacles[loop_counter][0] >= obstacles[loop_counter][2]
-                      || obstacles[loop_counter][1] <= -player_y - 25 - obstacles[loop_counter][3] * 2
-                      || obstacles[loop_counter][1] >= -player_y + 25){
-                        continue;
-                    }
-
-                    game_running = false;
-                    update_best();
-                }
-            }while(loop_counter--);
-
-            // Get new amount of obstacles, some may have been spliced.
-            loop_counter = obstacles.length - 1;
-        }
-
         // Draw obstacles.
-        if(loop_counter >= 0){
-            buffer.fillStyle = '#555';
-            do{
-                buffer.fillRect(
-                  x + obstacles[loop_counter][0],
-                  y + obstacles[loop_counter][1],
-                  obstacles[loop_counter][2] * 2,
-                  obstacles[loop_counter][3] * 2
-                );
-            }while(loop_counter--);
-        }
+        buffer.fillStyle = '#555';
+        do{
+            buffer.fillRect(
+              x + obstacles[loop_counter][0],
+              y + obstacles[loop_counter][1],
+              obstacles[loop_counter][2] * 2,
+              obstacles[loop_counter][3] * 2
+            );
+        }while(loop_counter--);
     }
 
     loop_counter = smoke.length-1;
     if(loop_counter >= 0){
-        if(game_running){
-            // Delete smoke trails past left side of screen, else move left.
-            do{
-                if(smoke[loop_counter][0] < -x){
-                    smoke.splice(
-                      loop_counter,
-                      1
-                    );
-
-                }else if(game_running){
-                    smoke[loop_counter][0] -= settings['speed'];
-                }
-            }while(loop_counter--);
-
-            // Get new amount of smoke, some may have been spliced.
-            loop_counter = smoke.length - 1;
-        }
-
         // Draw smoke trails behind the player.
-        if(loop_counter >= 0){
-            buffer.fillStyle = '#777';
-            do{
-                buffer.fillRect(
-                  x + smoke[loop_counter][0],
-                  y - smoke[loop_counter][1],
-                  10,
-                  10
-                );
-            }while(loop_counter--);
-        }
+        buffer.fillStyle = '#777';
+        do{
+            buffer.fillRect(
+              x + smoke[loop_counter][0],
+              y - smoke[loop_counter][1],
+              10,
+              10
+            );
+        }while(loop_counter--);
     }
 
     // Setup text display.
@@ -240,6 +135,111 @@ function draw(){
       0,
       0
     );
+
+    window.requestAnimationFrame(draw);
+}
+
+function logic(){
+    if(game_running){
+        frames += 1;
+
+        // If new obstacle should be added this frame, add one.
+        if(frames % frames_per_obstacle === 0){
+            var obstalce_width = Math.floor(Math.random() * 15) + 20;
+            obstacles.splice(
+              0,
+              0,
+              [
+                x + obstalce_width,
+                Math.floor(Math.random() * 500) - 250,
+                obstalce_width,
+                Math.floor(Math.random() * 15) + 20,
+              ]
+            );
+        }
+
+        // If obstacle frequency increase should happen this frame, do it.
+        if(settings['obstacle-frequency'] > 0
+          && frames_per_obstacle > 1
+          && frames % settings['obstacle-frequency'] === 0){
+            // obstacle frequency increase
+            frames_per_obstacle -= 1;
+        }
+
+        // If the player has activated jetpack, increase y speed and add smoke...
+        if(key_jetpack){
+            player_speed += settings['jetpack-power'];
+            smoke.splice(
+              0,
+              0,
+              [
+                -20,
+                player_y - 10,
+              ]
+            );
+
+        // ...else apply gravity.
+        }else{
+            player_speed -= settings['gravity'];
+        }
+
+        player_y += player_speed;
+    }
+
+    // Check if player is outside of game boundaries.
+    if(player_y + 25 > 250
+      || player_y - 25 < -250){
+        game_running = false;
+        update_best();
+    }
+
+    var loop_counter = obstacles.length - 1;
+    if(loop_counter >= 0){
+        if(game_running){
+            do{
+                // Delete obstacles that are past left side of screen.
+                if(obstacles[loop_counter][0] < -x - 70){
+                    obstacles.splice(
+                      loop_counter,
+                      1
+                    );
+
+                }else{
+                    // Move obstacles left at speed.
+                    obstacles[loop_counter][0] -= settings['speed'];
+
+                    // Check for player collision with obstacle.
+                    if(obstacles[loop_counter][0] <= -obstacles[loop_counter][2] * 2
+                      || obstacles[loop_counter][0] >= obstacles[loop_counter][2]
+                      || obstacles[loop_counter][1] <= -player_y - 25 - obstacles[loop_counter][3] * 2
+                      || obstacles[loop_counter][1] >= -player_y + 25){
+                        continue;
+                    }
+
+                    game_running = false;
+                    update_best();
+                }
+            }while(loop_counter--);
+        }
+    }
+
+    loop_counter = smoke.length-1;
+    if(loop_counter >= 0){
+        if(game_running){
+            // Delete smoke trails past left side of screen, else move left.
+            do{
+                if(smoke[loop_counter][0] < -x){
+                    smoke.splice(
+                      loop_counter,
+                      1
+                    );
+
+                }else if(game_running){
+                    smoke[loop_counter][0] -= settings['speed'];
+                }
+            }while(loop_counter--);
+        }
+    }
 }
 
 function reset(){
@@ -450,8 +450,9 @@ function setmode(newmode){
 
         resize();
 
+        window.requestAnimationFrame(draw);
         interval = setInterval(
-          'draw()',
+          'logic()',
           settings['ms-per-frame']
         );
 
@@ -553,8 +554,7 @@ window.onkeydown = function(e){
         return;
     }
 
-    var key = window.event ? event : e;
-    key = key.charCode ? key.charCode : key.keyCode;
+    var key = e.keyCode || e.which;
 
     // ESC: update best and return to main menu.
     if(key === 27){
@@ -584,10 +584,9 @@ window.onkeydown = function(e){
 };
 
 window.onkeyup = function(e){
-    var key = window.event ? event : e;
-    key = key.charCode ? key.charCode : key.keyCode;
+    var key = String.fromCharCode(e.keyCode || e.which);
 
-    if(String.fromCharCode(key) === settings['jetpack-key']){
+    if(key === settings['jetpack-key']){
         key_jetpack = false;
     }
 };
