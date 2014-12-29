@@ -136,7 +136,7 @@ function draw(){
       0
     );
 
-    window.requestAnimationFrame(draw);
+    animationFrame = window.requestAnimationFrame(draw);
 }
 
 function logic(){
@@ -425,6 +425,7 @@ function save(){
 }
 
 function setmode(newmode){
+    window.cancelAnimationFrame(animationFrame);
     clearInterval(interval);
 
     obstacles = [];
@@ -450,7 +451,7 @@ function setmode(newmode){
 
         resize();
 
-        window.requestAnimationFrame(draw);
+        animationFrame = window.requestAnimationFrame(draw);
         interval = setInterval(
           'logic()',
           settings['ms-per-frame']
@@ -493,6 +494,7 @@ function update_best(){
     }
 }
 
+var animationFrame = 0;
 var best = window.localStorage.getItem('jetpack-best') === null
   ? 0
   : parseInt(window.localStorage.getItem('jetpack-best'));
