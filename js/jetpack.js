@@ -161,7 +161,7 @@ function logic(){
         // If obstacle frequency increase should happen this frame, do it.
         if(settings['obstacle-frequency'] > 0
           && frames_per_obstacle > 1
-          && frames % settings['obstacle-frequency'] === 0){
+          && frames % settings['obstacle-increase'] === 0){
             // obstacle frequency increase
             frames_per_obstacle -= 1;
         }
