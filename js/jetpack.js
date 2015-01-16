@@ -562,26 +562,26 @@ window.onkeydown = function(e){
     if(key === 27){
         update_best();
         setmode(0);
+        return;
+    }
         
-    }else{
-        key = String.fromCharCode(key);
+    key = String.fromCharCode(key);
 
-        if(key === settings['jetpack-key']){
-            key_jetpack = true;
+    if(key === settings['jetpack-key']){
+        key_jetpack = true;
 
-        }else if(key === settings['restart-key']){
-            update_best();
+    }else if(key === settings['restart-key']){
+        update_best();
 
-            best_display = best;
-            frames = 0;
-            frames_per_obstacle = settings['obstacle-frequency'];
-            game_running = true;
-            obstacles = [];
-            played_explosion_sound = false;
-            player_speed = 0;
-            player_y = 0;
-            smoke = [];
-        }
+        best_display = best;
+        frames = 0;
+        frames_per_obstacle = settings['obstacle-frequency'];
+        game_running = true;
+        obstacles = [];
+        played_explosion_sound = false;
+        player_speed = 0;
+        player_y = 0;
+        smoke = [];
     }
 };
 
