@@ -194,51 +194,49 @@ function logic(){
     }
 
     var loop_counter = obstacles.length - 1;
-    if(loop_counter >= 0){
-        if(game_running){
-            do{
-                // Delete obstacles that are past left side of screen.
-                if(obstacles[loop_counter][0] < -x - 70){
-                    obstacles.splice(
-                      loop_counter,
-                      1
-                    );
+    if(loop_counter >= 0
+      && game_running){
+        do{
+            // Delete obstacles that are past left side of screen.
+            if(obstacles[loop_counter][0] < -x - 70){
+                obstacles.splice(
+                  loop_counter,
+                  1
+                );
+                continue;
+            }
 
-                }else{
-                    // Move obstacles left at speed.
-                    obstacles[loop_counter][0] -= settings['speed'];
+            // Move obstacles left at speed.
+            obstacles[loop_counter][0] -= settings['speed'];
 
-                    // Check for player collision with obstacle.
-                    if(obstacles[loop_counter][0] <= -obstacles[loop_counter][2] * 2
-                      || obstacles[loop_counter][0] >= obstacles[loop_counter][2]
-                      || obstacles[loop_counter][1] <= -player_y - 25 - obstacles[loop_counter][3] * 2
-                      || obstacles[loop_counter][1] >= -player_y + 25){
-                        continue;
-                    }
+            // Check for player collision with obstacle.
+            if(obstacles[loop_counter][0] <= -obstacles[loop_counter][2] * 2
+              || obstacles[loop_counter][0] >= obstacles[loop_counter][2]
+              || obstacles[loop_counter][1] <= -player_y - 25 - obstacles[loop_counter][3] * 2
+              || obstacles[loop_counter][1] >= -player_y + 25){
+                continue;
+            }
 
-                    game_running = false;
-                    update_best();
-                }
-            }while(loop_counter--);
-        }
+            game_running = false;
+            update_best();
+        }while(loop_counter--);
     }
 
     loop_counter = smoke.length-1;
-    if(loop_counter >= 0){
-        if(game_running){
-            // Delete smoke trails past left side of screen, else move left.
-            do{
-                if(smoke[loop_counter][0] < -x){
-                    smoke.splice(
-                      loop_counter,
-                      1
-                    );
+    if(loop_counter >= 0
+      && game_running){
+        // Delete smoke trails past left side of screen, else move left.
+        do{
+            if(smoke[loop_counter][0] < -x){
+                smoke.splice(
+                  loop_counter,
+                  1
+                );
 
-                }else if(game_running){
-                    smoke[loop_counter][0] -= settings['speed'];
-                }
-            }while(loop_counter--);
-        }
+            }else if(game_running){
+                smoke[loop_counter][0] -= settings['speed'];
+            }
+        }while(loop_counter--);
     }
 }
 
