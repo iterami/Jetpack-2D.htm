@@ -88,7 +88,7 @@ function draw(){
             played_explosion_sound = true;
         }
 
-        if(frames > best_display){
+        if(frames > best){
             buffer.fillText(
               'NEW BEST SCORE!',
               5,
@@ -119,7 +119,7 @@ function draw(){
       0
     );
     buffer.fillText(
-      best_display,
+      best,
       5,
       32
     );
@@ -428,7 +428,6 @@ function setmode(newmode){
 
     obstacles = [];
     smoke = [];
-    best_display = best;
     mode = newmode;
 
     // Play game mode.
@@ -496,7 +495,6 @@ var animationFrame = 0;
 var best = window.localStorage.getItem('Jetpack.htm-best') === null
   ? 0
   : parseInt(window.localStorage.getItem('Jetpack.htm-best'));
-var best_display = 0;
 var buffer = 0;
 var canvas = 0;
 var frames = 0;
@@ -571,7 +569,6 @@ window.onkeydown = function(e){
     }else if(key === settings['restart-key']){
         update_best();
 
-        best_display = best;
         frames = 0;
         frames_per_obstacle = settings['obstacle-frequency'];
         game_running = true;
