@@ -483,19 +483,19 @@ function update_best(){
 
     if(best > 0){
         window.localStorage.setItem(
-          'jetpack-best',
+          'Jetpack.htm-best',
           best
         );
 
     }else{
-        window.localStorage.removeItem('jetpack-best');
+        window.localStorage.removeItem('Jetpack.htm-best');
     }
 }
 
 var animationFrame = 0;
-var best = window.localStorage.getItem('jetpack-best') === null
+var best = window.localStorage.getItem('Jetpack.htm-best') === null
   ? 0
-  : parseInt(window.localStorage.getItem('jetpack-best'));
+  : parseInt(window.localStorage.getItem('Jetpack.htm-best'));
 var best_display = 0;
 var buffer = 0;
 var canvas = 0;
