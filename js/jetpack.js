@@ -424,7 +424,7 @@ function save(){
 
 function setmode(newmode){
     window.cancelAnimationFrame(animationFrame);
-    clearInterval(interval);
+    window.clearInterval(interval);
 
     obstacles = [];
     smoke = [];
@@ -449,7 +449,7 @@ function setmode(newmode){
         resize();
 
         animationFrame = window.requestAnimationFrame(draw);
-        interval = setInterval(
+        interval = window.setInterval(
           'logic()',
           settings['ms-per-frame']
         );
