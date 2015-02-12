@@ -140,52 +140,6 @@ function draw(){
 }
 
 function logic(){
-    if(game_running){
-        frames += 1;
-
-        // If new obstacle should be added this frame, add one.
-        if(frames % frames_per_obstacle === 0){
-            var obstalce_width = Math.floor(Math.random() * 15) + 20;
-            obstacles.splice(
-              0,
-              0,
-              [
-                x + obstalce_width,
-                Math.floor(Math.random() * 500) - 250,
-                obstalce_width,
-                Math.floor(Math.random() * 15) + 20,
-              ]
-            );
-        }
-
-        // If obstacle frequency increase should happen this frame, do it.
-        if(settings['obstacle-frequency'] > 0
-          && frames_per_obstacle > 1
-          && frames % settings['obstacle-increase'] === 0){
-            // obstacle frequency increase
-            frames_per_obstacle -= 1;
-        }
-
-        // If the player has activated jetpack, increase y speed and add smoke...
-        if(key_jetpack){
-            player_speed += settings['jetpack-power'];
-            smoke.splice(
-              0,
-              0,
-              [
-                -20,
-                player_y - 10,
-              ]
-            );
-
-        // ...else apply gravity.
-        }else{
-            player_speed -= settings['gravity'];
-        }
-
-        player_y += player_speed;
-    }
-
     // Check if player is outside of game boundaries.
     if(player_y + 25 > 250
       || player_y - 25 < -250){
@@ -193,9 +147,56 @@ function logic(){
         update_best();
     }
 
+    if(!game_running){
+        return;
+    }
+
+    frames += 1;
+
+    // If new obstacle should be added this frame, add one.
+    if(frames % frames_per_obstacle === 0){
+        var obstalce_width = Math.floor(Math.random() * 15) + 20;
+        obstacles.splice(
+          0,
+          0,
+          [
+            x + obstalce_width,
+            Math.floor(Math.random() * 500) - 250,
+            obstalce_width,
+            Math.floor(Math.random() * 15) + 20,
+          ]
+        );
+    }
+
+    // If obstacle frequency increase should happen this frame, do it.
+    if(settings['obstacle-frequency'] > 0
+      && frames_per_obstacle > 1
+      && frames % settings['obstacle-increase'] === 0){
+        // obstacle frequency increase
+        frames_per_obstacle -= 1;
+    }
+
+    // If the player has activated jetpack, increase y speed and add smoke...
+    if(key_jetpack){
+        player_speed += settings['jetpack-power'];
+        smoke.splice(
+          0,
+          0,
+          [
+            -20,
+            player_y - 10,
+          ]
+        );
+
+    // ...else apply gravity.
+    }else{
+        player_speed -= settings['gravity'];
+    }
+
+    player_y += player_speed;
+
     var loop_counter = obstacles.length - 1;
-    if(loop_counter >= 0
-      && game_running){
+    if(loop_counter >= 0){
         do{
             // Delete obstacles that are past left side of screen.
             if(obstacles[loop_counter][0] < -x - 70){
@@ -223,8 +224,7 @@ function logic(){
     }
 
     loop_counter = smoke.length-1;
-    if(loop_counter >= 0
-      && game_running){
+    if(loop_counter >= 0){
         // Delete smoke trails past left side of screen, else move left.
         do{
             if(smoke[loop_counter][0] < -x){
@@ -233,7 +233,7 @@ function logic(){
                   1
                 );
 
-            }else if(game_running){
+            }else{
                 smoke[loop_counter][0] -= settings['speed'];
             }
         }while(loop_counter--);
