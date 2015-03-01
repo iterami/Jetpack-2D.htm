@@ -192,10 +192,7 @@ function logic(){
     for(var obstacle in obstacles){
         // Delete obstacles that are past left side of screen.
         if(obstacles[obstacle][0] < -x - 70){
-            obstacles.splice(
-              obstacle,
-              1
-            );
+            delete obstacles[obstacle];
             continue;
         }
 
@@ -219,10 +216,7 @@ function logic(){
         smoke[id][0] -= settings['speed'];
 
         if(smoke[id][0] < -x){
-            smoke.splice(
-              id,
-              1
-            );
+            delete smoke[id];
         }
     }
 }
