@@ -45,32 +45,26 @@ function draw(){
         );
     }
 
-    var loop_counter = obstacles.length - 1;
-    if(loop_counter >= 0){
-        // Draw obstacles.
-        buffer.fillStyle = '#555';
-        do{
-            buffer.fillRect(
-              x + obstacles[loop_counter][0],
-              y + obstacles[loop_counter][1],
-              obstacles[loop_counter][2] * 2,
-              obstacles[loop_counter][3] * 2
-            );
-        }while(loop_counter--);
+    // Draw obstacles.
+    buffer.fillStyle = '#555';
+    for(var obstacle in obstacles){
+        buffer.fillRect(
+          x + obstacles[obstacle][0],
+          y + obstacles[obstacle][1],
+          obstacles[obstacle][2] * 2,
+          obstacles[obstacle][3] * 2
+        );
     }
 
-    loop_counter = smoke.length-1;
-    if(loop_counter >= 0){
-        // Draw smoke trails behind the player.
-        buffer.fillStyle = '#777';
-        do{
-            buffer.fillRect(
-              x + smoke[loop_counter][0],
-              y - smoke[loop_counter][1],
-              10,
-              10
-            );
-        }while(loop_counter--);
+    // Draw smoke trails behind the player.
+    buffer.fillStyle = '#777';
+    for(var id in smoke){
+        buffer.fillRect(
+          x + smoke[id][0],
+          y - smoke[id][1],
+          10,
+          10
+        );
     }
 
     // Setup text display.
@@ -195,48 +189,41 @@ function logic(){
 
     player_y += player_speed;
 
-    var loop_counter = obstacles.length - 1;
-    if(loop_counter >= 0){
-        do{
-            // Delete obstacles that are past left side of screen.
-            if(obstacles[loop_counter][0] < -x - 70){
-                obstacles.splice(
-                  loop_counter,
-                  1
-                );
-                continue;
-            }
+    for(var obstacle in obstacles){
+        // Delete obstacles that are past left side of screen.
+        if(obstacles[obstacle][0] < -x - 70){
+            obstacles.splice(
+              obstacle,
+              1
+            );
+            continue;
+        }
 
-            // Move obstacles left at speed.
-            obstacles[loop_counter][0] -= settings['speed'];
+        // Move obstacles left at speed.
+        obstacles[obstacle][0] -= settings['speed'];
 
-            // Check for player collision with obstacle.
-            if(obstacles[loop_counter][0] <= -obstacles[loop_counter][2] * 2
-              || obstacles[loop_counter][0] >= obstacles[loop_counter][2]
-              || obstacles[loop_counter][1] <= -player_y - 25 - obstacles[loop_counter][3] * 2
-              || obstacles[loop_counter][1] >= -player_y + 25){
-                continue;
-            }
+        // Check for player collision with obstacle.
+        if(obstacles[obstacle][0] <= -obstacles[obstacle][2] * 2
+          || obstacles[obstacle][0] >= obstacles[obstacle][2]
+          || obstacles[obstacle][1] <= -player_y - 25 - obstacles[obstacle][3] * 2
+          || obstacles[obstacle][1] >= -player_y + 25){
+            continue;
+        }
 
-            game_running = false;
-            update_best();
-        }while(loop_counter--);
+        game_running = false;
+        update_best();
     }
 
-    loop_counter = smoke.length-1;
-    if(loop_counter >= 0){
-        // Delete smoke trails past left side of screen, else move left.
-        do{
-            if(smoke[loop_counter][0] < -x){
-                smoke.splice(
-                  loop_counter,
-                  1
-                );
+    // Delete smoke trails past left side of screen.
+    for(var id in smoke){
+        smoke[id][0] -= settings['speed'];
 
-            }else{
-                smoke[loop_counter][0] -= settings['speed'];
-            }
-        }while(loop_counter--);
+        if(smoke[id][0] < -x){
+            smoke.splice(
+              id,
+              1
+            );
+        }
     }
 }
 
