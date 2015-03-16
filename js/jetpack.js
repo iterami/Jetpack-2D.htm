@@ -77,7 +77,7 @@ function draw(){
     if(!game_running){
         if(!played_explosion_sound){
             if(settings['audio-volume'] > 0){
-                // Play explode sound here.
+                // play_audio('explosion');
             }
             played_explosion_sound = true;
         }
@@ -221,6 +221,15 @@ function logic(){
     }
 }
 
+function play_audio(id){
+    if(settings['audio-volume'] <= 0){
+        return;
+    }
+
+    document.getElementById(id).currentTime = 0;
+    document.getElementById(id).play();
+}
+
 function reset(){
     if(!confirm('Reset settings?')){
         return;
@@ -267,8 +276,8 @@ function resize(){
     x = width / 2;
 }
 
+// Save settings into window.localStorage if they differ from default.
 function save(){
-    // Save audio-volume setting.
     if(document.getElementById('audio-volume').value === 1){
         window.localStorage.removeItem('Jetpack.htm-audio-volume');
         settings['audio-volume'] = 1;
@@ -281,21 +290,15 @@ function save(){
         );
     }
 
-    loop_counter = 2;
-    do{
-        id = [
-          'color',
-          'jetpack-key',
-          'restart-key',
-        ][loop_counter];
-
-        if(document.getElementById(id).value === ['#009900', 'W', 'H',][loop_counter]){
+    var ids = {
+      'color': '#009900',
+      'jetpack-key': 'W',
+      'restart-key': 'H',
+    };
+    for(var id in ids){
+        if(document.getElementById(id).value == ids[id]){
             window.localStorage.removeItem('Jetpack.htm-' + id);
-            settings[id] = [
-              '#009900',
-              'W',
-              'H',
-            ][loop_counter];
+            settings[id] = ids[id];
 
         }else{
             settings[id] = document.getElementById(id).value;
@@ -304,14 +307,12 @@ function save(){
               settings[id]
             );
         }
-    }while(loop_counter--);
+    }
 
-    // Save gravity setting.
     if(document.getElementById('gravity').value == 1
       || isNaN(document.getElementById('gravity').value)
       || document.getElementById('gravity').value < 1){
         window.localStorage.removeItem('Jetpack.htm-gravity');
-        document.getElementById('gravity').value = 1;
         settings['gravity'] = 1;
 
     }else{
@@ -322,12 +323,10 @@ function save(){
         );
     }
 
-    // Save jetpack-power setting.
     if(document.getElementById('jetpack-power').value == 2
       || isNaN(document.getElementById('jetpack-power').value)
       || document.getElementById('jetpack-power').value < 1){
         window.localStorage.removeItem('Jetpack.htm-jetpack-power');
-        document.getElementById('jetpack-power').value = 2;
         settings['jetpack-power'] = 2;
 
     }else{
@@ -338,12 +337,10 @@ function save(){
         );
     }
 
-    // Save ms-per-frame setting.
     if(document.getElementById('ms-per-frame').value == 30
       || isNaN(document.getElementById('ms-per-frame').value)
       || document.getElementById('ms-per-frame').value < 1){
         window.localStorage.removeItem('Jetpack.htm-ms-per-frame');
-        document.getElementById('ms-per-frame').value = 30;
         settings['ms-per-frame'] = 30;
 
     }else{
@@ -354,12 +351,10 @@ function save(){
         );
     }
 
-    // Save obstacle-frequency setting.
     if(document.getElementById('obstacle-frequency').value == 23
       || isNaN(document.getElementById('obstacle-frequency').value)
       || document.getElementById('obstacle-frequency').value < 1){
         window.localStorage.removeItem('Jetpack.htm-obstacle-frequency');
-        document.getElementById('obstacle-frequency').value = 23;
         settings['obstacle-frequency'] = 23;
 
     }else{
@@ -370,12 +365,10 @@ function save(){
         );
     }
 
-    // Save obstacle-increase setting.
     if(document.getElementById('obstacle-increase').value == 115
       || isNaN(document.getElementById('obstacle-increase').value)
       || document.getElementById('obstacle-increase').value < 0){
         window.localStorage.removeItem('Jetpack.htm-obstacle-increase');
-        document.getElementById('obstacle-increase').value = 115;
         settings['obstacle-increase'] = 115;
 
     }else{
@@ -386,12 +379,10 @@ function save(){
         );
     }
 
-    // Save speed setting.
     if(document.getElementById('speed').value == 10
       || isNaN(document.getElementById('speed').value)
       || document.getElementById('speed').value < 0){
         window.localStorage.removeItem('Jetpack.htm-speed');
-        document.getElementById('speed').value = 10;
         settings['speed'] = 10;
 
     }else{
@@ -440,7 +431,7 @@ function setmode(newmode){
         buffer = 0;
         canvas = 0;
 
-        document.getElementById('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><b>Jetpack.htm</b></div><hr><div class=c><a onclick=setmode(1)>Cave Corridor</a></div><hr><div class=c>Best: '
+        document.getElementById('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><a onclick=setmode(1)>Cave Corridor</a></div><hr><div class=c>Best: '
           + best
           + '<br><a onclick=reset_best()>Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c>Jetpack:<ul><li><input disabled style=border:0 value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
           + settings['jetpack-key'] + '>Activate</ul><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
@@ -569,7 +560,8 @@ window.onkeyup = function(e){
     }
 };
 
-window.onmousedown = function(e){
+window.onmousedown
+  = window.ontouchstart = function(e){
     if(mode <= 0){
         return;
     }
@@ -578,20 +570,9 @@ window.onmousedown = function(e){
     key_jetpack = true;
 };
 
-window.onmouseup = function(e){
+window.onmouseup
+  = window.ontouchend = function(e){
     key_jetpack = false;
 };
 
 window.onresize = resize;
-
-window.ontouchend = function(e){
-    key_jetpack = false;
-};
-
-window.ontouchstart = function(e){
-    if(mode <= 0){
-        return;
-    }
-
-    key_jetpack = true;
-};
