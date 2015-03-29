@@ -231,7 +231,7 @@ function play_audio(id){
 }
 
 function reset(){
-    if(!confirm('Reset settings?')){
+    if(!window.confirm('Reset settings?')){
         return;
     }
 
@@ -250,7 +250,7 @@ function reset(){
 }
 
 function reset_best(){
-    if(!confirm('Reset best?')){
+    if(!window.confirm('Reset best?')){
         return;
     }
 
