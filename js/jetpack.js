@@ -481,36 +481,16 @@ var player_speed = 0;
 var player_y = 0;
 var frames_per_obstacle = 0;
 var settings = {
-  'audio-volume': window.localStorage.getItem('Jetpack.htm-audio-volume') === null
-    ? 1
-    : parseFloat(window.localStorage.getItem('Jetpack.htm-audio-volume')),
-  'color': window.localStorage.getItem('Jetpack.htm-color') === null
-    ? '#009900'
-    : window.localStorage.getItem('Jetpack.htm-color'),
-  'gravity': window.localStorage.getItem('Jetpack.htm-gravity') === null
-    ? 1
-    : parseFloat(window.localStorage.getItem('Jetpack.htm-gravity')),
-  'jetpack-key': window.localStorage.getItem('Jetpack.htm-jetpack-key') === null
-    ? 'W'
-    : window.localStorage.getItem('Jetpack.htm-jetpack-key'),
-  'jetpack-power': window.localStorage.getItem('Jetpack.htm-jetpack-power') === null
-    ? 2
-    : parseFloat(window.localStorage.getItem('Jetpack.htm-jetpack-power')),
-  'ms-per-frame': window.localStorage.getItem('Jetpack.htm-ms-per-frame') === null
-    ? 30
-    : parseInt(window.localStorage.getItem('Jetpack.htm-ms-per-frame')),
-  'obstacle-frequency': window.localStorage.getItem('Jetpack.htm-obstacle-frequency') === null
-    ? 23
-    : parseInt(window.localStorage.getItem('Jetpack.htm-obstacle-frequency')),
-  'obstacle-increase': window.localStorage.getItem('Jetpack.htm-obstacle-increase') === null
-    ? 115
-    : parseInt(window.localStorage.getItem('Jetpack.htm-obstacle-increase')),
-  'restart-key': window.localStorage.getItem('Jetpack.htm-restart-key') === null
-    ? 'H'
-    : window.localStorage.getItem('Jetpack.htm-restart-key'),
-  'speed': window.localStorage.getItem('Jetpack.htm-speed') === null
-    ? 10
-    : parseFloat(window.localStorage.getItem('Jetpack.htm-speed')),
+  'audio-volume': parseFloat(window.localStorage.getItem('Jetpack.htm-audio-volume')) || 1,
+  'color': window.localStorage.getItem('Jetpack.htm-color') || '#009900',
+  'gravity': parseFloat(window.localStorage.getItem('Jetpack.htm-gravity')) || 1,
+  'jetpack-key': window.localStorage.getItem('Jetpack.htm-jetpack-key') || 'W',
+  'jetpack-power': parseFloat(window.localStorage.getItem('Jetpack.htm-jetpack-power')) || 2,
+  'ms-per-frame': parseInt(window.localStorage.getItem('Jetpack.htm-ms-per-frame')) || 30,
+  'obstacle-frequency': parseInt(window.localStorage.getItem('Jetpack.htm-obstacle-frequency')) || 23,
+  'obstacle-increase': parseInt(window.localStorage.getItem('Jetpack.htm-obstacle-increase')) || 115,
+  'restart-key': window.localStorage.getItem('Jetpack.htm-restart-key') || 'H',
+  'speed': parseFloat(window.localStorage.getItem('Jetpack.htm-speed')) || 10,
 };
 var smoke = [];
 var width = 0;
