@@ -497,8 +497,6 @@ var width = 0;
 var x = 0;
 var y = 0;
 
-setmode(0);
-
 window.onkeydown = function(e){
     if(mode <= 0){
         return;
@@ -538,6 +536,10 @@ window.onkeyup = function(e){
     if(key === settings['jetpack-key']){
         key_jetpack = false;
     }
+};
+
+window.onload = function(e){
+    setmode(0);
 };
 
 window.onmousedown
