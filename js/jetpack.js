@@ -82,7 +82,7 @@ function draw(){
             played_explosion_sound = true;
         }
 
-        if(frames > best){
+        if(frame_counter > best){
             buffer.fillText(
               'NEW BEST SCORE!',
               5,
@@ -108,7 +108,7 @@ function draw(){
 
     // Top frame counter and best text displays.
     buffer.fillText(
-      frames,
+      frame_counter,
       5,
       0
     );
@@ -145,10 +145,10 @@ function logic(){
         return;
     }
 
-    frames += 1;
+    frame_counter += 1;
 
     // If new obstacle should be added this frame, add one.
-    if(frames % frames_per_obstacle === 0){
+    if(frame_counter % frames_per_obstacle === 0){
         var obstalce_width = Math.floor(Math.random() * 15) + 20;
         obstacles.splice(
           0,
@@ -165,7 +165,7 @@ function logic(){
     // If obstacle frequency increase should happen this frame, do it.
     if(settings['obstacle-frequency'] > 0
       && frames_per_obstacle > 1
-      && frames % settings['obstacle-increase'] === 0){
+      && frame_counter % settings['obstacle-increase'] === 0){
         // obstacle frequency increase
         frames_per_obstacle -= 1;
     }
@@ -255,7 +255,7 @@ function reset_best(){
     }
 
     best = 0;
-    frames = 0;
+    frame_counter = 0;
     update_best();
     setmode(0);
 }
@@ -406,7 +406,7 @@ function setmode(newmode){
     if(mode > 0){
         save();
 
-        frames = 0;
+        frame_counter = 0;
         frames_per_obstacle = settings['obstacle-frequency'];
         game_running = true;
         played_explosion_sound = false;
@@ -449,8 +449,8 @@ function setmode(newmode){
 }
 
 function update_best(){
-    if(frames > best){
-        best = frames;
+    if(frame_counter > best){
+        best = frame_counter;
     }
 
     if(best > 0){
@@ -470,7 +470,8 @@ var best = window.localStorage.getItem('Jetpack.htm-best') === null
   : parseInt(window.localStorage.getItem('Jetpack.htm-best'));
 var buffer = 0;
 var canvas = 0;
-var frames = 0;
+var frame_counter = 0;
+var frames_per_obstacle = 0;
 var game_running = false;
 var height = 0;
 var interval = 0;
@@ -480,7 +481,6 @@ var obstacles = [];
 var played_explosion_sound = false;
 var player_speed = 0;
 var player_y = 0;
-var frames_per_obstacle = 0;
 var settings = {
   'audio-volume': parseFloat(window.localStorage.getItem('Jetpack.htm-audio-volume')) || 1,
   'color': window.localStorage.getItem('Jetpack.htm-color') || '#009900',
@@ -520,7 +520,7 @@ window.onkeydown = function(e){
     }else if(key === settings['restart-key']){
         update_best();
 
-        frames = 0;
+        frame_counter = 0;
         frames_per_obstacle = settings['obstacle-frequency'];
         game_running = true;
         obstacles = [];
