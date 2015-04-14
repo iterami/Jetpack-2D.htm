@@ -70,7 +70,6 @@ function draw(){
     // Setup text display.
     buffer.font = '23pt sans-serif';
     buffer.textAlign = 'left';
-    buffer.textBaseline = 'top';
     buffer.fillStyle = '#fff';
 
     // If game is over, display game over messages.
@@ -86,23 +85,23 @@ function draw(){
             buffer.fillText(
               'NEW BEST SCORE!',
               5,
-              height - 125
+              height - 100
             );
         }
         buffer.fillText(
           'You crashed... ☹',
           5,
-          height - 95
+          height - 70
         );
         buffer.fillText(
           settings['restart-key'] + ' = Restart',
           5,
-          height - 65
+          height - 40
         );
         buffer.fillText(
           'ESC = Main Menu',
           5,
-          height - 35
+          height - 10
         );
     }
 
@@ -110,12 +109,12 @@ function draw(){
     buffer.fillText(
       frame_counter,
       5,
-      0
+      25
     );
     buffer.fillText(
       best,
       5,
-      32
+      50
     );
 
     canvas.clearRect(
