@@ -6,7 +6,7 @@ A canvas-based jetpack game. Properly time the usage of your jetpack to avoid co
 ---
 
 Action              | Key
---------------------|----
-Activate Jetpack    | W
+--------------------|-----------
+Activate Jetpack    | W or Click
 Restart             | H
 Return to Main Menu | ESC
