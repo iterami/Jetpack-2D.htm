@@ -314,88 +314,27 @@ function save(){
         }
     }
 
-    if(document.getElementById('gravity').value == 1
-      || isNaN(document.getElementById('gravity').value)
-      || document.getElementById('gravity').value < 1){
-        window.localStorage.removeItem('Jetpack.htm-gravity');
-        settings['gravity'] = 1;
+    ids = {
+      'gravity': 1,
+      'jetpack-power': 2,
+      'ms-per-frame': 30,
+      'obstacle-frequency': 23,
+      'obstacle-increase': 115,
+      'speed': 10,
+    };
+    for(id in ids){
+        if(document.getElementById(id).value == ids[id]
+          || isNaN(document.getElementById(id).value)){
+            window.localStorage.removeItem('Jetpack.htm-' + id);
+            settings[id] = ids[id];
 
-    }else{
-        settings['gravity'] = parseInt(document.getElementById('gravity').value);
-        window.localStorage.setItem(
-          'Jetpack.htm-gravity',
-          settings['gravity']
-        );
-    }
-
-    if(document.getElementById('jetpack-power').value == 2
-      || isNaN(document.getElementById('jetpack-power').value)
-      || document.getElementById('jetpack-power').value < 1){
-        window.localStorage.removeItem('Jetpack.htm-jetpack-power');
-        settings['jetpack-power'] = 2;
-
-    }else{
-        settings['jetpack-power'] = parseInt(document.getElementById('jetpack-power').value);
-        window.localStorage.setItem(
-          'Jetpack.htm-jetpack-power',
-          settings['jetpack-power']
-        );
-    }
-
-    if(document.getElementById('ms-per-frame').value == 30
-      || isNaN(document.getElementById('ms-per-frame').value)
-      || document.getElementById('ms-per-frame').value < 1){
-        window.localStorage.removeItem('Jetpack.htm-ms-per-frame');
-        settings['ms-per-frame'] = 30;
-
-    }else{
-        settings['ms-per-frame'] = parseInt(document.getElementById('ms-per-frame').value);
-        window.localStorage.setItem(
-          'Jetpack.htm-ms-per-frame',
-          settings['ms-per-frame']
-        );
-    }
-
-    if(document.getElementById('obstacle-frequency').value == 23
-      || isNaN(document.getElementById('obstacle-frequency').value)
-      || document.getElementById('obstacle-frequency').value < 1){
-        window.localStorage.removeItem('Jetpack.htm-obstacle-frequency');
-        settings['obstacle-frequency'] = 23;
-
-    }else{
-        settings['obstacle-frequency'] = parseInt(document.getElementById('obstacle-frequency').value);
-        window.localStorage.setItem(
-          'Jetpack.htm-obstacle-frequency',
-          settings['obstacle-frequency']
-        );
-    }
-
-    if(document.getElementById('obstacle-increase').value == 115
-      || isNaN(document.getElementById('obstacle-increase').value)
-      || document.getElementById('obstacle-increase').value < 0){
-        window.localStorage.removeItem('Jetpack.htm-obstacle-increase');
-        settings['obstacle-increase'] = 115;
-
-    }else{
-        settings['obstacle-increase'] = parseInt(document.getElementById('obstacle-increase').value);
-        window.localStorage.setItem(
-          'Jetpack.htm-obstacle-increase',
-          settings['obstacle-increase']
-        );
-    }
-
-    if(document.getElementById('speed').value == 10
-      || isNaN(document.getElementById('speed').value)
-      || document.getElementById('speed').value < 0){
-        window.localStorage.removeItem('Jetpack.htm-speed');
-        settings['speed'] = 10;
-
-    }else{
-        settings['speed'] = parseInt(document.getElementById('speed').value);
-        window.localStorage.setItem(
-          'Jetpack.htm-speed',
-          settings['speed']
-        );
+        }else{
+            settings[id] = parseInt(document.getElementById(id).value);
+            window.localStorage.setItem(
+              'Jetpack.htm-' + id,
+              settings[id]
+            );
+        }
     }
 }
 
@@ -438,7 +377,7 @@ function setmode(newmode){
     buffer = 0;
     canvas = 0;
 
-    document.getElementById('page').innerHTML='<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><a onclick=setmode(1)>Cave Corridor</a></div><hr><div class=c>Best: '
+    document.getElementById('page').innerHTML = '<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><a onclick=setmode(1)>Cave Corridor</a></div><hr><div class=c>Best: '
       + best
       + '<br><a onclick=reset_best()>Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c>Jetpack:<ul><li><input disabled style=border:0 value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
       + settings['jetpack-key'] + '>Activate</ul><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
