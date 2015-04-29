@@ -69,7 +69,6 @@ function draw(){
 
     // Setup text display.
     buffer.font = '23pt sans-serif';
-    buffer.textAlign = 'left';
     buffer.fillStyle = '#fff';
 
     // If game is over, display game over messages.
