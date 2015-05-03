@@ -283,13 +283,13 @@ function resize(){
 // Save settings into window.localStorage if they differ from default.
 function save(){
     if(document.getElementById('audio-volume').value == 1){
-        window.localStorage.removeItem('Jetpack.htm-audio-volume');
+        window.localStorage.removeItem('Jetpack-2D.htm-audio-volume');
         settings['audio-volume'] = 1;
 
     }else{
         settings['audio-volume'] = parseFloat(document.getElementById('audio-volume').value);
         window.localStorage.setItem(
-          'Jetpack.htm-audio-volume',
+          'Jetpack-2D.htm-audio-volume',
           settings['audio-volume']
         );
     }
@@ -301,13 +301,13 @@ function save(){
     };
     for(var id in ids){
         if(document.getElementById(id).value == ids[id]){
-            window.localStorage.removeItem('Jetpack.htm-' + id);
+            window.localStorage.removeItem('Jetpack-2D.htm-' + id);
             settings[id] = ids[id];
 
         }else{
             settings[id] = document.getElementById(id).value;
             window.localStorage.setItem(
-              'Jetpack.htm-' + id,
+              'Jetpack-2D.htm-' + id,
               settings[id]
             );
         }
@@ -324,13 +324,13 @@ function save(){
     for(id in ids){
         if(document.getElementById(id).value == ids[id]
           || isNaN(document.getElementById(id).value)){
-            window.localStorage.removeItem('Jetpack.htm-' + id);
+            window.localStorage.removeItem('Jetpack-2D.htm-' + id);
             settings[id] = ids[id];
 
         }else{
             settings[id] = parseInt(document.getElementById(id).value);
             window.localStorage.setItem(
-              'Jetpack.htm-' + id,
+              'Jetpack-2D.htm-' + id,
               settings[id]
             );
         }
@@ -398,19 +398,19 @@ function update_best(){
 
     if(best > 0){
         window.localStorage.setItem(
-          'Jetpack.htm-best',
+          'Jetpack-2D.htm-best',
           best
         );
 
     }else{
-        window.localStorage.removeItem('Jetpack.htm-best');
+        window.localStorage.removeItem('Jetpack-2D.htm-best');
     }
 }
 
 var animationFrame = 0;
-var best = window.localStorage.getItem('Jetpack.htm-best') === null
+var best = window.localStorage.getItem('Jetpack-2D.htm-best') === null
   ? 0
-  : parseInt(window.localStorage.getItem('Jetpack.htm-best'));
+  : parseInt(window.localStorage.getItem('Jetpack-2D.htm-best'));
 var buffer = 0;
 var canvas = 0;
 var frame_counter = 0;
@@ -425,16 +425,16 @@ var played_explosion_sound = false;
 var player_speed = 0;
 var player_y = 0;
 var settings = {
-  'audio-volume': parseFloat(window.localStorage.getItem('Jetpack.htm-audio-volume')) || 1,
-  'color': window.localStorage.getItem('Jetpack.htm-color') || '#009900',
-  'gravity': parseFloat(window.localStorage.getItem('Jetpack.htm-gravity')) || 1,
-  'jetpack-key': window.localStorage.getItem('Jetpack.htm-jetpack-key') || 'W',
-  'jetpack-power': parseFloat(window.localStorage.getItem('Jetpack.htm-jetpack-power')) || 2,
-  'ms-per-frame': parseInt(window.localStorage.getItem('Jetpack.htm-ms-per-frame')) || 30,
-  'obstacle-frequency': parseInt(window.localStorage.getItem('Jetpack.htm-obstacle-frequency')) || 23,
-  'obstacle-increase': parseInt(window.localStorage.getItem('Jetpack.htm-obstacle-increase')) || 115,
-  'restart-key': window.localStorage.getItem('Jetpack.htm-restart-key') || 'H',
-  'speed': parseFloat(window.localStorage.getItem('Jetpack.htm-speed')) || 10,
+  'audio-volume': parseFloat(window.localStorage.getItem('Jetpack-2D.htm-audio-volume')) || 1,
+  'color': window.localStorage.getItem('Jetpack-2D.htm-color') || '#009900',
+  'gravity': parseFloat(window.localStorage.getItem('Jetpack-2D.htm-gravity')) || 1,
+  'jetpack-key': window.localStorage.getItem('Jetpack-2D.htm-jetpack-key') || 'W',
+  'jetpack-power': parseFloat(window.localStorage.getItem('Jetpack-2D.htm-jetpack-power')) || 2,
+  'ms-per-frame': parseInt(window.localStorage.getItem('Jetpack-2D.htm-ms-per-frame')) || 30,
+  'obstacle-frequency': parseInt(window.localStorage.getItem('Jetpack-2D.htm-obstacle-frequency')) || 23,
+  'obstacle-increase': parseInt(window.localStorage.getItem('Jetpack-2D.htm-obstacle-increase')) || 115,
+  'restart-key': window.localStorage.getItem('Jetpack-2D.htm-restart-key') || 'H',
+  'speed': parseFloat(window.localStorage.getItem('Jetpack-2D.htm-speed')) || 10,
 };
 var smoke = [];
 var width = 0;
