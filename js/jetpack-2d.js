@@ -408,9 +408,7 @@ function update_best(){
 }
 
 var animationFrame = 0;
-var best = window.localStorage.getItem('Jetpack-2D.htm-best') === null
-  ? 0
-  : parseInt(window.localStorage.getItem('Jetpack-2D.htm-best'));
+var best = parseInt(window.localStorage.getItem('Jetpack-2D.htm-best')) || 0;
 var buffer = 0;
 var canvas = 0;
 var frame_counter = 0;
