@@ -13,6 +13,9 @@ body{
     font-size: 125%;
     text-align: center;
 }
+#buffer{
+    display: none;
+}
 .c{
     padding: 4px
 }
