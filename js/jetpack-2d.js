@@ -21,7 +21,7 @@ function draw(){
     buffer.fillStyle = settings['color'];
     buffer.fillRect(
       x,
-      y - player_y - 25,
+      y - player['y'] - 25,
       25,
       50
     );
@@ -30,7 +30,7 @@ function draw(){
     buffer.fillStyle = '#aaa';
     buffer.fillRect(
       x - 25,
-      y - player_y - 15,
+      y - player['y'] - 15,
       25,
       20
     );
@@ -41,7 +41,7 @@ function draw(){
         buffer.fillStyle = '#f00';
         buffer.fillRect(
           x - 22,
-          y - player_y + 5,
+          y - player['y'] + 5,
           18,
           10
         );
@@ -135,8 +135,8 @@ function draw(){
 
 function logic(){
     // Check if player is outside of game boundaries.
-    if(player_y + 25 > settings['corridor-height'] / 2
-      || player_y - 25 < -settings['corridor-height'] / 2){
+    if(player['y'] + 25 > settings['corridor-height'] / 2
+      || player['y'] - 25 < -settings['corridor-height'] / 2){
         game_running = false;
         update_best();
     }
@@ -173,22 +173,22 @@ function logic(){
 
     // If the player has activated jetpack, increase y speed and add smoke...
     if(key_jetpack){
-        player_speed += settings['jetpack-power'];
+        player['speed'] += settings['jetpack-power'];
         smoke.splice(
           0,
           0,
           [
             -20,
-            player_y - 10,
+            player['y'] - 10,
           ]
         );
 
     // ...else apply gravity.
     }else{
-        player_speed -= settings['gravity'];
+        player['speed'] -= settings['gravity'];
     }
 
-    player_y += player_speed;
+    player['y'] += player['speed'];
 
     for(var obstacle in obstacles){
         // Delete obstacles that are past left side of screen.
@@ -206,8 +206,8 @@ function logic(){
         // Check for player collision with obstacle.
         if(obstacles[obstacle][0] <= -obstacles[obstacle][2] * 2
           || obstacles[obstacle][0] >= obstacles[obstacle][2]
-          || obstacles[obstacle][1] <= -player_y - 25 - obstacles[obstacle][3] * 2
-          || obstacles[obstacle][1] >= -player_y + 25){
+          || obstacles[obstacle][1] <= -player['y'] - 25 - obstacles[obstacle][3] * 2
+          || obstacles[obstacle][1] >= -player['y'] + 25){
             continue;
         }
 
@@ -265,7 +265,10 @@ function reset_best(){
     best = 0;
     frame_counter = 0;
     update_best();
-    setmode(0);
+    setmode(
+      0,
+      true
+    );
 }
 
 function resize(){
@@ -342,7 +345,7 @@ function save(){
     }
 }
 
-function setmode(newmode){
+function setmode(newmode, newgame){
     window.cancelAnimationFrame(animationFrame);
     window.clearInterval(interval);
 
@@ -352,21 +355,27 @@ function setmode(newmode){
 
     // Play game mode.
     if(mode > 0){
-        save();
+        if(newgame){
+            save();
+        }
 
         frame_counter = 0;
         frames_per_obstacle = settings['obstacle-frequency'];
         game_running = true;
         played_explosion_sound = false;
-        player_speed = 0;
-        player_y = 0;
+        player = {
+          'speed': 0,
+          'y': 0,
+        };
 
-        document.getElementById('page').innerHTML = '<canvas id=canvas></canvas><canvas id=buffer></canvas>';
+        if(newgame){
+            document.getElementById('page').innerHTML = '<canvas id=canvas></canvas><canvas id=buffer></canvas>';
 
-        buffer = document.getElementById('buffer').getContext('2d');
-        canvas = document.getElementById('canvas').getContext('2d');
+            buffer = document.getElementById('buffer').getContext('2d');
+            canvas = document.getElementById('canvas').getContext('2d');
 
-        resize();
+            resize();
+        }
 
         animationFrame = window.requestAnimationFrame(draw);
         interval = window.setInterval(
@@ -381,7 +390,7 @@ function setmode(newmode){
     buffer = 0;
     canvas = 0;
 
-    document.getElementById('page').innerHTML = '<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><a onclick=setmode(1)>Cave Corridor</a></div><hr><div class=c>Best: '
+    document.getElementById('page').innerHTML = '<div style=display:inline-block;text-align:left;vertical-align:top><div class=c><a onclick="setmode(1, true)">Cave Corridor</a></div><hr><div class=c>Best: '
       + best
       + '<br><a onclick=reset_best()>Reset Best</a></div></div><div style="border-left:8px solid #222;display:inline-block;text-align:left"><div class=c>Jetpack:<ul><li><input disabled style=border:0 value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
       + settings['jetpack-key'] + '>Activate</ul><input disabled style=border:0 value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
@@ -426,8 +435,7 @@ var key_jetpack = false;
 var mode = 0;
 var obstacles = [];
 var played_explosion_sound = false;
-var player_speed = 0;
-var player_y = 0;
+var player = {};
 var settings = {
   'audio-volume': window.localStorage.getItem('Jetpack-2D.htm-audio-volume') != null
     ? parseFloat(window.localStorage.getItem('Jetpack-2D.htm-audio-volume'))
@@ -462,7 +470,10 @@ window.onkeydown = function(e){
     // ESC: update best and return to main menu.
     if(key === 27){
         update_best();
-        setmode(0);
+        setmode(
+          0,
+          true
+        );
         return;
     }
         
@@ -473,15 +484,10 @@ window.onkeydown = function(e){
 
     }else if(key === settings['restart-key']){
         update_best();
-
-        frame_counter = 0;
-        frames_per_obstacle = settings['obstacle-frequency'];
-        game_running = true;
-        obstacles = [];
-        played_explosion_sound = false;
-        player_speed = 0;
-        player_y = 0;
-        smoke = [];
+        setmode(
+          1,
+          false
+        );
     }
 };
 
@@ -494,7 +500,10 @@ window.onkeyup = function(e){
 };
 
 window.onload = function(e){
-    setmode(0);
+    setmode(
+      0,
+      true
+    );
 };
 
 window.onmousedown
