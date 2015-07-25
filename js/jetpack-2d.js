@@ -307,7 +307,7 @@ function save(){
       'restart-key': 'H',
     };
     for(var id in ids){
-        if(document.getElementById(id).value == ids[id]){
+        if(document.getElementById(id).value === ids[id]){
             window.localStorage.removeItem('Jetpack-2D.htm-' + id);
             settings[id] = ids[id];
 
