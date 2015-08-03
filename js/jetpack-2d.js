@@ -51,10 +51,10 @@ function draw(){
     buffer.fillStyle = '#555';
     for(var obstacle in obstacles){
         buffer.fillRect(
-          x + obstacles[obstacle][0],
-          y + obstacles[obstacle][1],
-          obstacles[obstacle][2] * 2,
-          obstacles[obstacle][3] * 2
+          obstacles[obstacle]['x'] + x,
+          obstacles[obstacle]['y'] + y,
+          obstacles[obstacle]['width'] * 2,
+          obstacles[obstacle]['height'] * 2
         );
     }
 
@@ -149,18 +149,14 @@ function logic(){
 
     // If new obstacle should be added this frame, add one.
     if(frame_counter % frames_per_obstacle === 0){
-        var obstalce_width = Math.floor(Math.random() * 15) + 20;
-        obstacles.splice(
-          0,
-          0,
-          [
-            x + obstalce_width,
-            Math.floor(Math.random() * settings['corridor-height'])
-              - settings['corridor-height'] / 2,
-            obstalce_width,
-            Math.floor(Math.random() * 15) + 20,
-          ]
-        );
+        var obstacle_width = Math.floor(Math.random() * 15) + 20;
+        obstacles.push({
+          'height': Math.floor(Math.random() * 15) + 20,
+          'width': obstacle_width,
+          'x': x + obstacle_width,
+          'y': Math.floor(Math.random() * settings['corridor-height'])
+            - settings['corridor-height'] / 2,
+        });
     }
 
     // If obstacle frequency increase should happen this frame, do it.
@@ -192,7 +188,7 @@ function logic(){
 
     for(var obstacle in obstacles){
         // Delete obstacles that are past left side of screen.
-        if(obstacles[obstacle][0] < -x - 70){
+        if(obstacles[obstacle]['x'] < -x - 70){
             obstacles.splice(
               obstacle,
               1
@@ -201,13 +197,13 @@ function logic(){
         }
 
         // Move obstacles left at speed.
-        obstacles[obstacle][0] -= settings['speed'];
+        obstacles[obstacle]['x'] -= settings['speed'];
 
         // Check for player collision with obstacle.
-        if(obstacles[obstacle][0] <= -obstacles[obstacle][2] * 2
-          || obstacles[obstacle][0] >= obstacles[obstacle][2]
-          || obstacles[obstacle][1] <= -player['y'] - 25 - obstacles[obstacle][3] * 2
-          || obstacles[obstacle][1] >= -player['y'] + 25){
+        if(obstacles[obstacle]['x'] <= -obstacles[obstacle]['width'] * 2
+          || obstacles[obstacle]['x'] >= obstacles[obstacle]['width']
+          || obstacles[obstacle]['y'] <= -player['y'] - 25 - obstacles[obstacle]['height'] * 2
+          || obstacles[obstacle]['y'] >= -player['y'] + 25){
             continue;
         }
 
