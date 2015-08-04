@@ -62,8 +62,8 @@ function draw(){
     buffer.fillStyle = '#777';
     for(var id in smoke){
         buffer.fillRect(
-          x + smoke[id][0],
-          y - smoke[id][1],
+          x + smoke[id]['x'],
+          y - smoke[id]['y'],
           10,
           10
         );
@@ -170,14 +170,10 @@ function logic(){
     // If the player has activated jetpack, increase y speed and add smoke...
     if(key_jetpack){
         player['speed'] += settings['jetpack-power'];
-        smoke.splice(
-          0,
-          0,
-          [
-            -20,
-            player['y'] - 10,
-          ]
-        );
+        smoke.push({
+          'x': -20,
+          'y': player['y'] - 10,
+        });
 
     // ...else apply gravity.
     }else{
@@ -213,9 +209,9 @@ function logic(){
 
     // Delete smoke trails past left side of screen.
     for(var id in smoke){
-        smoke[id][0] -= settings['speed'];
+        smoke[id]['x'] -= settings['speed'];
 
-        if(smoke[id][0] < -x){
+        if(smoke[id]['x'] < -x){
             smoke.splice(
               id,
               1
