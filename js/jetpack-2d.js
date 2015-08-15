@@ -363,7 +363,9 @@ function setmode(newmode, newgame){
         if(newgame){
             document.getElementById('page').innerHTML = '<canvas id=canvas></canvas><canvas id=buffer></canvas>';
 
-            buffer = document.getElementById('buffer').getContext('2d');
+            buffer = document.getElementById('buffer').getContext('2d', {
+              'alpha': false,
+            });
             canvas = document.getElementById('canvas').getContext('2d');
 
             resize();
