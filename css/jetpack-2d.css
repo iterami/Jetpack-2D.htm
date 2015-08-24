@@ -16,9 +16,6 @@ body{
 #buffer{
     display: none;
 }
-.c{
-    padding: 4px
-}
 canvas{
     background: #555;
     cursor: pointer;
@@ -43,6 +40,9 @@ input[disabled]{
 input[type=color],
 input[type=range]{
     cursor: pointer;
+}
+#page > div > div{
+    padding: 4px;
 }
 ul{
     margin: 0;
