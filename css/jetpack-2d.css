@@ -37,6 +37,9 @@ input{
     text-align: center;
     width: 75px;
 }
+input[disabled]{
+    border: 0;
+}
 input[type=color],
 input[type=range]{
     cursor: pointer;
