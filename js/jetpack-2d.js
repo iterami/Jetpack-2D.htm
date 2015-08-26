@@ -361,7 +361,7 @@ function setmode(newmode, newgame){
         };
 
         if(newgame){
-            document.getElementById('page').innerHTML =
+            document.body.innerHTML =
               '<canvas id=canvas></canvas><canvas id=buffer></canvas>';
 
             buffer = document.getElementById('buffer').getContext('2d', {
@@ -385,7 +385,7 @@ function setmode(newmode, newgame){
     buffer = 0;
     canvas = 0;
 
-    document.getElementById('page').innerHTML = '<div><div><a onclick="setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
+    document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
       + best
       + '<br><a onclick=reset_best()>Reset Best</a></div></div><div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
       + settings['jetpack-key'] + '>Activate</ul><input disabled value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='

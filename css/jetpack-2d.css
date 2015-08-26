@@ -13,6 +13,14 @@ body{
     font-size: 125%;
     text-align: center;
 }
+body > div{
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+}
+body > div > div{
+    padding: 4px;
+}
 #buffer{
     display: none;
 }
@@ -40,14 +48,6 @@ input[disabled]{
 input[type=color],
 input[type=range]{
     cursor: pointer;
-}
-#page > div{
-    display: inline-block;
-    text-align: left;
-    vertical-align: top;
-}
-#page > div > div{
-    padding: 4px;
 }
 .right{
     border-left: 8px solid #222;
