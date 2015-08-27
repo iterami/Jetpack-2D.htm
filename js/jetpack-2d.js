@@ -70,7 +70,6 @@ function draw(){
     }
 
     // Setup text display.
-    buffer.font = '23pt sans-serif';
     buffer.fillStyle = '#fff';
 
     // If game is over, display game over messages.
@@ -277,6 +276,8 @@ function resize(){
     document.getElementById('buffer').width = width;
     document.getElementById('canvas').width = width;
     x = width / 2;
+
+    buffer.font = '23pt sans-serif';
 }
 
 // Save settings into window.localStorage if they differ from default.
