@@ -141,14 +141,15 @@ function draw(){
 }
 
 function logic(){
+    if(!game_running){
+        return;
+    }
+
     // Check if player is outside of game boundaries.
     if(player['y'] + 25 > settings['corridor-height'] / 2
       || player['y'] - 25 < -settings['corridor-height'] / 2){
         game_running = false;
         update_best();
-    }
-
-    if(!game_running){
         return;
     }
 
