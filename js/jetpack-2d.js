@@ -8,11 +8,17 @@ function draw(){
       height
     );
 
+    buffer.save();
+    buffer.translate(
+      x,
+      y
+    );
+
     // Draw corridor over grey background.
     buffer.fillStyle = '#000';
     buffer.fillRect(
-      0,
-      y - settings['corridor-height'] / 2,
+      -x,
+      -settings['corridor-height'] / 2,
       width,
       settings['corridor-height']
     );
@@ -20,8 +26,8 @@ function draw(){
     // Draw player body.
     buffer.fillStyle = settings['color'];
     buffer.fillRect(
-      x,
-      y - player['y'] - 25,
+      0,
+      -player['y'] - 25,
       25,
       50
     );
@@ -29,8 +35,8 @@ function draw(){
     // Draw jetpack.
     buffer.fillStyle = '#aaa';
     buffer.fillRect(
-      x - 25,
-      y - player['y'] - 15,
+      -25,
+      -player['y'] - 15,
       25,
       20
     );
@@ -40,8 +46,8 @@ function draw(){
       && key_jetpack){
         buffer.fillStyle = '#f00';
         buffer.fillRect(
-          x - 22,
-          y - player['y'] + 5,
+          -22,
+          -player['y'] + 5,
           18,
           10
         );
@@ -51,8 +57,8 @@ function draw(){
     buffer.fillStyle = '#555';
     for(var obstacle in obstacles){
         buffer.fillRect(
-          obstacles[obstacle]['x'] + x,
-          obstacles[obstacle]['y'] + y,
+          obstacles[obstacle]['x'],
+          obstacles[obstacle]['y'],
           obstacles[obstacle]['width'] * 2,
           obstacles[obstacle]['height'] * 2
         );
@@ -62,12 +68,14 @@ function draw(){
     buffer.fillStyle = '#777';
     for(var id in smoke){
         buffer.fillRect(
-          x + smoke[id]['x'],
-          y - smoke[id]['y'],
+          smoke[id]['x'],
+          -smoke[id]['y'],
           10,
           10
         );
     }
+
+    buffer.restore();
 
     // Setup text display.
     buffer.fillStyle = '#fff';
