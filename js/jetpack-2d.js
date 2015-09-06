@@ -442,16 +442,16 @@ var obstacles = [];
 var played_explosion_sound = false;
 var player = {};
 var settings = {
-  'audio-volume': window.localStorage.getItem('Jetpack-2D.htm-audio-volume') != null
+  'audio-volume': window.localStorage.getItem('Jetpack-2D.htm-audio-volume') !== null
     ? parseFloat(window.localStorage.getItem('Jetpack-2D.htm-audio-volume'))
     : 1,
   'color': window.localStorage.getItem('Jetpack-2D.htm-color') || '#009900',
   'corridor-height': window.localStorage.getItem('Jetpack-2D.htm-corridor-height') || 500,
-  'gravity': window.localStorage.getItem('Jetpack-2D.htm-gravity') != null
+  'gravity': window.localStorage.getItem('Jetpack-2D.htm-gravity') !== null
     ? parseFloat(window.localStorage.getItem('Jetpack-2D.htm-gravity'))
     : 1,
   'jetpack-key': window.localStorage.getItem('Jetpack-2D.htm-jetpack-key') || 'W',
-  'jetpack-power': window.localStorage.getItem('Jetpack-2D.htm-jetpack-power') != null
+  'jetpack-power': window.localStorage.getItem('Jetpack-2D.htm-jetpack-power') !== null
     ? parseFloat(window.localStorage.getItem('Jetpack-2D.htm-jetpack-power'))
     : 2,
   'ms-per-frame': parseInt(window.localStorage.getItem('Jetpack-2D.htm-ms-per-frame')) || 30,
