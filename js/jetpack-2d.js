@@ -53,14 +53,21 @@ function draw(){
         );
     }
 
+    buffer.font = '18pt sans-serif';
     // Draw obstacles.
-    buffer.fillStyle = '#555';
     for(var obstacle in obstacles){
+        buffer.fillStyle = '#555';
         buffer.fillRect(
           obstacles[obstacle]['x'],
           obstacles[obstacle]['y'],
           obstacles[obstacle]['width'] * 2,
           obstacles[obstacle]['height'] * 2
+        );
+        buffer.fillStyle = '#fff';
+        buffer.fillText(
+          obstacles[obstacle]['counter'],
+          obstacles[obstacle]['x'],
+          obstacles[obstacle]['y']
         );
     }
 
@@ -79,6 +86,7 @@ function draw(){
 
     // Setup text display.
     buffer.fillStyle = '#fff';
+    buffer.font = '23pt sans-serif';
 
     // If game is over, display game over messages.
     if(!game_running){
@@ -159,12 +167,14 @@ function logic(){
     if(frame_counter % frames_per_obstacle === 0){
         var obstacle_width = Math.floor(Math.random() * 15) + 20;
         obstacles.push({
+          'counter': obstacle_counter,
           'height': Math.floor(Math.random() * 15) + 20,
           'width': obstacle_width,
           'x': x + obstacle_width,
           'y': Math.floor(Math.random() * settings['corridor-height'])
             - settings['corridor-height'] / 2,
         });
+        obstacle_counter += 1;
     }
 
     // If obstacle frequency increase should happen this frame, do it.
@@ -285,8 +295,6 @@ function resize(){
     document.getElementById('buffer').width = width;
     document.getElementById('canvas').width = width;
     x = width / 2;
-
-    buffer.font = '23pt sans-serif';
 }
 
 // Save settings into window.localStorage if they differ from default.
@@ -351,6 +359,7 @@ function setmode(newmode, newgame){
     window.cancelAnimationFrame(animationFrame);
     window.clearInterval(interval);
 
+    obstacle_counter = 0;
     obstacles = [];
     smoke = [];
     mode = newmode;
@@ -438,6 +447,7 @@ var height = 0;
 var interval = 0;
 var key_jetpack = false;
 var mode = 0;
+var obstacle_counter = 0;
 var obstacles = [];
 var played_explosion_sound = false;
 var player = {};
