@@ -406,7 +406,7 @@ function setmode(newmode, newgame){
       + best
       + '<br><a onclick=reset_best()>Reset Best</a></div></div><div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
       + settings['jetpack-key'] + '>Activate</ul><input disabled value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
-      + settings['restart-key'] + '>Restart</div><hr><div><input id=audio-volume max=1 min=0 step=.01 type=range value='
+      + settings['restart-key'] + '>Restart</div><hr><div><input id=audio-volume max=1 min=0 step=".01" type=range value='
       + settings['audio-volume'] + '>Audio<br><input id=color type=color value='
       + settings['color'] + '>Color<br><input id=corridor-height value='
       + settings['corridor-height'] + '>Corridor Height<br><input id=gravity value='
