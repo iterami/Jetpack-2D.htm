@@ -299,12 +299,13 @@ function resize(){
 
 // Save settings into window.localStorage if they differ from default.
 function save(){
-    if(document.getElementById('audio-volume').value == 1){
+    var audio_volume = document.getElementById('audio-volume').value;
+    if(audio_volume == 1){
         window.localStorage.removeItem('Jetpack-2D.htm-audio-volume');
         settings['audio-volume'] = 1;
 
     }else{
-        settings['audio-volume'] = parseFloat(document.getElementById('audio-volume').value);
+        settings['audio-volume'] = parseFloat(audio_volume);
         window.localStorage.setItem(
           'Jetpack-2D.htm-audio-volume',
           settings['audio-volume']
@@ -317,12 +318,13 @@ function save(){
       'restart-key': 'H',
     };
     for(var id in ids){
-        if(document.getElementById(id).value === ids[id]){
+        var value = document.getElementById(id).value;
+        if(value === ids[id]){
             window.localStorage.removeItem('Jetpack-2D.htm-' + id);
             settings[id] = ids[id];
 
         }else{
-            settings[id] = document.getElementById(id).value;
+            settings[id] = value;
             window.localStorage.setItem(
               'Jetpack-2D.htm-' + id,
               settings[id]
@@ -340,13 +342,14 @@ function save(){
       'speed': 10,
     };
     for(id in ids){
-        if(document.getElementById(id).value == ids[id]
-          || isNaN(document.getElementById(id).value)){
+        value = document.getElementById(id).value;
+        if(value == ids[id]
+          || isNaN(value)){
             window.localStorage.removeItem('Jetpack-2D.htm-' + id);
             settings[id] = ids[id];
 
         }else{
-            settings[id] = parseInt(document.getElementById(id).value);
+            settings[id] = parseInt(value);
             window.localStorage.setItem(
               'Jetpack-2D.htm-' + id,
               settings[id]
