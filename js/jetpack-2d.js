@@ -252,17 +252,22 @@ function reset(){
         return;
     }
 
-    document.getElementById('audio-volume').value = 1;
-    document.getElementById('color').value = '#009900';
-    document.getElementById('corridor-height').value = 500;
-    document.getElementById('gravity').value = 1;
-    document.getElementById('jetpack-key').value = 'W';
-    document.getElementById('jetpack-power').value = 2;
-    document.getElementById('ms-per-frame').value = 30;
-    document.getElementById('obstacle-frequency').value = 23;
-    document.getElementById('obstacle-increase').value = 115;
-    document.getElementById('restart-key').value = 'H';
-    document.getElementById('speed').value = 10;
+    var ids = {
+      'audio-volume': 1,
+      'color': '#009900',
+      'corridor-height': 500,
+      'gravity': 1,
+      'jetpack-key': 'W',
+      'jetpack-power': 2,
+      'ms-per-frame': 30,
+      'obstacle-frequency': 23,
+      'obstacle-increase': 115,
+      'restart-key': 'H',
+      'speed': 10,
+    };
+    for(var id in ids){
+        document.getElementById(id).value = ids[id];
+    }
 
     save();
 }
