@@ -324,12 +324,12 @@ function save(){
     };
     for(var id in ids){
         var value = document.getElementById(id).value;
+        settings[id] = value;
+
         if(value === ids[id]){
             window.localStorage.removeItem('Jetpack-2D.htm-' + id);
-            settings[id] = ids[id];
 
         }else{
-            settings[id] = value;
             window.localStorage.setItem(
               'Jetpack-2D.htm-' + id,
               settings[id]
@@ -348,13 +348,13 @@ function save(){
     };
     for(id in ids){
         value = document.getElementById(id).value;
+        settings[id] = parseInt(value);
+
         if(value == ids[id]
           || isNaN(value)){
             window.localStorage.removeItem('Jetpack-2D.htm-' + id);
-            settings[id] = ids[id];
 
         }else{
-            settings[id] = parseInt(value);
             window.localStorage.setItem(
               'Jetpack-2D.htm-' + id,
               settings[id]
