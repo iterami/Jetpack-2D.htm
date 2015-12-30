@@ -304,9 +304,8 @@ function resize(){
 
 // Save settings into window.localStorage if they differ from default.
 function save(){
-    var audio_volume = document.getElementById('audio-volume').value;
-    settings['audio-volume'] = parseFloat(audio_volume);
-    if(audio_volume == 1){
+    settings['audio-volume'] = parseFloat(document.getElementById('audio-volume').value);
+    if(settings['audio-volume'] === 1){
         window.localStorage.removeItem('Jetpack-2D.htm-audio-volume');
 
     }else{
