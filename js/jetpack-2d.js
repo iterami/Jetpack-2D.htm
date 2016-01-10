@@ -18,7 +18,7 @@ function draw(){
     buffer.fillStyle = '#000';
     buffer.fillRect(
       -x,
-      -settings['corridor-height'] / 2,
+      -half_corridor_height,
       width,
       settings['corridor-height']
     );
@@ -154,8 +154,8 @@ function logic(){
     }
 
     // Check if player is outside of game boundaries.
-    if(player['y'] + 25 > settings['corridor-height'] / 2
-      || player['y'] - 25 < -settings['corridor-height'] / 2){
+    if(player['y'] + 25 > half_corridor_height
+      || player['y'] - 25 < -half_corridor_height){
         game_running = false;
         update_best();
         return;
@@ -172,7 +172,7 @@ function logic(){
           'width': obstacle_width,
           'x': x + obstacle_width,
           'y': Math.floor(Math.random() * settings['corridor-height'])
-            - settings['corridor-height'] / 2,
+            - half_corridor_height,
         });
         obstacle_counter += 1;
     }
@@ -363,10 +363,10 @@ function setmode(newmode, newgame){
     window.cancelAnimationFrame(animationFrame);
     window.clearInterval(interval);
 
+    mode = newmode;
     obstacle_counter = 0;
     obstacles = [];
     smoke = [];
-    mode = newmode;
 
     // Play game mode.
     if(mode > 0){
@@ -377,6 +377,7 @@ function setmode(newmode, newgame){
         frame_counter = 0;
         frames_per_obstacle = settings['obstacle-frequency'];
         game_running = true;
+        half_corridor_height = settings['corridor-height'] / 2;
         played_explosion_sound = false;
         player = {
           'speed': 0,
@@ -445,6 +446,7 @@ var canvas = 0;
 var frame_counter = 0;
 var frames_per_obstacle = 0;
 var game_running = false;
+var half_corridor_height = 0;
 var height = 0;
 var interval = 0;
 var key_jetpack = false;
