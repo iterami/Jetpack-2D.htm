@@ -121,17 +121,20 @@ function draw(){
         );
     }
 
-    // Top frame counter and best text displays.
-    buffer.fillText(
-      frame_counter,
-      5,
-      25
-    );
-    buffer.fillText(
-      best,
-      5,
-      50
-    );
+    // If frame counter is enabled, draw current frame count.
+    if(settings['frame-counter']){
+        // Top frame counter and best text displays.
+        buffer.fillText(
+          frame_counter,
+          5,
+          25
+        );
+        buffer.fillText(
+          best,
+          5,
+          50
+        );
+    }
 
     canvas.clearRect(
       0,
@@ -268,6 +271,7 @@ function reset(){
     for(var id in ids){
         document.getElementById(id).value = ids[id];
     }
+    document.getElementById('frame-counter').checked = true;
 
     save();
 }
@@ -357,6 +361,17 @@ function save(){
             );
         }
     }
+
+    settings['frame-counter'] = document.getElementById('frame-counter').checked;
+    if(settings['frame-counter']){
+        window.localStorage.removeItem('Jetpack-2D.htm-frame-counter');
+
+    }else{
+        window.localStorage.setItem(
+          'Jetpack-2D.htm-frame-counter',
+          1
+        );
+    }
 }
 
 function setmode(newmode, newgame){
@@ -414,7 +429,8 @@ function setmode(newmode, newgame){
       + settings['restart-key'] + '>Restart</div><hr><div><input id=audio-volume max=1 min=0 step=0.01 type=range value='
       + settings['audio-volume'] + '>Audio<br><input id=color type=color value='
       + settings['color'] + '>Color<br><input id=corridor-height value='
-      + settings['corridor-height'] + '>Corridor Height<br><input id=gravity value='
+      + settings['corridor-height'] + '>Corridor Height<br><input '
+      + (settings['frame-counter'] ? 'checked ' : '') + 'id=frame-counter type=checkbox>Frame Counter<br><input id=gravity value='
       + settings['gravity'] + '>Gravity<br>Jetpack:<ul><li><input id=jetpack-power value='
       + settings['jetpack-power'] + '>Power<li><input id=speed value='
       + settings['speed'] + '>Speed</ul><input id=ms-per-frame value='
@@ -424,6 +440,10 @@ function setmode(newmode, newgame){
 }
 
 function update_best(){
+    if(!settings['frame-counter']){
+        return;
+    }
+
     if(frame_counter > best){
         best = frame_counter;
     }
@@ -461,6 +481,7 @@ var settings = {
     : 1,
   'color': window.localStorage.getItem('Jetpack-2D.htm-color') || '#009900',
   'corridor-height': window.localStorage.getItem('Jetpack-2D.htm-corridor-height') || 500,
+  'frame-counter': window.localStorage.getItem('Jetpack-2D.htm-frame-counter') === null,
   'gravity': window.localStorage.getItem('Jetpack-2D.htm-gravity') !== null
     ? parseFloat(window.localStorage.getItem('Jetpack-2D.htm-gravity'))
     : 1,
@@ -495,7 +516,7 @@ window.onkeydown = function(e){
         );
         return;
     }
-        
+
     key = String.fromCharCode(key);
 
     if(key === settings['jetpack-key']){
