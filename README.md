@@ -10,3 +10,8 @@ Action              | Key
 Activate Jetpack    | W or Mouse Click
 Restart             | H
 Return to Main Menu | ESC
+
+---
+
+Requires:
+* [iterami/common](https://github.com/iterami/common)

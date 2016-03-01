@@ -14,8 +14,8 @@ function draw(){
       y
     );
 
-    // Draw corridor over grey background.
-    buffer.fillStyle = '#000';
+    // Draw corridor over background.
+    buffer.fillStyle = '#333';
     buffer.fillRect(
       -x,
       -half_corridor_height,
