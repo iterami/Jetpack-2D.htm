@@ -339,7 +339,10 @@ function save(){
       'speed': 10,
     };
     for(id in ids){
-        settings[id] = parseInt(document.getElementById(id).value);
+        settings[id] = parseInt(
+          document.getElementById(id).value,
+          10
+        );
 
         if(settings[id] == ids[id]
           || isNaN(settings[id])){
@@ -451,7 +454,10 @@ function update_best(){
 }
 
 var animationFrame = 0;
-var best = parseInt(window.localStorage.getItem('Jetpack-2D.htm-best')) || 0;
+var best = parseInt(
+  window.localStorage.getItem('Jetpack-2D.htm-best'),
+  10
+) || 0;
 var buffer = 0;
 var canvas = 0;
 var frame_counter = 0;
@@ -480,9 +486,9 @@ var settings = {
   'jetpack-power': window.localStorage.getItem('Jetpack-2D.htm-jetpack-power') !== null
     ? parseFloat(window.localStorage.getItem('Jetpack-2D.htm-jetpack-power'))
     : 2,
-  'ms-per-frame': parseInt(window.localStorage.getItem('Jetpack-2D.htm-ms-per-frame')) || 30,
-  'obstacle-frequency': parseInt(window.localStorage.getItem('Jetpack-2D.htm-obstacle-frequency')) || 23,
-  'obstacle-increase': parseInt(window.localStorage.getItem('Jetpack-2D.htm-obstacle-increase')) || 115,
+  'ms-per-frame': parseInt(window.localStorage.getItem('Jetpack-2D.htm-ms-per-frame'), 10) || 30,
+  'obstacle-frequency': parseInt(window.localStorage.getItem('Jetpack-2D.htm-obstacle-frequency'), 10) || 23,
+  'obstacle-increase': parseInt(window.localStorage.getItem('Jetpack-2D.htm-obstacle-increase'), 10) || 115,
   'restart-key': window.localStorage.getItem('Jetpack-2D.htm-restart-key') || 'H',
   'speed': parseFloat(window.localStorage.getItem('Jetpack-2D.htm-speed')) || 10,
 };
