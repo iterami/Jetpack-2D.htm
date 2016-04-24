@@ -1,13 +1,6 @@
 'use strict';
 
-function draw(){
-    buffer.clearRect(
-      0,
-      0,
-      width,
-      height
-    );
-
+function draw_logic(){
     buffer.save();
     buffer.translate(
       x,
@@ -135,20 +128,6 @@ function draw(){
           50
         );
     }
-
-    canvas.clearRect(
-      0,
-      0,
-      width,
-      height
-    );
-    canvas.drawImage(
-      document.getElementById('buffer'),
-      0,
-      0
-    );
-
-    animationFrame = window.requestAnimationFrame(draw);
 }
 
 function logic(){
@@ -281,22 +260,6 @@ function reset_best(){
     );
 }
 
-function resize(){
-    if(mode <= 0){
-        return;
-    }
-
-    height = window.innerHeight;
-    document.getElementById('buffer').height = height;
-    document.getElementById('canvas').height = height;
-    y = height / 2;
-
-    width = window.innerWidth;
-    document.getElementById('buffer').width = width;
-    document.getElementById('canvas').width = width;
-    x = width / 2;
-}
-
 // Save settings into window.localStorage if they differ from default.
 function save(){
     settings['audio-volume'] = parseFloat(document.getElementById('audio-volume').value);
@@ -368,17 +331,31 @@ function save(){
     }
 }
 
-function setmode(newmode, newgame){
-    window.cancelAnimationFrame(animationFrame);
-    window.clearInterval(interval);
-
-    mode = newmode;
+function setmode_logic(newgame){
     obstacle_counter = 0;
     obstacles = [];
     smoke = [];
 
+    // Main menu mode.
+    if(mode === 0){
+        document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
+          + best
+          + '<br><a onclick=reset_best()>Reset Best</a></div></div><div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
+          + settings['jetpack-key'] + '>Activate</ul><input disabled value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
+          + settings['restart-key'] + '>Restart</div><hr><div><input id=audio-volume max=1 min=0 step=0.01 type=range value='
+          + settings['audio-volume'] + '>Audio<br><input id=color type=color value='
+          + settings['color'] + '>Color<br><input id=corridor-height value='
+          + settings['corridor-height'] + '>Corridor Height<br><input '
+          + (settings['frame-counter'] ? 'checked ' : '') + 'id=frame-counter type=checkbox>Frame Counter<br><input id=gravity value='
+          + settings['gravity'] + '>Gravity<br>Jetpack:<ul><li><input id=jetpack-power value='
+          + settings['jetpack-power'] + '>Power<li><input id=speed value='
+          + settings['speed'] + '>Speed</ul><input id=ms-per-frame value='
+          + settings['ms-per-frame'] + '>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency value='
+          + settings['obstacle-frequency'] + '>Frequency<li><input id=obstacle-increase value='
+          + settings['obstacle-increase'] + '>Increase</ul><a onclick=reset()>Reset Settings</a></div></div>';
+
     // Play game mode.
-    if(mode > 0){
+    }else{
         if(newgame){
             save();
         }
@@ -392,45 +369,7 @@ function setmode(newmode, newgame){
           'speed': 0,
           'y': 0,
         };
-
-        if(newgame){
-            document.body.innerHTML =
-              '<canvas id=canvas></canvas><canvas id=buffer></canvas>';
-
-            buffer = document.getElementById('buffer').getContext('2d');
-            canvas = document.getElementById('canvas').getContext('2d');
-
-            resize();
-        }
-
-        animationFrame = window.requestAnimationFrame(draw);
-        interval = window.setInterval(
-          logic,
-          settings['ms-per-frame']
-        );
-
-        return;
     }
-
-    // Main menu mode.
-    buffer = 0;
-    canvas = 0;
-
-    document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
-      + best
-      + '<br><a onclick=reset_best()>Reset Best</a></div></div><div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
-      + settings['jetpack-key'] + '>Activate</ul><input disabled value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
-      + settings['restart-key'] + '>Restart</div><hr><div><input id=audio-volume max=1 min=0 step=0.01 type=range value='
-      + settings['audio-volume'] + '>Audio<br><input id=color type=color value='
-      + settings['color'] + '>Color<br><input id=corridor-height value='
-      + settings['corridor-height'] + '>Corridor Height<br><input '
-      + (settings['frame-counter'] ? 'checked ' : '') + 'id=frame-counter type=checkbox>Frame Counter<br><input id=gravity value='
-      + settings['gravity'] + '>Gravity<br>Jetpack:<ul><li><input id=jetpack-power value='
-      + settings['jetpack-power'] + '>Power<li><input id=speed value='
-      + settings['speed'] + '>Speed</ul><input id=ms-per-frame value='
-      + settings['ms-per-frame'] + '>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency value='
-      + settings['obstacle-frequency'] + '>Frequency<li><input id=obstacle-increase value='
-      + settings['obstacle-increase'] + '>Increase</ul><a onclick=reset()>Reset Settings</a></div></div>';
 }
 
 function update_best(){
@@ -521,10 +460,7 @@ window.onkeydown = function(e){
 
     }else if(key === settings['restart-key']){
         update_best();
-        setmode(
-          1,
-          false
-        );
+        setmode(1);
     }
 };
 
@@ -536,12 +472,7 @@ window.onkeyup = function(e){
     }
 };
 
-window.onload = function(e){
-    setmode(
-      0,
-      true
-    );
-};
+window.onload = init_canvas;
 
 window.onmousedown
   = window.ontouchstart = function(e){
@@ -557,5 +488,3 @@ window.onmouseup
   = window.ontouchend = function(e){
     key_jetpack = false;
 };
-
-window.onresize = resize;
