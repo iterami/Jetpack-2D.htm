@@ -220,32 +220,6 @@ function logic(){
     }
 }
 
-function reset(){
-    if(!window.confirm('Reset settings?')){
-        return;
-    }
-
-    var ids = {
-      'audio-volume': 1,
-      'color': '#009900',
-      'corridor-height': 500,
-      'gravity': 1,
-      'jetpack-key': 'W',
-      'jetpack-power': 2,
-      'ms-per-frame': 30,
-      'obstacle-frequency': 23,
-      'obstacle-increase': 115,
-      'restart-key': 'H',
-      'speed': 10,
-    };
-    for(var id in ids){
-        document.getElementById(id).value = ids[id];
-    }
-    document.getElementById('frame-counter').checked = true;
-
-    save();
-}
-
 function reset_best(){
     if(!window.confirm('Reset best?')){
         return;
@@ -258,77 +232,6 @@ function reset_best(){
       0,
       true
     );
-}
-
-// Save settings into window.localStorage if they differ from default.
-function save(){
-    settings['audio-volume'] = parseFloat(document.getElementById('audio-volume').value);
-    if(settings['audio-volume'] === 1){
-        window.localStorage.removeItem('Jetpack-2D.htm-audio-volume');
-
-    }else{
-        window.localStorage.setItem(
-          'Jetpack-2D.htm-audio-volume',
-          settings['audio-volume']
-        );
-    }
-
-    var ids = {
-      'color': '#009900',
-      'jetpack-key': 'W',
-      'restart-key': 'H',
-    };
-    for(var id in ids){
-        settings[id] = document.getElementById(id).value;
-
-        if(settings[id] === ids[id]){
-            window.localStorage.removeItem('Jetpack-2D.htm-' + id);
-
-        }else{
-            window.localStorage.setItem(
-              'Jetpack-2D.htm-' + id,
-              settings[id]
-            );
-        }
-    }
-
-    ids = {
-      'corridor-height': 500,
-      'gravity': 1,
-      'jetpack-power': 2,
-      'ms-per-frame': 30,
-      'obstacle-frequency': 23,
-      'obstacle-increase': 115,
-      'speed': 10,
-    };
-    for(id in ids){
-        settings[id] = parseInt(
-          document.getElementById(id).value,
-          10
-        );
-
-        if(settings[id] == ids[id]
-          || isNaN(settings[id])){
-            window.localStorage.removeItem('Jetpack-2D.htm-' + id);
-
-        }else{
-            window.localStorage.setItem(
-              'Jetpack-2D.htm-' + id,
-              settings[id]
-            );
-        }
-    }
-
-    settings['frame-counter'] = document.getElementById('frame-counter').checked;
-    if(settings['frame-counter']){
-        window.localStorage.removeItem('Jetpack-2D.htm-frame-counter');
-
-    }else{
-        window.localStorage.setItem(
-          'Jetpack-2D.htm-frame-counter',
-          1
-        );
-    }
 }
 
 function setmode_logic(newgame){
@@ -411,26 +314,6 @@ var obstacle_counter = 0;
 var obstacles = [];
 var played_explosion_sound = false;
 var player = {};
-var settings = {
-  'audio-volume': window.localStorage.getItem('Jetpack-2D.htm-audio-volume') !== null
-    ? parseFloat(window.localStorage.getItem('Jetpack-2D.htm-audio-volume'))
-    : 1,
-  'color': window.localStorage.getItem('Jetpack-2D.htm-color') || '#009900',
-  'corridor-height': window.localStorage.getItem('Jetpack-2D.htm-corridor-height') || 500,
-  'frame-counter': window.localStorage.getItem('Jetpack-2D.htm-frame-counter') === null,
-  'gravity': window.localStorage.getItem('Jetpack-2D.htm-gravity') !== null
-    ? parseFloat(window.localStorage.getItem('Jetpack-2D.htm-gravity'))
-    : 1,
-  'jetpack-key': window.localStorage.getItem('Jetpack-2D.htm-jetpack-key') || 'W',
-  'jetpack-power': window.localStorage.getItem('Jetpack-2D.htm-jetpack-power') !== null
-    ? parseFloat(window.localStorage.getItem('Jetpack-2D.htm-jetpack-power'))
-    : 2,
-  'ms-per-frame': parseInt(window.localStorage.getItem('Jetpack-2D.htm-ms-per-frame'), 10) || 30,
-  'obstacle-frequency': parseInt(window.localStorage.getItem('Jetpack-2D.htm-obstacle-frequency'), 10) || 23,
-  'obstacle-increase': parseInt(window.localStorage.getItem('Jetpack-2D.htm-obstacle-increase'), 10) || 115,
-  'restart-key': window.localStorage.getItem('Jetpack-2D.htm-restart-key') || 'H',
-  'speed': parseFloat(window.localStorage.getItem('Jetpack-2D.htm-speed')) || 10,
-};
 var smoke = [];
 var width = 0;
 var x = 0;
@@ -472,7 +355,26 @@ window.onkeyup = function(e){
     }
 };
 
-window.onload = init_canvas;
+window.onload = function(){
+    init_settings(
+      'Jetpack-2D.htm-',
+      {
+        'audio-volume': 1,
+        'color': '#009900',
+        'corridor-height': 500,
+        'frame-counter': true,
+        'gravity': 1,
+        'jetpack-key': 'W',
+        'jetpack-power': 2,
+        'ms-per-frame': 30,
+        'obstacle-frequency': 23,
+        'obstacle-increase': 115,
+        'restart-key': 'H',
+        'speed': 10,
+      }
+    );
+    init_canvas();
+};
 
 window.onmousedown
   = window.ontouchstart = function(e){
