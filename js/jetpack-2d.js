@@ -295,29 +295,20 @@ function update_best(){
     }
 }
 
-var animationFrame = 0;
 var best = parseInt(
   window.localStorage.getItem('Jetpack-2D.htm-best'),
   10
 ) || 0;
-var buffer = 0;
-var canvas = 0;
 var frame_counter = 0;
 var frames_per_obstacle = 0;
 var game_running = false;
 var half_corridor_height = 0;
-var height = 0;
-var interval = 0;
 var key_jetpack = false;
-var mode = 0;
 var obstacle_counter = 0;
 var obstacles = [];
 var played_explosion_sound = false;
 var player = {};
 var smoke = [];
-var width = 0;
-var x = 0;
-var y = 0;
 
 window.onkeydown = function(e){
     if(mode <= 0){
