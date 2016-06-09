@@ -243,19 +243,23 @@ function setmode_logic(newgame){
     if(mode === 0){
         document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
           + best
-          + '<br><a onclick=reset_best()>Reset Best</a></div></div><div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate<li><input id=jetpack-key maxlength=1 value='
-          + settings['jetpack-key'] + '>Activate</ul><input disabled value=ESC>Main Menu<br><input id=restart-key maxlength=1 value='
-          + settings['restart-key'] + '>Restart</div><hr><div><input id=audio-volume max=1 min=0 step=0.01 type=range value='
-          + settings['audio-volume'] + '>Audio<br><input id=color type=color value='
-          + settings['color'] + '>Color<br><input id=corridor-height value='
-          + settings['corridor-height'] + '>Corridor Height<br><input '
-          + (settings['frame-counter'] ? 'checked ' : '') + 'id=frame-counter type=checkbox>Frame Counter<br><input id=gravity value='
-          + settings['gravity'] + '>Gravity<br>Jetpack:<ul><li><input id=jetpack-power value='
-          + settings['jetpack-power'] + '>Power<li><input id=speed value='
-          + settings['speed'] + '>Speed</ul><input id=ms-per-frame value='
-          + settings['ms-per-frame'] + '>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency value='
-          + settings['obstacle-frequency'] + '>Frequency<li><input id=obstacle-increase value='
-          + settings['obstacle-increase'] + '>Increase</ul><a onclick=reset()>Reset Settings</a></div></div>';
+          + '<br><a onclick=reset_best()>Reset Best</a></div></div>'
+          + '<div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate'
+          + '<li><input id=jetpack-key maxlength=1>Activate</ul>'
+          + '<input disabled value=ESC>Main Menu<br>'
+          + '<input id=restart-key maxlength=1>Restart</div><hr>'
+          + '<div><input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br>'
+          + '<input id=color type=color>Color<br>'
+          + '<input id=corridor-height>Corridor Height<br>'
+          + '<input id=frame-counter type=checkbox>Frame Counter<br>'
+          + '<input id=gravity>Gravity<br>'
+          + 'Jetpack:<ul><li><input id=jetpack-power>Power'
+          + '<li><input id=speed>Speed</ul>'
+          + '<input id=ms-per-frame>ms/Frame<br>'
+          + 'Obstacle:<ul><li><input id=obstacle-frequency>Frequency'
+          + '<li><input id=obstacle-increase>Increase</ul>'
+          + '<a onclick=reset()>Reset Settings</a></div></div>';
+        update_settings();
 
     // Play game mode.
     }else{
