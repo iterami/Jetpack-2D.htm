@@ -114,20 +114,17 @@ function draw_logic(){
         );
     }
 
-    // If frame counter is enabled, draw current frame count.
-    if(settings['frame-counter']){
-        // Top frame counter and best text displays.
-        buffer.fillText(
-          frame_counter,
-          5,
-          25
-        );
-        buffer.fillText(
-          best,
-          5,
-          50
-        );
-    }
+    // Draw current frame count.
+    buffer.fillText(
+      frame_counter,
+      5,
+      25
+    );
+    buffer.fillText(
+      best,
+      5,
+      50
+    );
 }
 
 function logic(){
@@ -139,7 +136,6 @@ function logic(){
     if(player['y'] + 25 > half_corridor_height
       || player['y'] - 25 < -half_corridor_height){
         game_running = false;
-        update_best();
         return;
     }
 
@@ -204,7 +200,6 @@ function logic(){
         }
 
         game_running = false;
-        update_best();
     }
 
     // Delete smoke trails past left side of screen.
@@ -220,20 +215,6 @@ function logic(){
     }
 }
 
-function reset_best(){
-    if(!window.confirm('Reset best?')){
-        return;
-    }
-
-    best = 0;
-    frame_counter = 0;
-    update_best();
-    setmode(
-      0,
-      true
-    );
-}
-
 function setmode_logic(newgame){
     obstacle_counter = 0;
     obstacles = [];
@@ -243,7 +224,7 @@ function setmode_logic(newgame){
     if(mode === 0){
         document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
           + best
-          + '<br><a onclick=reset_best()>Reset Best</a></div></div>'
+          + '<br><a onclick=reset_best();setmode(0)>Reset Best</a></div></div>'
           + '<div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate'
           + '<li><input id=jetpack-key maxlength=1>Activate</ul>'
           + '<input disabled value=ESC>Main Menu<br>'
@@ -251,7 +232,6 @@ function setmode_logic(newgame){
           + '<div><input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br>'
           + '<input id=color type=color>Color<br>'
           + '<input id=corridor-height>Corridor Height<br>'
-          + '<input id=frame-counter type=checkbox>Frame Counter<br>'
           + '<input id=gravity>Gravity<br>'
           + 'Jetpack:<ul><li><input id=jetpack-power>Power'
           + '<li><input id=speed>Speed</ul>'
@@ -279,30 +259,6 @@ function setmode_logic(newgame){
     }
 }
 
-function update_best(){
-    if(!settings['frame-counter']){
-        return;
-    }
-
-    if(frame_counter > best){
-        best = frame_counter;
-    }
-
-    if(best > 0){
-        window.localStorage.setItem(
-          'Jetpack-2D.htm-best',
-          best
-        );
-
-    }else{
-        window.localStorage.removeItem('Jetpack-2D.htm-best');
-    }
-}
-
-var best = parseInt(
-  window.localStorage.getItem('Jetpack-2D.htm-best'),
-  10
-) || 0;
 var frame_counter = 0;
 var frames_per_obstacle = 0;
 var game_running = false;
@@ -323,7 +279,7 @@ window.onkeydown = function(e){
 
     // ESC: update best and return to main menu.
     if(key === 27){
-        update_best();
+        update_best(frame_counter);
         setmode(
           0,
           true
@@ -337,7 +293,7 @@ window.onkeydown = function(e){
         key_jetpack = true;
 
     }else if(key === settings['restart-key']){
-        update_best();
+        update_best(frame_counter);
         setmode(1);
     }
 };
@@ -351,13 +307,13 @@ window.onkeyup = function(e){
 };
 
 window.onload = function(){
+    init_bests('Jetpack-2D.htm-');
     init_settings(
       'Jetpack-2D.htm-',
       {
         'audio-volume': 1,
         'color': '#009900',
         'corridor-height': 500,
-        'frame-counter': true,
         'gravity': 1,
         'jetpack-key': 'W',
         'jetpack-power': 2,
