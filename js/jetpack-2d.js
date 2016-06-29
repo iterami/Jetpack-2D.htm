@@ -46,7 +46,6 @@ function draw_logic(){
         );
     }
 
-    buffer.font = '18pt sans-serif';
     // Draw obstacles.
     for(var obstacle in obstacles){
         buffer.fillStyle = '#555';
@@ -76,10 +75,6 @@ function draw_logic(){
     }
 
     buffer.restore();
-
-    // Setup text display.
-    buffer.fillStyle = '#fff';
-    buffer.font = '23pt sans-serif';
 
     // If game is over, display game over messages.
     if(!game_running){
@@ -213,6 +208,11 @@ function logic(){
             );
         }
     }
+}
+
+function resize_logic(){
+    buffer.fillStyle = '#fff';
+    buffer.font = font;
 }
 
 function setmode_logic(newgame){
