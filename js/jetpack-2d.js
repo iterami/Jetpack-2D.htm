@@ -76,38 +76,7 @@ function draw_logic(){
 
     buffer.restore();
 
-    // If game is over, display game over messages.
-    if(!game_running){
-        if(!played_explosion_sound){
-            if(settings['audio-volume'] > 0){
-                // play_audio('explosion');
-            }
-            played_explosion_sound = true;
-        }
-
-        if(frame_counter > best){
-            buffer.fillText(
-              'NEW BEST SCORE!',
-              5,
-              height - 100
-            );
-        }
-        buffer.fillText(
-          'You crashed... ☹',
-          5,
-          height - 70
-        );
-        buffer.fillText(
-          settings['restart-key'] + ' = Restart',
-          5,
-          height - 40
-        );
-        buffer.fillText(
-          'ESC = Main Menu',
-          5,
-          height - 10
-        );
-    }
+    buffer.fillStyle = '#fff';
 
     // Draw current frame count.
     buffer.fillText(
@@ -120,6 +89,43 @@ function draw_logic(){
       5,
       50
     );
+
+    // If game is over, display game over messages.
+    if(!game_running){
+        if(!played_explosion_sound){
+            if(settings['audio-volume'] > 0){
+                // play_audio('explosion');
+            }
+            played_explosion_sound = true;
+        }
+
+        buffer.fillText(
+          settings['restart-key'] + ' = Restart',
+          5,
+          height - 40
+        );
+        buffer.fillText(
+          'ESC = Main Menu',
+          5,
+          height - 10
+        );
+
+        if(frame_counter > best){
+            buffer.fillStyle = '#0f0';
+            buffer.fillText(
+              'NEW BEST SCORE!',
+              5,
+              height - 100
+            );
+        }
+
+        buffer.fillStyle = '#f00';
+        buffer.fillText(
+          'You crashed... ☹',
+          5,
+          height - 70
+        );
+    }
 }
 
 function logic(){
@@ -208,11 +214,6 @@ function logic(){
             );
         }
     }
-}
-
-function resize_logic(){
-    buffer.fillStyle = '#fff';
-    buffer.font = font;
 }
 
 function setmode_logic(newgame){
