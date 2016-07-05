@@ -85,7 +85,7 @@ function draw_logic(){
       25
     );
     buffer.fillText(
-      best,
+      bests_bests['score'],
       5,
       50
     );
@@ -110,7 +110,7 @@ function draw_logic(){
           height - 10
         );
 
-        if(frame_counter > best){
+        if(frame_counter > bests_bests['score']){
             buffer.fillStyle = '#0f0';
             buffer.fillText(
               'NEW BEST SCORE!',
@@ -224,8 +224,8 @@ function setmode_logic(newgame){
     // Main menu mode.
     if(mode === 0){
         document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
-          + best
-          + '<br><a onclick=reset_best();setmode(0)>Reset Best</a></div></div>'
+          + bests_bests['score']
+          + '<br><a onclick=bests_reset();setmode(0)>Reset Best</a></div></div>'
           + '<div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate'
           + '<li><input id=jetpack-key maxlength=1>Activate</ul>'
           + '<input disabled value=ESC>Main Menu<br>'
@@ -280,7 +280,10 @@ window.onkeydown = function(e){
 
     // ESC: update best and return to main menu.
     if(key === 27){
-        update_best(frame_counter);
+        bests_update(
+          'score',
+          frame_counter
+        );
         setmode(
           0,
           true
@@ -294,7 +297,10 @@ window.onkeydown = function(e){
         key_jetpack = true;
 
     }else if(key === settings['restart-key']){
-        update_best(frame_counter);
+        bests_update(
+          'score',
+          frame_counter
+        );
         setmode(1);
     }
 };
@@ -308,7 +314,12 @@ window.onkeyup = function(e){
 };
 
 window.onload = function(){
-    init_bests('Jetpack-2D.htm-');
+    bests_init(
+      'Jetpack-2D.htm-',
+      {
+        'score': 0,
+      }
+    );
     init_settings(
       'Jetpack-2D.htm-',
       {
