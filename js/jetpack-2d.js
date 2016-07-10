@@ -13,11 +13,11 @@ function draw_logic(){
       -x,
       -half_corridor_height,
       width,
-      settings['corridor-height']
+      settings_settings['corridor-height']
     );
 
     // Draw player body.
-    buffer.fillStyle = settings['color'];
+    buffer.fillStyle = settings_settings['color'];
     buffer.fillRect(
       0,
       -player['y'] - 25,
@@ -93,14 +93,14 @@ function draw_logic(){
     // If game is over, display game over messages.
     if(!game_running){
         if(!played_explosion_sound){
-            if(settings['audio-volume'] > 0){
+            if(settings_settings['audio-volume'] > 0){
                 // play_audio('explosion');
             }
             played_explosion_sound = true;
         }
 
         buffer.fillText(
-          settings['restart-key'] + ' = Restart',
+          settings_settings['restart-key'] + ' = Restart',
           5,
           height - 40
         );
@@ -150,23 +150,23 @@ function logic(){
           'height': Math.floor(Math.random() * 15) + 20,
           'width': obstacle_width,
           'x': x + obstacle_width,
-          'y': Math.floor(Math.random() * settings['corridor-height'])
+          'y': Math.floor(Math.random() * settings_settings['corridor-height'])
             - half_corridor_height,
         });
         obstacle_counter += 1;
     }
 
     // If obstacle frequency increase should happen this frame, do it.
-    if(settings['obstacle-frequency'] > 0
+    if(settings_settings['obstacle-frequency'] > 0
       && frames_per_obstacle > 1
-      && frame_counter % settings['obstacle-increase'] === 0){
+      && frame_counter % settings_settings['obstacle-increase'] === 0){
         // obstacle frequency increase
         frames_per_obstacle -= 1;
     }
 
     // If the player has activated jetpack, increase y speed and add smoke...
     if(key_jetpack){
-        player['speed'] += settings['jetpack-power'];
+        player['speed'] += settings_settings['jetpack-power'];
         smoke.push({
           'x': -20,
           'y': player['y'] - 10,
@@ -174,7 +174,7 @@ function logic(){
 
     // ...else apply gravity.
     }else{
-        player['speed'] -= settings['gravity'];
+        player['speed'] -= settings_settings['gravity'];
     }
 
     player['y'] += player['speed'];
@@ -190,7 +190,7 @@ function logic(){
         }
 
         // Move obstacles left at speed.
-        obstacles[obstacle]['x'] -= settings['speed'];
+        obstacles[obstacle]['x'] -= settings_settings['speed'];
 
         // Check for player collision with obstacle.
         if(obstacles[obstacle]['x'] <= -obstacles[obstacle]['width'] * 2
@@ -205,7 +205,7 @@ function logic(){
 
     // Delete smoke trails past left side of screen.
     for(var id in smoke){
-        smoke[id]['x'] -= settings['speed'];
+        smoke[id]['x'] -= settings_settings['speed'];
 
         if(smoke[id]['x'] < -x){
             smoke.splice(
@@ -239,19 +239,19 @@ function setmode_logic(newgame){
           + '<input id=ms-per-frame>ms/Frame<br>'
           + 'Obstacle:<ul><li><input id=obstacle-frequency>Frequency'
           + '<li><input id=obstacle-increase>Increase</ul>'
-          + '<a onclick=reset()>Reset Settings</a></div></div>';
-        update_settings();
+          + '<a onclick=settings_reset()>Reset Settings</a></div></div>';
+        settings_update();
 
     // Play game mode.
     }else{
         if(newgame){
-            save();
+            settings_save();
         }
 
         frame_counter = 0;
-        frames_per_obstacle = settings['obstacle-frequency'];
+        frames_per_obstacle = settings_settings['obstacle-frequency'];
         game_running = true;
-        half_corridor_height = settings['corridor-height'] / 2;
+        half_corridor_height = settings_settings['corridor-height'] / 2;
         played_explosion_sound = false;
         player = {
           'speed': 0,
@@ -293,10 +293,10 @@ window.onkeydown = function(e){
 
     key = String.fromCharCode(key);
 
-    if(key === settings['jetpack-key']){
+    if(key === settings_settings['jetpack-key']){
         key_jetpack = true;
 
-    }else if(key === settings['restart-key']){
+    }else if(key === settings_settings['restart-key']){
         bests_update(
           'score',
           frame_counter
@@ -308,7 +308,7 @@ window.onkeydown = function(e){
 window.onkeyup = function(e){
     var key = String.fromCharCode(e.keyCode || e.which);
 
-    if(key === settings['jetpack-key']){
+    if(key === settings_settings['jetpack-key']){
         key_jetpack = false;
     }
 };
@@ -320,7 +320,7 @@ window.onload = function(){
         'score': 0,
       }
     );
-    init_settings(
+    settings_init(
       'Jetpack-2D.htm-',
       {
         'audio-volume': 1,
