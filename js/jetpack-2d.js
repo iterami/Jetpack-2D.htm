@@ -1,24 +1,24 @@
 'use strict';
 
 function draw_logic(){
-    buffer.save();
-    buffer.translate(
-      x,
-      y
+    canvas_buffer.save();
+    canvas_buffer.translate(
+      canvas_x,
+      canvas_y
     );
 
     // Draw corridor over background.
-    buffer.fillStyle = '#333';
-    buffer.fillRect(
-      -x,
+    canvas_buffer.fillStyle = '#333';
+    canvas_buffer.fillRect(
+      -canvas_x,
       -half_corridor_height,
-      width,
+      canvas_width,
       settings_settings['corridor-height']
     );
 
     // Draw player body.
-    buffer.fillStyle = settings_settings['color'];
-    buffer.fillRect(
+    canvas_buffer.fillStyle = settings_settings['color'];
+    canvas_buffer.fillRect(
       0,
       -player['y'] - 25,
       25,
@@ -26,8 +26,8 @@ function draw_logic(){
     );
 
     // Draw jetpack.
-    buffer.fillStyle = '#aaa';
-    buffer.fillRect(
+    canvas_buffer.fillStyle = '#aaa';
+    canvas_buffer.fillRect(
       -25,
       -player['y'] - 15,
       25,
@@ -37,8 +37,8 @@ function draw_logic(){
     // Draw activated jetpack fire.
     if(game_running
       && key_jetpack){
-        buffer.fillStyle = '#f00';
-        buffer.fillRect(
+        canvas_buffer.fillStyle = '#f00';
+        canvas_buffer.fillRect(
           -22,
           -player['y'] + 5,
           18,
@@ -48,15 +48,15 @@ function draw_logic(){
 
     // Draw obstacles.
     for(var obstacle in obstacles){
-        buffer.fillStyle = '#555';
-        buffer.fillRect(
+        canvas_buffer.fillStyle = '#555';
+        canvas_buffer.fillRect(
           obstacles[obstacle]['x'],
           obstacles[obstacle]['y'],
           obstacles[obstacle]['width'] * 2,
           obstacles[obstacle]['height'] * 2
         );
-        buffer.fillStyle = '#fff';
-        buffer.fillText(
+        canvas_buffer.fillStyle = '#fff';
+        canvas_buffer.fillText(
           obstacles[obstacle]['counter'],
           obstacles[obstacle]['x'],
           obstacles[obstacle]['y']
@@ -64,9 +64,9 @@ function draw_logic(){
     }
 
     // Draw smoke trails behind the player.
-    buffer.fillStyle = '#777';
+    canvas_buffer.fillStyle = '#777';
     for(var id in smoke){
-        buffer.fillRect(
+        canvas_buffer.fillRect(
           smoke[id]['x'],
           -smoke[id]['y'],
           10,
@@ -74,17 +74,17 @@ function draw_logic(){
         );
     }
 
-    buffer.restore();
+    canvas_buffer.restore();
 
-    buffer.fillStyle = '#fff';
+    canvas_buffer.fillStyle = '#fff';
 
     // Draw current frame count.
-    buffer.fillText(
+    canvas_buffer.fillText(
       frame_counter,
       5,
       25
     );
-    buffer.fillText(
+    canvas_buffer.fillText(
       bests_bests['score'],
       5,
       50
@@ -99,31 +99,31 @@ function draw_logic(){
             played_explosion_sound = true;
         }
 
-        buffer.fillText(
+        canvas_buffer.fillText(
           settings_settings['restart-key'] + ' = Restart',
           5,
-          height - 40
+          canvas_height - 40
         );
-        buffer.fillText(
+        canvas_buffer.fillText(
           'ESC = Main Menu',
           5,
-          height - 10
+          canvas_height - 10
         );
 
         if(frame_counter > bests_bests['score']){
-            buffer.fillStyle = '#0f0';
-            buffer.fillText(
+            canvas_buffer.fillStyle = '#0f0';
+            canvas_buffer.fillText(
               'NEW BEST SCORE!',
               5,
-              height - 100
+              canvas_height - 100
             );
         }
 
-        buffer.fillStyle = '#f00';
-        buffer.fillText(
+        canvas_buffer.fillStyle = '#f00';
+        canvas_buffer.fillText(
           'You crashed... ☹',
           5,
-          height - 70
+          canvas_height - 70
         );
     }
 }
@@ -149,7 +149,7 @@ function logic(){
           'counter': obstacle_counter,
           'height': Math.floor(Math.random() * 15) + 20,
           'width': obstacle_width,
-          'x': x + obstacle_width,
+          'x': canvas_x + obstacle_width,
           'y': Math.floor(Math.random() * settings_settings['corridor-height'])
             - half_corridor_height,
         });
@@ -181,7 +181,7 @@ function logic(){
 
     for(var obstacle in obstacles){
         // Delete obstacles that are past left side of screen.
-        if(obstacles[obstacle]['x'] < -x - 70){
+        if(obstacles[obstacle]['x'] < -canvas_x - 70){
             obstacles.splice(
               obstacle,
               1
@@ -207,7 +207,7 @@ function logic(){
     for(var id in smoke){
         smoke[id]['x'] -= settings_settings['speed'];
 
-        if(smoke[id]['x'] < -x){
+        if(smoke[id]['x'] < -canvas_x){
             smoke.splice(
               id,
               1
@@ -222,10 +222,10 @@ function setmode_logic(newgame){
     smoke = [];
 
     // Main menu mode.
-    if(mode === 0){
-        document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
+    if(canvas_mode === 0){
+        document.body.innerHTML = '<div><div><a onclick="canvas_setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
           + bests_bests['score']
-          + '<br><a onclick=bests_reset();setmode(0)>Reset Best</a></div></div>'
+          + '<br><a onclick=bests_reset();canvas_setmode(0)>Reset Best</a></div></div>'
           + '<div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate'
           + '<li><input id=jetpack-key maxlength=1>Activate</ul>'
           + '<input disabled value=ESC>Main Menu<br>'
@@ -272,7 +272,7 @@ var player = {};
 var smoke = [];
 
 window.onkeydown = function(e){
-    if(mode <= 0){
+    if(canvas_mode <= 0){
         return;
     }
 
@@ -284,7 +284,7 @@ window.onkeydown = function(e){
           'score',
           frame_counter
         );
-        setmode(
+        canvas_setmode(
           0,
           true
         );
@@ -301,7 +301,7 @@ window.onkeydown = function(e){
           'score',
           frame_counter
         );
-        setmode(1);
+        canvas_setmode(1);
     }
 };
 
@@ -336,12 +336,12 @@ window.onload = function(){
         'speed': 10,
       }
     );
-    init_canvas();
+    canvas_init();
 };
 
 window.onmousedown
   = window.ontouchstart = function(e){
-    if(mode <= 0){
+    if(canvas_mode <= 0){
         return;
     }
 
