@@ -129,7 +129,8 @@ function draw_logic(){
 }
 
 function logic(){
-    if(!game_running){
+    if(!game_running
+      || canvas_menu){
         return;
     }
 
@@ -223,12 +224,16 @@ function setmode_logic(newgame){
 
     // Main menu mode.
     if(canvas_mode === 0){
+        bests_update(
+          'score',
+          frame_counter
+        );
         document.body.innerHTML = '<div><div><a onclick="canvas_setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
           + bests_bests['score']
           + '<br><a onclick=bests_reset();canvas_setmode(0)>Reset Best</a></div></div>'
           + '<div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate'
           + '<li><input id=jetpack-key maxlength=1>Activate</ul>'
-          + '<input disabled value=ESC>Main Menu<br>'
+          + '<input disabled value=ESC>Menu<br>'
           + '<input id=restart-key maxlength=1>Restart</div><hr>'
           + '<div><input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br>'
           + '<input id=color type=color>Color<br>'
@@ -278,16 +283,9 @@ window.onkeydown = function(e){
 
     var key = e.keyCode || e.which;
 
-    // ESC: update best and return to main menu.
+    // ESC: menu.
     if(key === 27){
-        bests_update(
-          'score',
-          frame_counter
-        );
-        canvas_setmode(
-          0,
-          true
-        );
+        canvas_menu_toggle();
         return;
     }
 
@@ -302,6 +300,9 @@ window.onkeydown = function(e){
           frame_counter
         );
         canvas_setmode(1);
+
+    }else if(key === 'Q'){
+        canvas_menu_quit();
     }
 };
 
