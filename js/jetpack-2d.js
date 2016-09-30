@@ -1,6 +1,15 @@
 'use strict';
 
 function draw_logic(){
+    // Draw background.
+    canvas_buffer.fillStyle = '#333';
+    canvas_buffer.fillRect(
+      0,
+      0,
+      canvas_width,
+      canvas_height
+    );
+
     canvas_buffer.save();
     canvas_buffer.translate(
       canvas_x,
@@ -8,7 +17,7 @@ function draw_logic(){
     );
 
     // Draw corridor over background.
-    canvas_buffer.fillStyle = '#333';
+    canvas_buffer.fillStyle = '#000';
     canvas_buffer.fillRect(
       -canvas_x,
       -half_corridor_height,
