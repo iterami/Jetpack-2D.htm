@@ -327,7 +327,9 @@ window.onload = function(){
     bests_init(
       'Jetpack-2D.htm-',
       {
-        'score': 0,
+        'score': {
+          'default': 0,
+        }
       }
     );
     settings_init(
