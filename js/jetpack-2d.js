@@ -233,10 +233,10 @@ function setmode_logic(newgame){
 
     // Main menu mode.
     if(canvas_mode === 0){
-        bests_update(
-          'score',
-          frame_counter
-        );
+        bests_update({
+          'key': 'score',
+          'value': frame_counter,
+        });
         document.body.innerHTML = '<div><div><a onclick="canvas_setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
           + bests_bests['score']
           + '<br><a onclick=bests_reset();canvas_setmode(0)>Reset Best</a></div></div>'
@@ -304,10 +304,10 @@ window.onkeydown = function(e){
         key_jetpack = true;
 
     }else if(key === settings_settings['restart-key']){
-        bests_update(
-          'score',
-          frame_counter
-        );
+        bests_update({
+          'key': 'score',
+          'value': frame_counter,
+        });
         canvas_setmode(1);
 
     }else if(key === 'Q'){
@@ -324,14 +324,14 @@ window.onkeyup = function(e){
 };
 
 window.onload = function(){
-    bests_init(
-      'Jetpack-2D.htm-',
-      {
+    bests_init({
+      'bests': {
         'score': {
           'default': 0,
         }
-      }
-    );
+      },
+      'prefix': 'Jetpack-2D.htm-',
+    });
     settings_init(
       'Jetpack-2D.htm-',
       {
