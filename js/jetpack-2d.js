@@ -332,9 +332,9 @@ window.onload = function(){
       },
       'prefix': 'Jetpack-2D.htm-',
     });
-    settings_init(
-      'Jetpack-2D.htm-',
-      {
+    settings_init({
+      'prefix': 'Jetpack-2D.htm-',
+      'settings': {
         'audio-volume': 1,
         'color': '#009900',
         'corridor-height': 500,
@@ -346,8 +346,8 @@ window.onload = function(){
         'obstacle-increase': 115,
         'restart-key': 'H',
         'speed': 10,
-      }
-    );
+      },
+    });
     canvas_init();
 };
 
