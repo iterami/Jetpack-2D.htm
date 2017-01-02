@@ -242,9 +242,9 @@ function setmode_logic(newgame){
           'key': 'score',
           'value': frame_counter,
         });
-        document.body.innerHTML = '<div><div><a onclick="canvas_setmode(1, true)">Cave Corridor</a></div><hr><div>Best: '
+        document.body.innerHTML = '<div><div><a onclick=canvas_setmode({mode:1,newgame:true})>Cave Corridor</a></div><hr><div>Best: '
           + bests_bests['score']
-          + '<br><a onclick=bests_reset();canvas_setmode(0)>Reset Best</a></div></div>'
+          + '<br><a onclick=bests_reset();canvas_setmode({mode:0})>Reset Best</a></div></div>'
           + '<div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate'
           + '<li><input id=jetpack-key maxlength=1>Activate</ul>'
           + '<input disabled value=ESC>Menu<br>'
@@ -313,7 +313,9 @@ window.onkeydown = function(e){
           'key': 'score',
           'value': frame_counter,
         });
-        canvas_setmode(1);
+        canvas_setmode({
+          'mode': 1,
+        });
 
     }else if(key === 'Q'){
         canvas_menu_quit();
