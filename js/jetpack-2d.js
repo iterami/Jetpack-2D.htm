@@ -290,46 +290,6 @@ var played_explosion_sound = false;
 var player = {};
 var smoke = [];
 
-window.onkeydown = function(e){
-    if(canvas_mode <= 0){
-        return;
-    }
-
-    var key = e.keyCode || e.which;
-
-    // ESC: menu.
-    if(key === 27){
-        canvas_menu_toggle();
-        return;
-    }
-
-    key = String.fromCharCode(key);
-
-    if(key === settings_settings['jetpack-key']){
-        key_jetpack = true;
-
-    }else if(key === settings_settings['restart-key']){
-        bests_update({
-          'key': 'score',
-          'value': frame_counter,
-        });
-        canvas_setmode({
-          'mode': 1,
-        });
-
-    }else if(key === 'Q'){
-        canvas_menu_quit();
-    }
-};
-
-window.onkeyup = function(e){
-    var key = String.fromCharCode(e.keyCode || e.which);
-
-    if(key === settings_settings['jetpack-key']){
-        key_jetpack = false;
-    }
-};
-
 window.onload = function(){
     bests_init({
       'bests': {
@@ -356,19 +316,59 @@ window.onload = function(){
       },
     });
     canvas_init();
-};
 
-window.onmousedown
-  = window.ontouchstart = function(e){
-    if(canvas_mode <= 0){
-        return;
-    }
+    window.onkeydown = function(e){
+        if(canvas_mode <= 0){
+            return;
+        }
 
-    e.preventDefault();
-    key_jetpack = true;
-};
+        var key = e.keyCode || e.which;
 
-window.onmouseup
-  = window.ontouchend = function(e){
-    key_jetpack = false;
+        // ESC: menu.
+        if(key === 27){
+            canvas_menu_toggle();
+            return;
+        }
+
+        key = String.fromCharCode(key);
+
+        if(key === settings_settings['jetpack-key']){
+            key_jetpack = true;
+
+        }else if(key === settings_settings['restart-key']){
+            bests_update({
+              'key': 'score',
+              'value': frame_counter,
+            });
+            canvas_setmode({
+              'mode': 1,
+            });
+
+        }else if(key === 'Q'){
+            canvas_menu_quit();
+        }
+    };
+
+    window.onkeyup = function(e){
+        var key = String.fromCharCode(e.keyCode || e.which);
+
+        if(key === settings_settings['jetpack-key']){
+            key_jetpack = false;
+        }
+    };
+
+    window.onmousedown
+      = window.ontouchstart = function(e){
+        if(canvas_mode <= 0){
+            return;
+        }
+
+        e.preventDefault();
+        key_jetpack = true;
+    };
+
+    window.onmouseup
+      = window.ontouchend = function(e){
+        key_jetpack = false;
+    };
 };
