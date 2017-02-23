@@ -120,7 +120,6 @@ function draw_logic(){
         );
 
         if(frame_counter > storage_data['score']){
-            storage_data['score'] = frame_counter;
             canvas_buffer.fillStyle = '#0f0';
             canvas_buffer.fillText(
               'NEW BEST SCORE!',
@@ -239,6 +238,9 @@ function setmode_logic(newgame){
 
     // Main menu mode.
     if(canvas_mode === 0){
+        if(frame_counter > storage_data['score']){
+            storage_data['score'] = frame_counter;
+        }
         storage_save({
           'bests': true,
         });
