@@ -244,9 +244,10 @@ function setmode_logic(newgame){
         storage_save({
           'bests': true,
         });
-        document.body.innerHTML = '<div><div><a onclick=canvas_setmode({mode:1,newgame:true})>Cave Corridor</a></div><hr><div>Best: '
-          + storage_info['score']['best']
-          + '<br><a onclick=storage_reset({bests:true});canvas_setmode()>Reset Best</a></div></div>'
+        frame_counter = 0;
+
+        document.body.innerHTML = '<div><div><a onclick=canvas_setmode({mode:1,newgame:true})>Cave Corridor</a></div>'
+          + '<hr><div>Best: <span id=score></span><br><a onclick=storage_reset({bests:true});canvas_setmode()>Reset Best</a></div></div>'
           + '<div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate'
           + '<li><input id=jetpack-key maxlength=1>Activate</ul>'
           + '<input disabled value=ESC>Menu<br>'
