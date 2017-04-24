@@ -138,8 +138,7 @@ function draw_logic(){
 }
 
 function logic(){
-    if(!game_running
-      || core_menu_open){
+    if(!game_running){
         return;
     }
 
