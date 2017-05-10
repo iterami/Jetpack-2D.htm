@@ -153,17 +153,17 @@ function logic(){
 
     // If new obstacle should be added this frame, add one.
     if(frame_counter % frames_per_obstacle === 0){
-        var obstacle_width = random_integer({
+        var obstacle_width = core_random_integer({
           'max': 15,
         }) + 20;
         obstacles.push({
           'counter': obstacle_counter,
-          'height': random_integer({
+          'height': core_random_integer({
             'max': 15,
           }) + 20,
           'width': obstacle_width,
           'x': canvas_x + obstacle_width,
-          'y': random_integer({
+          'y': core_random_integer({
             'max': storage_data['corridor-height'],
           }) - half_corridor_height,
         });
