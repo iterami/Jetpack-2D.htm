@@ -22,11 +22,11 @@ function draw_logic(){
       -canvas_x,
       -half_corridor_height,
       canvas_width,
-      storage_data['corridor-height']
+      core_storage_data['corridor-height']
     );
 
     // Draw player body.
-    canvas_buffer.fillStyle = storage_data['color'];
+    canvas_buffer.fillStyle = core_storage_data['color'];
     canvas_buffer.fillRect(
       0,
       -player['y'] - 25,
@@ -94,7 +94,7 @@ function draw_logic(){
       25
     );
     canvas_buffer.fillText(
-      storage_data['score'],
+      core_storage_data['score'],
       5,
       50
     );
@@ -102,14 +102,14 @@ function draw_logic(){
     // If game is over, display game over messages.
     if(!game_running){
         if(!played_explosion_sound){
-            if(storage_data['audio-volume'] > 0){
+            if(core_storage_data['audio-volume'] > 0){
                 // play_audio('explosion');
             }
             played_explosion_sound = true;
         }
 
         canvas_buffer.fillText(
-          storage_data['restart-key'] + ' = Restart',
+          core_storage_data['restart-key'] + ' = Restart',
           5,
           canvas_height - 40
         );
@@ -119,7 +119,7 @@ function draw_logic(){
           canvas_height - 10
         );
 
-        if(frame_counter > storage_data['score']){
+        if(frame_counter > core_storage_data['score']){
             canvas_buffer.fillStyle = '#0f0';
             canvas_buffer.fillText(
               'NEW BEST SCORE!',
@@ -164,23 +164,23 @@ function logic(){
           'width': obstacle_width,
           'x': canvas_x + obstacle_width,
           'y': core_random_integer({
-            'max': storage_data['corridor-height'],
+            'max': core_storage_data['corridor-height'],
           }) - half_corridor_height,
         });
         obstacle_counter += 1;
     }
 
     // If obstacle frequency increase should happen this frame, do it.
-    if(storage_data['obstacle-frequency'] > 0
+    if(core_storage_data['obstacle-frequency'] > 0
       && frames_per_obstacle > 1
-      && frame_counter % storage_data['obstacle-increase'] === 0){
+      && frame_counter % core_storage_data['obstacle-increase'] === 0){
         // obstacle frequency increase
         frames_per_obstacle -= 1;
     }
 
     // If the player has activated jetpack, increase y speed and add smoke...
     if(key_jetpack){
-        player['speed'] += storage_data['jetpack-power'];
+        player['speed'] += core_storage_data['jetpack-power'];
         smoke.push({
           'x': -20,
           'y': player['y'] - 10,
@@ -188,7 +188,7 @@ function logic(){
 
     // ...else apply gravity.
     }else{
-        player['speed'] -= storage_data['gravity'];
+        player['speed'] -= core_storage_data['gravity'];
     }
 
     player['y'] += player['speed'];
@@ -204,7 +204,7 @@ function logic(){
         }
 
         // Move obstacles left at speed.
-        obstacles[obstacle]['x'] -= storage_data['speed'];
+        obstacles[obstacle]['x'] -= core_storage_data['speed'];
 
         // Check for player collision with obstacle.
         if(obstacles[obstacle]['x'] <= -obstacles[obstacle]['width'] * 2
@@ -219,7 +219,7 @@ function logic(){
 
     // Delete smoke trails past left side of screen.
     for(var id in smoke){
-        smoke[id]['x'] -= storage_data['speed'];
+        smoke[id]['x'] -= core_storage_data['speed'];
 
         if(smoke[id]['x'] < -canvas_x){
             smoke.splice(
@@ -237,16 +237,16 @@ function setmode_logic(newgame){
 
     // Main menu mode.
     if(canvas_mode === 0){
-        if(frame_counter > storage_data['score']){
-            storage_data['score'] = frame_counter;
+        if(frame_counter > core_storage_data['score']){
+            core_storage_data['score'] = frame_counter;
         }
-        storage_save({
+        core_storage_save({
           'bests': true,
         });
         frame_counter = 0;
 
         document.body.innerHTML = '<div><div><a onclick=canvas_setmode({mode:1,newgame:true})>Cave Corridor</a></div>'
-          + '<hr><div>Best: <span id=score></span><br><a onclick=storage_reset({bests:true});canvas_setmode()>Reset Best</a></div></div>'
+          + '<hr><div>Best: <span id=score></span><br><a onclick=core_storage_reset({bests:true});canvas_setmode()>Reset Best</a></div></div>'
           + '<div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate'
           + '<li><input id=jetpack-key maxlength=1>Activate</ul>'
           + '<input disabled value=ESC>Menu<br>'
@@ -260,19 +260,19 @@ function setmode_logic(newgame){
           + '<input id=ms-per-frame>ms/Frame<br>'
           + 'Obstacle:<ul><li><input id=obstacle-frequency>Frequency'
           + '<li><input id=obstacle-increase>Increase</ul>'
-          + '<a onclick=storage_reset()>Reset Settings</a></div></div>';
-        storage_update();
+          + '<a onclick=core_storage_reset()>Reset Settings</a></div></div>';
+        core_storage_update();
 
     // Play game mode.
     }else{
         if(newgame){
-            storage_save();
+            core_storage_save();
         }
 
         frame_counter = 0;
-        frames_per_obstacle = storage_data['obstacle-frequency'];
+        frames_per_obstacle = core_storage_data['obstacle-frequency'];
         game_running = true;
-        half_corridor_height = storage_data['corridor-height'] / 2;
+        half_corridor_height = core_storage_data['corridor-height'] / 2;
         played_explosion_sound = false;
         player = {
           'speed': 0,
@@ -293,7 +293,7 @@ var player = {};
 var smoke = [];
 
 window.onload = function(){
-    storage_init({
+    core_storage_init({
       'data': {
         'audio-volume': 1,
         'color': '#009900',
@@ -330,11 +330,11 @@ window.onload = function(){
 
         key = String.fromCharCode(key);
 
-        if(key === storage_data['jetpack-key']){
+        if(key === core_storage_data['jetpack-key']){
             key_jetpack = true;
 
-        }else if(key === storage_data['restart-key']){
-            storage_save({
+        }else if(key === core_storage_data['restart-key']){
+            core_storage_save({
               'bests': true,
             });
             canvas_setmode({
@@ -349,7 +349,7 @@ window.onload = function(){
     window.onkeyup = function(e){
         var key = String.fromCharCode(e.keyCode || e.which);
 
-        if(key === storage_data['jetpack-key']){
+        if(key === core_storage_data['jetpack-key']){
             key_jetpack = false;
         }
     };
