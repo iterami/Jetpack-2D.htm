@@ -262,7 +262,7 @@ function repo_init(){
 
         // ESC: menu.
         if(key === 27){
-            core_menu_toggle();
+            core_escape();
             return;
         }
 
