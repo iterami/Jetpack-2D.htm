@@ -231,8 +231,8 @@ function logic(){
 }
 
 function repo_init(){
-    core_storage_init({
-      'data': {
+    core_repo_init({
+      'storage': {
         'audio-volume': 1,
         'color': '#009900',
         'corridor-height': 500,
@@ -249,7 +249,7 @@ function repo_init(){
         },
         'speed': 10,
       },
-      'prefix': 'Jetpack-2D.htm-',
+      'title': 'Jetpack-2D.htm',
     });
     canvas_init();
 
