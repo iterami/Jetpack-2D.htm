@@ -45,7 +45,7 @@ function draw_logic(){
 
     // Draw activated jetpack fire.
     if(game_running
-      && key_jetpack){
+      && core_keys[87]['state']){
         canvas_buffer.fillStyle = '#f00';
         canvas_buffer.fillRect(
           -22,
@@ -179,7 +179,7 @@ function logic(){
     }
 
     // If the player has activated jetpack, increase y speed and add smoke...
-    if(key_jetpack){
+    if(core_keys[87]['state']){
         player['speed'] += core_storage_data['jetpack-power'];
         smoke.push({
           'x': -20,
@@ -232,6 +232,22 @@ function logic(){
 
 function repo_init(){
     core_repo_init({
+      'keybinds': {
+        72: {
+          'todo': function(){
+              core_storage_save({
+                'bests': true,
+              });
+              canvas_setmode({
+                'mode': 1,
+              });
+          },
+        },
+        81: {
+          'todo': canvas_menu_quit,
+        },
+        87: {},
+      },
       'storage': {
         'audio-volume': 1,
         'color': '#009900',
@@ -252,60 +268,6 @@ function repo_init(){
       'title': 'Jetpack-2D.htm',
     });
     canvas_init();
-
-    window.onkeydown = function(e){
-        if(canvas_mode <= 0){
-            return;
-        }
-
-        var key = e.keyCode || e.which;
-
-        // ESC: menu.
-        if(key === 27){
-            core_escape();
-            return;
-        }
-
-        key = String.fromCharCode(key);
-
-        if(key === core_storage_data['jetpack-key']){
-            key_jetpack = true;
-
-        }else if(key === core_storage_data['restart-key']){
-            core_storage_save({
-              'bests': true,
-            });
-            canvas_setmode({
-              'mode': 1,
-            });
-
-        }else if(key === 'Q'){
-            canvas_menu_quit();
-        }
-    };
-
-    window.onkeyup = function(e){
-        var key = String.fromCharCode(e.keyCode || e.which);
-
-        if(key === core_storage_data['jetpack-key']){
-            key_jetpack = false;
-        }
-    };
-
-    window.onmousedown
-      = window.ontouchstart = function(e){
-        if(canvas_mode <= 0){
-            return;
-        }
-
-        e.preventDefault();
-        key_jetpack = true;
-    };
-
-    window.onmouseup
-      = window.ontouchend = function(e){
-        key_jetpack = false;
-    };
 }
 
 function setmode_logic(newgame){
@@ -363,7 +325,6 @@ var frame_counter = 0;
 var frames_per_obstacle = 0;
 var game_running = false;
 var half_corridor_height = 0;
-var key_jetpack = false;
 var obstacle_counter = 0;
 var obstacles = [];
 var played_explosion_sound = false;
