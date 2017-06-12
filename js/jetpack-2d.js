@@ -232,6 +232,7 @@ function logic(){
 
 function repo_init(){
     core_repo_init({
+      'info': '<a onclick=canvas_setmode({mode:1,newgame:true})>Cave Corridor</a>',
       'keybinds': {
         72: {
           'todo': function(){
@@ -243,82 +244,28 @@ function repo_init(){
               });
           },
         },
-        81: {
-          'todo': canvas_menu_quit,
-        },
         87: {},
       },
+      'menu': true,
       'storage': {
         'audio-volume': 1,
         'color': '#009900',
         'corridor-height': 500,
         'gravity': 1,
-        'jetpack-key': 'W',
         'jetpack-power': 2,
         'ms-per-frame': 30,
         'obstacle-frequency': 23,
         'obstacle-increase': 115,
-        'restart-key': 'H',
         'score': {
           'default': 0,
           'type': 1,
         },
         'speed': 10,
       },
+      'storage-menu': 'Best: <span id=score></span><br><a onclick=core_storage_reset({bests:true});canvas_setmode()>Reset Best</a><br><input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br><input id=color type=color>Color<br><input id=corridor-height>Corridor Height<br><input id=gravity>Gravity<br>Jetpack:<ul><li><input id=jetpack-power>Power<li><input id=speed>Speed</ul><input id=ms-per-frame>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency>Frequency<li><input id=obstacle-increase>Increase</ul>',
       'title': 'Jetpack-2D.htm',
     });
     canvas_init();
-}
-
-function setmode_logic(newgame){
-    obstacle_counter = 0;
-    obstacles = [];
-    smoke = [];
-
-    // Main menu mode.
-    if(canvas_mode === 0){
-        if(frame_counter > core_storage_data['score']){
-            core_storage_data['score'] = frame_counter;
-        }
-        core_storage_save({
-          'bests': true,
-        });
-        frame_counter = 0;
-
-        document.getElementById('wrap').innerHTML = '<div><div><a onclick=canvas_setmode({mode:1,newgame:true})>Cave Corridor</a></div>'
-          + '<hr><div>Best: <span id=score></span><br><a onclick=core_storage_reset({bests:true});canvas_setmode()>Reset Best</a></div></div>'
-          + '<div class=right><div>Jetpack:<ul><li><input disabled value=Click>Activate'
-          + '<li><input id=jetpack-key maxlength=1>Activate</ul>'
-          + '<input disabled value=ESC>Menu<br>'
-          + '<input id=restart-key maxlength=1>Restart</div><hr>'
-          + '<div><input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br>'
-          + '<input id=color type=color>Color<br>'
-          + '<input id=corridor-height>Corridor Height<br>'
-          + '<input id=gravity>Gravity<br>'
-          + 'Jetpack:<ul><li><input id=jetpack-power>Power'
-          + '<li><input id=speed>Speed</ul>'
-          + '<input id=ms-per-frame>ms/Frame<br>'
-          + 'Obstacle:<ul><li><input id=obstacle-frequency>Frequency'
-          + '<li><input id=obstacle-increase>Increase</ul>'
-          + '<a onclick=core_storage_reset()>Reset Settings</a></div></div>';
-        core_storage_update();
-
-    // Play game mode.
-    }else{
-        if(newgame){
-            core_storage_save();
-        }
-
-        frame_counter = 0;
-        frames_per_obstacle = core_storage_data['obstacle-frequency'];
-        game_running = true;
-        half_corridor_height = core_storage_data['corridor-height'] / 2;
-        played_explosion_sound = false;
-        player = {
-          'speed': 0,
-          'y': 0,
-        };
-    }
 }
 
 var frame_counter = 0;
