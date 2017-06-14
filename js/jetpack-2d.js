@@ -232,7 +232,7 @@ function logic(){
 
 function repo_init(){
     core_repo_init({
-      'info': '<a onclick=canvas_setmode({mode:1,newgame:true})>Cave Corridor</a><br>Best: <span id=score></span>',
+      'info': '<input onclick=canvas_setmode({mode:1,newgame:true}) type=button value="Cave Corridor"><br>Best: <span id=score></span>',
       'keybinds': {
         72: {
           'todo': function(){
