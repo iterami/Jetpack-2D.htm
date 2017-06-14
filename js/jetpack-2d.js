@@ -232,7 +232,7 @@ function logic(){
 
 function repo_init(){
     core_repo_init({
-      'info': '<a onclick=canvas_setmode({mode:1,newgame:true})>Cave Corridor</a>',
+      'info': '<a onclick=canvas_setmode({mode:1,newgame:true})>Cave Corridor</a><br>Best: <span id=score></span>',
       'keybinds': {
         72: {
           'todo': function(){
@@ -262,7 +262,7 @@ function repo_init(){
         },
         'speed': 10,
       },
-      'storage-menu': 'Best: <span id=score></span><br><a onclick=core_storage_reset({bests:true});canvas_setmode()>Reset Best</a><br><input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br><input id=color type=color>Color<br><input id=corridor-height>Corridor Height<br><input id=gravity>Gravity<br>Jetpack:<ul><li><input id=jetpack-power>Power<li><input id=speed>Speed</ul><input id=ms-per-frame>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency>Frequency<li><input id=obstacle-increase>Increase</ul>',
+      'storage-menu': '<input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br><input id=color type=color>Color<br><input id=corridor-height>Corridor Height<br><input id=gravity>Gravity<br>Jetpack:<ul><li><input id=jetpack-power>Power<li><input id=speed>Speed</ul><input id=ms-per-frame>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency>Frequency<li><input id=obstacle-increase>Increase</ul>',
       'title': 'Jetpack-2D.htm',
     });
     canvas_init();
