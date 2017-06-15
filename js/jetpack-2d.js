@@ -102,9 +102,7 @@ function draw_logic(){
     // If game is over, display game over messages.
     if(!game_running){
         if(!played_explosion_sound){
-            if(core_storage_data['audio-volume'] > 0){
-                // play_audio('explosion');
-            }
+            // play_audio('explosion');
             played_explosion_sound = true;
         }
 
@@ -248,7 +246,6 @@ function repo_init(){
       },
       'menu': true,
       'storage': {
-        'audio-volume': 1,
         'color': '#009900',
         'corridor-height': 500,
         'gravity': 1,
@@ -262,7 +259,7 @@ function repo_init(){
         },
         'speed': 10,
       },
-      'storage-menu': '<input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br><input id=color type=color>Color<br><input id=corridor-height>Corridor Height<br><input id=gravity>Gravity<br>Jetpack:<ul><li><input id=jetpack-power>Power<li><input id=speed>Speed</ul><input id=ms-per-frame>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency>Frequency<li><input id=obstacle-increase>Increase</ul>',
+      'storage-menu': '<input id=color type=color>Color<br><input id=corridor-height>Corridor Height<br><input id=gravity>Gravity<br>Jetpack:<ul><li><input id=jetpack-power>Power<li><input id=speed>Speed</ul><input id=ms-per-frame>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency>Frequency<li><input id=obstacle-increase>Increase</ul>',
       'title': 'Jetpack-2D.htm',
     });
     canvas_init();
