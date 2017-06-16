@@ -250,7 +250,6 @@ function repo_init(){
         'corridor-height': 500,
         'gravity': 1,
         'jetpack-power': 2,
-        'ms-per-frame': 30,
         'obstacle-frequency': 23,
         'obstacle-increase': 115,
         'score': {
@@ -259,7 +258,7 @@ function repo_init(){
         },
         'speed': 10,
       },
-      'storage-menu': '<input id=color type=color>Color<br><input id=corridor-height>Corridor Height<br><input id=gravity>Gravity<br>Jetpack:<ul><li><input id=jetpack-power>Power<li><input id=speed>Speed</ul><input id=ms-per-frame>ms/Frame<br>Obstacle:<ul><li><input id=obstacle-frequency>Frequency<li><input id=obstacle-increase>Increase</ul>',
+      'storage-menu': '<input id=color type=color>Color<br><input id=corridor-height>Corridor Height<br><input id=gravity>Gravity<br>Jetpack:<ul><li><input id=jetpack-power>Power<li><input id=speed>Speed</ul>Obstacle:<ul><li><input id=obstacle-frequency>Frequency<li><input id=obstacle-increase>Increase</ul>',
       'title': 'Jetpack-2D.htm',
     });
     canvas_init();
