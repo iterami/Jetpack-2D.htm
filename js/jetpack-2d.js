@@ -258,7 +258,7 @@ function repo_init(){
         },
         'speed': 10,
       },
-      'storage-menu': '<input id=color type=color>Color<br><input id=corridor-height>Corridor Height<br><input id=gravity>Gravity<br>Jetpack:<ul><li><input id=jetpack-power>Power<li><input id=speed>Speed</ul>Obstacle:<ul><li><input id=obstacle-frequency>Frequency<li><input id=obstacle-increase>Increase</ul>',
+      'storage-menu': '<table><tr><td><input id=color type=color><td>Color<tr><td><input id=corridor-height><td>Corridor Height<tr><td><input id=gravity><td>Gravity<tr><td><input id=jetpack-power><td>Jetpack Power<tr><td><input id=speed><td>Jetpack Speed<tr><td><input id=obstacle-frequency><td>Obstacle Frequency<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
     });
     canvas_init();
