@@ -230,7 +230,7 @@ function logic(){
 
 function repo_init(){
     core_repo_init({
-      'info': '<input onclick=canvas_setmode({newgame:true}) type=button value="Cave Corridor"><br>Best: <span id=score></span>',
+      'info': '<input onclick=canvas_setmode({newgame:true}) type=button value="Start New Flight"> Best: <span id=score></span>',
       'keybinds': {
         72: {
           'todo': function(){
@@ -248,6 +248,7 @@ function repo_init(){
         'corridor-height': 500,
         'gravity': 1,
         'jetpack-power': 2,
+        'level': 0,
         'obstacle-frequency': 23,
         'obstacle-increase': 115,
         'score': {
@@ -256,7 +257,7 @@ function repo_init(){
         },
         'speed': 10,
       },
-      'storage-menu': '<table><tr><td><input id=color type=color><td>Color<tr><td><input id=corridor-height><td>Corridor Height<tr><td><input id=gravity><td>Gravity<tr><td><input id=jetpack-power><td>Jetpack Power<tr><td><input id=speed><td>Jetpack Speed<tr><td><input id=obstacle-frequency><td>Obstacle Frequency<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
+      'storage-menu': '<table><tr><td><input id=color type=color><td>Color<tr><td><input id=corridor-height><td>Corridor Height<tr><td><input id=gravity><td>Gravity<tr><td><input id=jetpack-power><td>Jetpack Power<tr><td><input id=speed><td>Jetpack Speed<tr><td><select id=level><option value=0>Cave Corridor</option></select><td>Level<tr><td><input id=obstacle-frequency><td>Obstacle Frequency<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
     });
     canvas_init();
