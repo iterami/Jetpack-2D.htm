@@ -85,53 +85,23 @@ function draw_logic(){
 
     canvas_buffer.restore();
 
-    canvas_buffer.fillStyle = '#fff';
-
-    // Draw current frame count.
-    canvas_buffer.fillText(
-      frame_counter,
-      5,
-      25
-    );
-    canvas_buffer.fillText(
-      core_storage_data['score'],
-      5,
-      50
-    );
-
     // If game is over, display game over messages.
     if(!game_running){
-        if(!played_explosion_sound){
-            // play_audio('explosion');
-            played_explosion_sound = true;
-        }
-
-        canvas_buffer.fillText(
-          core_storage_data['restart-key'] + ' = Restart',
-          5,
-          canvas_height - 40
-        );
-        canvas_buffer.fillText(
-          'ESC = Main Menu',
-          5,
-          canvas_height - 10
-        );
-
-        if(frame_counter > core_storage_data['score']){
-            canvas_buffer.fillStyle = '#0f0';
-            canvas_buffer.fillText(
-              'NEW BEST SCORE!',
-              5,
-              canvas_height - 100
-            );
-        }
-
         canvas_buffer.fillStyle = '#f00';
         canvas_buffer.fillText(
           'You crashed... ☹',
-          5,
-          canvas_height - 70
+          0,
+          125
         );
+
+        if(frame_counter > core_storage_data['score']){
+            canvas_buffer.fillStyle = '#fff';
+            canvas_buffer.fillText(
+              'NEW BEST SCORE!',
+              0,
+              165
+            );
+        }
     }
 }
 
@@ -226,6 +196,13 @@ function logic(){
             );
         }
     }
+
+    core_ui_update({
+      'ids': {
+        'best': core_storage_data['score'],
+        'score': frame_counter,
+      },
+    });
 }
 
 function repo_init(){
@@ -259,6 +236,7 @@ function repo_init(){
       },
       'storage-menu': '<table><tr><td><input id=color type=color><td>Color<tr><td><input id=corridor-height><td>Corridor Height<tr><td><input id=gravity><td>Gravity<tr><td><input id=jetpack-power><td>Jetpack Power<tr><td><input id=speed><td>Jetpack Speed<tr><td><select id=level><option value=0>Cave Corridor</option></select><td>Level<tr><td><input id=obstacle-frequency><td>Obstacle Frequency<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
+      'ui': '<input id=ui-best>Best<br><input id=ui-score>Score',
     });
     canvas_init();
 }
@@ -269,6 +247,5 @@ var game_running = false;
 var half_corridor_height = 0;
 var obstacle_counter = 0;
 var obstacles = [];
-var played_explosion_sound = false;
 var player = {};
 var smoke = [];

@@ -14,7 +14,6 @@ function load_data(id){
     half_corridor_height = core_storage_data['corridor-height'] / 2;
     obstacle_counter = 0;
     obstacles = [];
-    played_explosion_sound = false;
     player = {
       'speed': 0,
       'y': 0,
