@@ -26,7 +26,7 @@ function draw_logic(){
     );
 
     // Draw player body.
-    canvas_buffer.fillStyle = core_storage_data['color'];
+    canvas_buffer.fillStyle = core_storage_data['color-positive'];
     canvas_buffer.fillRect(
       0,
       -player['y'] - 25,
@@ -221,7 +221,6 @@ function repo_init(){
       },
       'menu': true,
       'storage': {
-        'color': '#009900',
         'corridor-height': 500,
         'gravity': 1,
         'jetpack-power': 2,
@@ -234,7 +233,7 @@ function repo_init(){
         },
         'speed': 10,
       },
-      'storage-menu': '<table><tr><td><input id=color type=color><td>Color<tr><td><input id=corridor-height><td>Corridor Height<tr><td><input id=gravity><td>Gravity<tr><td><input id=jetpack-power><td>Jetpack Power<tr><td><input id=speed><td>Jetpack Speed<tr><td><select id=level><option value=0>Cave Corridor</option></select><td>Level<tr><td><input id=obstacle-frequency><td>Obstacle Frequency<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
+      'storage-menu': '<table><tr><td><input id=corridor-height><td>Corridor Height<tr><td><input id=gravity><td>Gravity<tr><td><input id=jetpack-power><td>Jetpack Power<tr><td><input id=speed><td>Jetpack Speed<tr><td><select id=level><option value=0>Cave Corridor</option></select><td>Level<tr><td><input id=obstacle-frequency><td>Obstacle Frequency<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
       'ui': '<input id=ui-best>Best<br><input id=ui-score>Score',
     });
