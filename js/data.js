@@ -3,6 +3,9 @@
 function load_data(id){
     if(frame_counter > core_storage_data['score']){
         core_storage_data['score'] = frame_counter;
+        core_storage_update({
+          'bests': true,
+        });
     }
     core_storage_save({
       'bests': true,
