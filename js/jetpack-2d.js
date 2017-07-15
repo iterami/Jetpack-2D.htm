@@ -235,7 +235,7 @@ function repo_init(){
       },
       'storage-menu': '<table><tr><td><input id=corridor-height><td>Corridor Height<tr><td><input id=gravity><td>Gravity<tr><td><input id=jetpack-power><td>Jetpack Power<tr><td><input id=speed><td>Jetpack Speed<tr><td><select id=level><option value=0>Cave Corridor</option></select><td>Level<tr><td><input id=obstacle-frequency><td>Obstacle Frequency<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
-      'ui': '<input id=ui-best>Best<br><input id=ui-score>Score',
+      'ui': 'Best: <span id=ui-best></span><br>Score: <span id=ui-score></span>',
     });
     canvas_init();
 }
