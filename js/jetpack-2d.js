@@ -29,7 +29,7 @@ function draw_logic(){
     canvas_buffer.fillStyle = core_storage_data['color-positive'];
     canvas_buffer.fillRect(
       0,
-      -player['y'] - 25,
+      -core_entities['player']['y'] - 25,
       25,
       50
     );
@@ -38,7 +38,7 @@ function draw_logic(){
     canvas_buffer.fillStyle = '#aaa';
     canvas_buffer.fillRect(
       -25,
-      -player['y'] - 15,
+      -core_entities['player']['y'] - 15,
       25,
       20
     );
@@ -49,7 +49,7 @@ function draw_logic(){
         canvas_buffer.fillStyle = '#f00';
         canvas_buffer.fillRect(
           -22,
-          -player['y'] + 5,
+          -core_entities['player']['y'] + 5,
           18,
           10
         );
@@ -116,8 +116,8 @@ function logic(){
     }
 
     // Check if player is outside of game boundaries.
-    if(player['y'] + 25 > half_corridor_height
-      || player['y'] - 25 < -half_corridor_height){
+    if(core_entities['player']['y'] + 25 > half_corridor_height
+      || core_entities['player']['y'] - 25 < -half_corridor_height){
         game_running = false;
         return;
     }
@@ -158,18 +158,18 @@ function logic(){
 
     // If the player has activated jetpack, increase y speed and add smoke...
     if(core_keys[87]['state']){
-        player['speed'] += core_storage_data['jetpack-power'];
+        core_entities['player']['speed'] += core_storage_data['jetpack-power'];
         smoke.push({
           'x': -20,
-          'y': player['y'] - 10,
+          'y': core_entities['player']['y'] - 10,
         });
 
     // ...else apply gravity.
     }else{
-        player['speed'] -= core_storage_data['gravity'];
+        core_entities['player']['speed'] -= core_storage_data['gravity'];
     }
 
-    player['y'] += player['speed'];
+    core_entities['player']['y'] += core_entities['player']['speed'];
 
     core_group_modify({
       'groups': [
@@ -182,8 +182,8 @@ function logic(){
           // Check for player collision with obstacle.
           if(core_entities[entity]['x'] > -core_entities[entity]['width'] * 2
             && core_entities[entity]['x'] < core_entities[entity]['width']
-            && core_entities[entity]['y'] > -player['y'] - 25 - core_entities[entity]['height'] * 2
-            && core_entities[entity]['y'] < -player['y'] + 25){
+            && core_entities[entity]['y'] > -core_entities['player']['y'] - 25 - core_entities[entity]['height'] * 2
+            && core_entities[entity]['y'] < -core_entities['player']['y'] + 25){
               game_running = false;
           }
 
@@ -254,6 +254,12 @@ function repo_init(){
     core_entity_set({
       'type': 'obstacle',
     });
+    core_entity_set({
+      'properties': {
+        'speed': 0,
+      },
+      'type': 'player',
+    });
 
     canvas_init();
 }
@@ -263,5 +269,4 @@ var frames_per_obstacle = 0;
 var game_running = false;
 var half_corridor_height = 0;
 var obstacle_counter = 0;
-var player = {};
 var smoke = [];
