@@ -79,14 +79,19 @@ function draw_logic(){
 
     // Draw smoke trails behind the player.
     canvas_buffer.fillStyle = '#777';
-    for(var id in smoke){
-        canvas_buffer.fillRect(
-          smoke[id]['x'],
-          -smoke[id]['y'],
-          10,
-          10
-        );
-    }
+    core_group_modify({
+      'groups': [
+        'smoke',
+      ],
+      'todo': function(entity){
+          canvas_buffer.fillRect(
+            core_entities[entity]['x'],
+            -core_entities[entity]['y'],
+            10,
+            10
+          );
+      },
+    });
 
     canvas_buffer.restore();
 
@@ -159,9 +164,13 @@ function logic(){
     // If the player has activated jetpack, increase y speed and add smoke...
     if(core_keys[87]['state']){
         core_entities['player']['speed'] += core_storage_data['jetpack-power'];
-        smoke.push({
-          'x': -20,
-          'y': core_entities['player']['y'] - 10,
+        core_entity_create({
+          'properties': {
+            'y': core_entities['player']['y'] - 10,
+          },
+          'types': [
+            'smoke',
+          ],
         });
 
     // ...else apply gravity.
@@ -199,16 +208,22 @@ function logic(){
     });
 
     // Delete smoke trails past left side of screen.
-    for(var id in smoke){
-        smoke[id]['x'] -= core_storage_data['speed'];
+    core_group_modify({
+      'groups': [
+        'smoke',
+      ],
+      'todo': function(entity){
+          core_entities[entity]['x'] -= core_storage_data['speed'];
 
-        if(smoke[id]['x'] < -canvas_x){
-            smoke.splice(
-              id,
-              1
-            );
-        }
-    }
+          if(core_entities[entity]['x'] < -canvas_x){
+              core_entity_remove({
+                'entities': [
+                  entity,
+                ],
+              });
+          }
+      },
+    });
 
     core_ui_update({
       'ids': {
@@ -259,6 +274,12 @@ function repo_init(){
         'speed': 0,
       },
       'type': 'player',
+    });
+    core_entity_set({
+      'properties': {
+        'x': -20,
+      },
+      'type': 'smoke',
     });
 
     canvas_init();
