@@ -56,21 +56,26 @@ function draw_logic(){
     }
 
     // Draw obstacles.
-    for(var obstacle in obstacles){
-        canvas_buffer.fillStyle = '#555';
-        canvas_buffer.fillRect(
-          obstacles[obstacle]['x'],
-          obstacles[obstacle]['y'],
-          obstacles[obstacle]['width'] * 2,
-          obstacles[obstacle]['height'] * 2
-        );
-        canvas_buffer.fillStyle = '#fff';
-        canvas_buffer.fillText(
-          obstacles[obstacle]['counter'],
-          obstacles[obstacle]['x'],
-          obstacles[obstacle]['y']
-        );
-    }
+    core_group_modify({
+      'groups': [
+        'obstacle',
+      ],
+      'todo': function(entity){
+          canvas_buffer.fillStyle = '#555';
+          canvas_buffer.fillRect(
+            core_entities[entity]['x'],
+            core_entities[entity]['y'],
+            core_entities[entity]['width'] * 2,
+            core_entities[entity]['height'] * 2
+          );
+          canvas_buffer.fillStyle = '#fff';
+          canvas_buffer.fillText(
+            core_entities[entity]['counter'],
+            core_entities[entity]['x'],
+            core_entities[entity]['y']
+          );
+      },
+    });
 
     // Draw smoke trails behind the player.
     canvas_buffer.fillStyle = '#777';
@@ -124,18 +129,23 @@ function logic(){
         var obstacle_width = core_random_integer({
           'max': 15,
         }) + 20;
-        obstacles.push({
-          'counter': obstacle_counter,
-          'height': core_random_integer({
-            'max': 15,
-          }) + 20,
-          'width': obstacle_width,
-          'x': canvas_x + obstacle_width,
-          'y': core_random_integer({
-            'max': core_storage_data['corridor-height'],
-          }) - half_corridor_height,
+        core_entity_create({
+          'properties': {
+            'counter': obstacle_counter,
+            'height': core_random_integer({
+              'max': 15,
+            }) + 20,
+            'width': obstacle_width,
+            'x': canvas_x + obstacle_width,
+            'y': core_random_integer({
+              'max': core_storage_data['corridor-height'],
+            }) - half_corridor_height,
+          },
+          'types': [
+            'obstacle',
+          ],
         });
-        obstacle_counter += 1;
+        obstacle_counter++;
     }
 
     // If obstacle frequency increase should happen this frame, do it.
@@ -161,29 +171,32 @@ function logic(){
 
     player['y'] += player['speed'];
 
-    for(var obstacle in obstacles){
-        // Delete obstacles that are past left side of screen.
-        if(obstacles[obstacle]['x'] < -canvas_x - 70){
-            obstacles.splice(
-              obstacle,
-              1
-            );
-            continue;
-        }
+    core_group_modify({
+      'groups': [
+        'obstacle',
+      ],
+      'todo': function(entity){
+          // Move obstacles left at speed.
+          core_entities[entity]['x'] -= core_storage_data['speed'];
 
-        // Move obstacles left at speed.
-        obstacles[obstacle]['x'] -= core_storage_data['speed'];
+          // Check for player collision with obstacle.
+          if(core_entities[entity]['x'] > -core_entities[entity]['width'] * 2
+            && core_entities[entity]['x'] < core_entities[entity]['width']
+            && core_entities[entity]['y'] > -player['y'] - 25 - core_entities[entity]['height'] * 2
+            && core_entities[entity]['y'] < -player['y'] + 25){
+              game_running = false;
+          }
 
-        // Check for player collision with obstacle.
-        if(obstacles[obstacle]['x'] <= -obstacles[obstacle]['width'] * 2
-          || obstacles[obstacle]['x'] >= obstacles[obstacle]['width']
-          || obstacles[obstacle]['y'] <= -player['y'] - 25 - obstacles[obstacle]['height'] * 2
-          || obstacles[obstacle]['y'] >= -player['y'] + 25){
-            continue;
-        }
-
-        game_running = false;
-    }
+          // Delete obstacles that are past left side of screen.
+          if(core_entities[entity]['x'] < -canvas_x - 70){
+              core_entity_remove({
+                'entities': [
+                  entity,
+                ],
+              });
+          }
+      },
+    });
 
     // Delete smoke trails past left side of screen.
     for(var id in smoke){
@@ -237,6 +250,11 @@ function repo_init(){
       'title': 'Jetpack-2D.htm',
       'ui': 'Best: <span id=ui-best></span><br>Score: <span id=ui-score></span>',
     });
+
+    core_entity_set({
+      'type': 'obstacle',
+    });
+
     canvas_init();
 }
 
@@ -245,6 +263,5 @@ var frames_per_obstacle = 0;
 var game_running = false;
 var half_corridor_height = 0;
 var obstacle_counter = 0;
-var obstacles = [];
 var player = {};
 var smoke = [];

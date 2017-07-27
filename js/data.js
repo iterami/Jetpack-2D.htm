@@ -15,8 +15,6 @@ function load_data(id){
     frames_per_obstacle = core_storage_data['obstacle-frequency'];
     game_running = true;
     half_corridor_height = core_storage_data['corridor-height'] / 2;
-    obstacle_counter = 0;
-    obstacles = [];
     player = {
       'speed': 0,
       'y': 0,
