@@ -235,6 +235,19 @@ function logic(){
 
 function repo_init(){
     core_repo_init({
+      'entities': {
+        'obstacle': {},
+        'player': {
+          'properties': {
+            'speed': 0,
+          },
+        },
+        'smoke': {
+          'properties': {
+            'x': -20,
+          },
+        },
+      },
       'info': '<input onclick=canvas_setmode({newgame:true}) type=button value="Start New Flight"> Best: <span id=score></span>',
       'keybinds': {
         72: {
@@ -265,23 +278,6 @@ function repo_init(){
       'title': 'Jetpack-2D.htm',
       'ui': 'Best: <span id=ui-best></span><br>Score: <span id=ui-score></span>',
     });
-
-    core_entity_set({
-      'type': 'obstacle',
-    });
-    core_entity_set({
-      'properties': {
-        'speed': 0,
-      },
-      'type': 'player',
-    });
-    core_entity_set({
-      'properties': {
-        'x': -20,
-      },
-      'type': 'smoke',
-    });
-
     canvas_init();
 }
 
