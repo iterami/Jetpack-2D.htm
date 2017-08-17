@@ -2,7 +2,11 @@
 
 function draw_logic(){
     // Draw background.
-    canvas_buffer.fillStyle = '#333';
+    canvas_setproperties({
+      'properties': {
+        'fillStyle': '#333',
+      },
+    });
     canvas_buffer.fillRect(
       0,
       0,
@@ -17,7 +21,11 @@ function draw_logic(){
     );
 
     // Draw corridor over background.
-    canvas_buffer.fillStyle = '#000';
+    canvas_setproperties({
+      'properties': {
+        'fillStyle': '#000',
+      },
+    });
     canvas_buffer.fillRect(
       -canvas_x,
       -half_corridor_height,
@@ -26,7 +34,11 @@ function draw_logic(){
     );
 
     // Draw player body.
-    canvas_buffer.fillStyle = core_storage_data['color-positive'];
+    canvas_setproperties({
+      'properties': {
+        'fillStyle': core_storage_data['color-positive'],
+      },
+    });
     canvas_buffer.fillRect(
       0,
       -core_entities['player']['y'] - 25,
@@ -35,7 +47,11 @@ function draw_logic(){
     );
 
     // Draw jetpack.
-    canvas_buffer.fillStyle = '#aaa';
+    canvas_setproperties({
+      'properties': {
+        'fillStyle': '#aaa',
+      },
+    });
     canvas_buffer.fillRect(
       -25,
       -core_entities['player']['y'] - 15,
@@ -46,7 +62,11 @@ function draw_logic(){
     // Draw activated jetpack fire.
     if(game_running
       && core_keys[87]['state']){
-        canvas_buffer.fillStyle = '#f00';
+        canvas_setproperties({
+          'properties': {
+            'fillStyle': '#f00',
+          },
+        });
         canvas_buffer.fillRect(
           -22,
           -core_entities['player']['y'] + 5,
@@ -61,14 +81,22 @@ function draw_logic(){
         'obstacle',
       ],
       'todo': function(entity){
-          canvas_buffer.fillStyle = '#555';
+          canvas_setproperties({
+            'properties': {
+              'fillStyle': '#555',
+            },
+          });
           canvas_buffer.fillRect(
             core_entities[entity]['x'],
             core_entities[entity]['y'],
             core_entities[entity]['width'] * 2,
             core_entities[entity]['height'] * 2
           );
-          canvas_buffer.fillStyle = '#fff';
+          canvas_setproperties({
+            'properties': {
+              'fillStyle': '#fff',
+            },
+          });
           canvas_buffer.fillText(
             core_entities[entity]['counter'],
             core_entities[entity]['x'],
@@ -78,7 +106,11 @@ function draw_logic(){
     });
 
     // Draw smoke trails behind the player.
-    canvas_buffer.fillStyle = '#777';
+    canvas_setproperties({
+      'properties': {
+        'fillStyle': '#777',
+      },
+    });
     core_group_modify({
       'groups': [
         'smoke',
@@ -97,7 +129,11 @@ function draw_logic(){
 
     // If game is over, display game over messages.
     if(!game_running){
-        canvas_buffer.fillStyle = '#f00';
+        canvas_setproperties({
+          'properties': {
+            'fillStyle': '#f00',
+          },
+        });
         canvas_buffer.fillText(
           'You crashed... ☹',
           0,
@@ -105,7 +141,11 @@ function draw_logic(){
         );
 
         if(frame_counter > core_storage_data['score']){
-            canvas_buffer.fillStyle = '#fff';
+            canvas_setproperties({
+              'properties': {
+                'fillStyle': '#fff',
+              },
+            });
             canvas_buffer.fillText(
               'NEW BEST SCORE!',
               0,
