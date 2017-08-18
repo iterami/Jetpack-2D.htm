@@ -288,7 +288,17 @@ function repo_init(){
           },
         },
       },
-      'info': '<input onclick=canvas_setmode({newgame:true}) type=button value="Start New Flight"> Best: <span id=score></span>',
+      'info': '<input id=start type=button value="Start New Flight"> Best: <span id=score></span>',
+      'info-events': {
+        'start': {
+          'todo': function(){
+              canvas_setmode({
+                'newgame': true,
+              });
+          },
+          'type': 'onclick',
+        },
+      },
       'keybinds': {
         72: {
           'todo': function(){
