@@ -10,8 +10,8 @@ function draw_logic(){
     canvas_buffer.fillRect(
       0,
       0,
-      canvas_width,
-      canvas_height
+      canvas_properties['width'],
+      canvas_properties['height']
     );
 
     canvas_buffer.save();
@@ -29,7 +29,7 @@ function draw_logic(){
     canvas_buffer.fillRect(
       -canvas_x,
       -half_corridor_height,
-      canvas_width,
+      canvas_properties['width'],
       core_storage_data['corridor-height']
     );
 
