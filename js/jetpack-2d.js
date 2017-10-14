@@ -16,8 +16,8 @@ function draw_logic(){
 
     canvas_buffer.save();
     canvas_buffer.translate(
-      canvas_x,
-      canvas_y
+      canvas_properties['width-half'],
+      canvas_properties['height-half']
     );
 
     // Draw corridor over background.
@@ -27,7 +27,7 @@ function draw_logic(){
       },
     });
     canvas_buffer.fillRect(
-      -canvas_x,
+      -canvas_properties['width-half'],
       -half_corridor_height,
       canvas_properties['width'],
       core_storage_data['corridor-height']
@@ -181,7 +181,7 @@ function logic(){
               'max': 15,
             }) + 20,
             'width': obstacle_width,
-            'x': canvas_x + obstacle_width,
+            'x': canvas_properties['width-half'] + obstacle_width,
             'y': core_random_integer({
               'max': core_storage_data['corridor-height'],
             }) - half_corridor_height,
@@ -237,7 +237,7 @@ function logic(){
           }
 
           // Delete obstacles that are past left side of screen.
-          if(core_entities[entity]['x'] < -canvas_x - 70){
+          if(core_entities[entity]['x'] < -canvas_properties['width-half'] - 70){
               core_entity_remove({
                 'entities': [
                   entity,
@@ -255,7 +255,7 @@ function logic(){
       'todo': function(entity){
           core_entities[entity]['x'] -= core_storage_data['speed'];
 
-          if(core_entities[entity]['x'] < -canvas_x){
+          if(core_entities[entity]['x'] < -canvas_properties['width-half']){
               core_entity_remove({
                 'entities': [
                   entity,
