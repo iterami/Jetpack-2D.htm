@@ -329,10 +329,3 @@ function repo_init(){
     });
     canvas_init();
 }
-
-var frame_counter = 0;
-var frames_per_obstacle = 0;
-var game_running = false;
-var half_corridor_height = 0;
-var obstacle_counter = 0;
-var smoke = [];
