@@ -288,6 +288,14 @@ function repo_init(){
           },
         },
       },
+      'globals': {
+        'frame_counter': 0,
+        'frames_per_obstacle': 0,
+        'game_running': 0,
+        'half_corridor_height': 0,
+        'obstacle_counter': 0,
+        'smoke': [],
+      },
       'info': '<input id=start type=button value="Start New Flight"> Best: <span id=score></span>',
       'info-events': {
         'start': {
