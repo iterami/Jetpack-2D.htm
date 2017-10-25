@@ -288,6 +288,15 @@ function repo_init(){
           },
         },
       },
+      'events': {
+        'start': {
+          'onclick': function(){
+              canvas_setmode({
+                'newgame': true,
+              });
+          },
+        },
+      },
       'globals': {
         'frame_counter': 0,
         'frames_per_obstacle': 0,
@@ -297,15 +306,6 @@ function repo_init(){
         'smoke': [],
       },
       'info': '<input id=start type=button value="Start New Flight"> Best: <span id=score></span>',
-      'info-events': {
-        'start': {
-          'todo': function(){
-              canvas_setmode({
-                'newgame': true,
-              });
-          },
-        },
-      },
       'keybinds': {
         72: {
           'todo': function(){
