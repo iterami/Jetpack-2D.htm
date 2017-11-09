@@ -139,19 +139,6 @@ function draw_logic(){
           0,
           125
         );
-
-        if(frame_counter > core_storage_data['score']){
-            canvas_setproperties({
-              'properties': {
-                'fillStyle': '#fff',
-              },
-            });
-            canvas_buffer.fillText(
-              'NEW BEST SCORE!',
-              0,
-              165
-            );
-        }
     }
 }
 
@@ -267,7 +254,6 @@ function logic(){
 
     core_ui_update({
       'ids': {
-        'best': core_storage_data['score'],
         'score': frame_counter,
       },
     });
@@ -305,15 +291,10 @@ function repo_init(){
         'obstacle_counter': 0,
         'smoke': [],
       },
-      'info': '<input id=start type=button value="Start New Flight"> Best: <span id=score></span>',
+      'info': '<input id=start type=button value="Start New Flight">',
       'keybinds': {
         72: {
-          'todo': function(){
-              core_storage_save({
-                'bests': true,
-              });
-              canvas_setmode();
-          },
+          'todo': canvas_setmode,
         },
         87: {},
       },
@@ -325,15 +306,11 @@ function repo_init(){
         'level': 0,
         'obstacle-frequency': 23,
         'obstacle-increase': 115,
-        'score': {
-          'default': 0,
-          'type': 1,
-        },
         'speed': 10,
       },
       'storage-menu': '<table><tr><td><input id=corridor-height><td>Corridor Height<tr><td><input id=gravity><td>Gravity<tr><td><input id=jetpack-power><td>Jetpack Power<tr><td><input id=speed><td>Jetpack Speed<tr><td><select id=level><option value=0>Cave Corridor</option></select><td>Level<tr><td><input id=obstacle-frequency><td>Obstacle Frequency<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
-      'ui': 'Best: <span id=ui-best></span><br>Score: <span id=ui-score></span>',
+      'ui': 'Score: <span id=ui-score></span>',
     });
     canvas_init();
 }
