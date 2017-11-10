@@ -61,7 +61,7 @@ function draw_logic(){
 
     // Draw activated jetpack fire.
     if(game_running
-      && core_keys[core_storage_data['move-↑']]['state']){
+      && core_keys[core_storage_data['jump']]['state']){
         canvas_setproperties({
           'properties': {
             'fillStyle': '#f00',
@@ -189,7 +189,7 @@ function logic(){
     }
 
     // If the player has activated jetpack, increase y speed and add smoke...
-    if(core_keys[core_storage_data['move-↑']]['state']){
+    if(core_keys[core_storage_data['jump']]['state']){
         core_entities['player']['speed'] += core_storage_data['jetpack-power'];
         core_entity_create({
           'properties': {
