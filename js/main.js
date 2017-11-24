@@ -1,19 +1,6 @@
 'use strict';
 
 function draw_logic(){
-    // Draw background.
-    canvas_setproperties({
-      'properties': {
-        'fillStyle': '#333',
-      },
-    });
-    canvas_buffer.fillRect(
-      0,
-      0,
-      canvas_properties['width'],
-      canvas_properties['height']
-    );
-
     canvas_buffer.save();
     canvas_buffer.translate(
       canvas_properties['width-half'],
@@ -312,4 +299,6 @@ function repo_init(){
       'ui': 'Score: <span id=ui-score></span>',
     });
     canvas_init();
+
+    canvas_properties['clearColor'] = '#333';
 }
