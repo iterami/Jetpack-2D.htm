@@ -150,7 +150,7 @@ function logic(){
         }) + 20;
         core_entity_create({
           'properties': {
-            'counter': obstacle_counter,
+            'counter': obstacle_counter++,
             'height': core_random_integer({
               'max': 15,
             }) + 20,
@@ -164,7 +164,6 @@ function logic(){
             'obstacle',
           ],
         });
-        obstacle_counter++;
     }
 
     // If obstacle frequency increase should happen this frame, do it.
