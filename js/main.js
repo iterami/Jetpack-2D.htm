@@ -179,7 +179,6 @@ function logic(){
     if(core_keys[core_storage_data['jump']]['state']){
         core_entities['player']['speed'] += core_storage_data['jetpack-power'];
         core_entity_create({
-          'id': smoke_id,
           'properties': {
             'y': core_entities['player']['y'] - 10,
           },
@@ -187,7 +186,6 @@ function logic(){
             'smoke',
           ],
         });
-        smoke_id++;
 
     // ...else apply gravity.
     }else{
@@ -279,7 +277,6 @@ function repo_init(){
         'half_corridor_height': 0,
         'obstacle_counter': 0,
         'smoke': [],
-        'smoke_id': 0,
       },
       'info': '<select id=level><option value=0>Cave Corridor</option></select><input id=start type=button value="Start New Flight">',
       'keybinds': {
