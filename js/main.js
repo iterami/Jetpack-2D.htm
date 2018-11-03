@@ -1,6 +1,10 @@
 'use strict';
 
 function draw_logic(){
+    if(!core_entities['player']){
+        return;
+    }
+
     canvas_buffer.save();
     canvas_buffer.translate(
       canvas_properties['width-half'],
