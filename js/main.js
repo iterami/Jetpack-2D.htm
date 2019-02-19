@@ -51,7 +51,7 @@ function draw_logic(){
     );
 
     // Draw activated jetpack fire.
-    if(game_running
+    if(core_mode === 1
       && core_keys[core_storage_data['jump']]['state']){
         canvas_setproperties({
           'properties': {
@@ -119,7 +119,7 @@ function draw_logic(){
     canvas_buffer.restore();
 
     // If game is over, display game over messages.
-    if(!game_running){
+    if(core_mode === 0){
         canvas_setproperties({
           'properties': {
             'fillStyle': '#f00',
@@ -134,14 +134,14 @@ function draw_logic(){
 }
 
 function logic(){
-    if(!game_running){
+    if(core_mode === 0){
         return;
     }
 
     // Check if player is outside of game boundaries.
     if(core_entities['player']['y'] + 25 > half_corridor_height
       || core_entities['player']['y'] - 25 < -half_corridor_height){
-        game_running = false;
+        core_mode = 1;
         return;
     }
 
@@ -211,7 +211,7 @@ function logic(){
             && core_entities[entity]['x'] < core_entities[entity]['width']
             && core_entities[entity]['y'] > -core_entities['player']['y'] - 25 - core_entities[entity]['height'] * 2
             && core_entities[entity]['y'] < -core_entities['player']['y'] + 25){
-              game_running = false;
+              core_mode = 0;
           }
 
           // Delete obstacles that are past left side of screen.
@@ -277,7 +277,6 @@ function repo_init(){
       'globals': {
         'frame_counter': 0,
         'frames_per_obstacle': 0,
-        'game_running': 0,
         'half_corridor_height': 0,
         'obstacle_counter': 0,
         'smoke': [],
