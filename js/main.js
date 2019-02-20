@@ -141,7 +141,7 @@ function logic(){
     // Check if player is outside of game boundaries.
     if(core_entities['player']['y'] + 25 > half_corridor_height
       || core_entities['player']['y'] - 25 < -half_corridor_height){
-        core_mode = 1;
+        core_mode = 0;
         return;
     }
 
@@ -171,11 +171,10 @@ function logic(){
         });
     }
 
-    // If obstacle frequency increase should happen this frame, do it.
+    // If obstacle-increase frames reached, increase obstacle frequency.
     if(core_storage_data['obstacle-frequency'] > 0
       && frames_per_obstacle > 1
       && frame_counter % core_storage_data['obstacle-increase'] === 0){
-        // obstacle frequency increase
         frames_per_obstacle -= 1;
     }
 
