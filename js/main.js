@@ -1,7 +1,7 @@
 'use strict';
 
 function draw_logic(){
-    if(!core_entities['player']){
+    if(!entity_entities['player']){
         return;
     }
 
@@ -32,7 +32,7 @@ function draw_logic(){
     });
     canvas_buffer.fillRect(
       0,
-      -core_entities['player']['y'] - 25,
+      -entity_entities['player']['y'] - 25,
       25,
       50
     );
@@ -45,7 +45,7 @@ function draw_logic(){
     });
     canvas_buffer.fillRect(
       -25,
-      -core_entities['player']['y'] - 15,
+      -entity_entities['player']['y'] - 15,
       25,
       20
     );
@@ -60,14 +60,14 @@ function draw_logic(){
         });
         canvas_buffer.fillRect(
           -22,
-          -core_entities['player']['y'] + 5,
+          -entity_entities['player']['y'] + 5,
           18,
           10
         );
     }
 
     // Draw obstacles.
-    core_group_modify({
+    entity_group_modify({
       'groups': [
         'obstacle',
       ],
@@ -78,10 +78,10 @@ function draw_logic(){
             },
           });
           canvas_buffer.fillRect(
-            core_entities[entity]['x'],
-            core_entities[entity]['y'],
-            core_entities[entity]['width'] * 2,
-            core_entities[entity]['height'] * 2
+            entity_entities[entity]['x'],
+            entity_entities[entity]['y'],
+            entity_entities[entity]['width'] * 2,
+            entity_entities[entity]['height'] * 2
           );
           canvas_setproperties({
             'properties': {
@@ -89,9 +89,9 @@ function draw_logic(){
             },
           });
           canvas_buffer.fillText(
-            core_entities[entity]['counter'],
-            core_entities[entity]['x'],
-            core_entities[entity]['y']
+            entity_entities[entity]['counter'],
+            entity_entities[entity]['x'],
+            entity_entities[entity]['y']
           );
       },
     });
@@ -102,14 +102,14 @@ function draw_logic(){
         'fillStyle': '#777',
       },
     });
-    core_group_modify({
+    entity_group_modify({
       'groups': [
         'smoke',
       ],
       'todo': function(entity){
           canvas_buffer.fillRect(
-            core_entities[entity]['x'],
-            -core_entities[entity]['y'],
+            entity_entities[entity]['x'],
+            -entity_entities[entity]['y'],
             10,
             10
           );
@@ -139,8 +139,8 @@ function logic(){
     }
 
     // Check if player is outside of game boundaries.
-    if(core_entities['player']['y'] + 25 > half_corridor_height
-      || core_entities['player']['y'] - 25 < -half_corridor_height){
+    if(entity_entities['player']['y'] + 25 > half_corridor_height
+      || entity_entities['player']['y'] - 25 < -half_corridor_height){
         core_mode = 0;
         return;
     }
@@ -152,7 +152,7 @@ function logic(){
         let obstacle_width = core_random_integer({
           'max': 15,
         }) + 20;
-        core_entity_create({
+        entity_create({
           'id': 'obstacle-' + obstacle_counter,
           'properties': {
             'counter': obstacle_counter++,
@@ -180,10 +180,10 @@ function logic(){
 
     // If the player has activated jetpack, increase y speed and add smoke...
     if(core_keys[core_storage_data['jump']]['state']){
-        core_entities['player']['speed'] += core_storage_data['jetpack-power'];
-        core_entity_create({
+        entity_entities['player']['speed'] += core_storage_data['jetpack-power'];
+        entity_create({
           'properties': {
-            'y': core_entities['player']['y'] - 10,
+            'y': entity_entities['player']['y'] - 10,
           },
           'types': [
             'smoke',
@@ -192,30 +192,30 @@ function logic(){
 
     // ...else apply gravity.
     }else{
-        core_entities['player']['speed'] -= core_storage_data['gravity'];
+        entity_entities['player']['speed'] -= core_storage_data['gravity'];
     }
 
-    core_entities['player']['y'] += core_entities['player']['speed'];
+    entity_entities['player']['y'] += entity_entities['player']['speed'];
 
-    core_group_modify({
+    entity_group_modify({
       'groups': [
         'obstacle',
       ],
       'todo': function(entity){
           // Move obstacles left at speed.
-          core_entities[entity]['x'] -= core_storage_data['speed'];
+          entity_entities[entity]['x'] -= core_storage_data['speed'];
 
           // Check for player collision with obstacle.
-          if(core_entities[entity]['x'] > -core_entities[entity]['width'] * 2
-            && core_entities[entity]['x'] < core_entities[entity]['width']
-            && core_entities[entity]['y'] > -core_entities['player']['y'] - 25 - core_entities[entity]['height'] * 2
-            && core_entities[entity]['y'] < -core_entities['player']['y'] + 25){
+          if(entity_entities[entity]['x'] > -entity_entities[entity]['width'] * 2
+            && entity_entities[entity]['x'] < entity_entities[entity]['width']
+            && entity_entities[entity]['y'] > -entity_entities['player']['y'] - 25 - entity_entities[entity]['height'] * 2
+            && entity_entities[entity]['y'] < -entity_entities['player']['y'] + 25){
               core_mode = 0;
           }
 
           // Delete obstacles that are past left side of screen.
-          if(core_entities[entity]['x'] < -canvas_properties['width-half'] - 70){
-              core_entity_remove({
+          if(entity_entities[entity]['x'] < -canvas_properties['width-half'] - 70){
+              entity_remove({
                 'entities': [
                   entity,
                 ],
@@ -225,15 +225,15 @@ function logic(){
     });
 
     // Delete smoke trails past left side of screen.
-    core_group_modify({
+    entity_group_modify({
       'groups': [
         'smoke',
       ],
       'todo': function(entity){
-          core_entities[entity]['x'] -= core_storage_data['speed'];
+          entity_entities[entity]['x'] -= core_storage_data['speed'];
 
-          if(core_entities[entity]['x'] < -canvas_properties['width-half']){
-              core_entity_remove({
+          if(entity_entities[entity]['x'] < -canvas_properties['width-half']){
+              entity_remove({
                 'entities': [
                   entity,
                 ],
@@ -251,19 +251,6 @@ function logic(){
 
 function repo_init(){
     core_repo_init({
-      'entities': {
-        'obstacle': {},
-        'player': {
-          'properties': {
-            'speed': 0,
-          },
-        },
-        'smoke': {
-          'properties': {
-            'x': -20,
-          },
-        },
-      },
       'events': {
         'start': {
           'onclick': function(){
@@ -304,6 +291,21 @@ function repo_init(){
         + '<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
       'ui': 'Score: <span id=score></span>',
+    });
+    entity_set({
+      'type': 'obstacle',
+    });
+    entity_set({
+      'properties': {
+        'x': -20,
+      },
+      'type': 'smoke',
+    });
+    entity_set({
+      'properties': {
+        'speed': 0,
+      },
+      'type': 'player',
     });
     canvas_init();
 

@@ -6,7 +6,7 @@ function load_data(id){
     core_mode = 1;
     half_corridor_height = core_storage_data['corridor-height'] / 2;
 
-    core_entity_create({
+    entity_create({
       'id': 'player',
       'types': [
         'player',
