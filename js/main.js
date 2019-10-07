@@ -253,11 +253,7 @@ function repo_init(){
     core_repo_init({
       'events': {
         'start': {
-          'onclick': function(){
-              canvas_setmode({
-                'newgame': true,
-              });
-          },
+          'onclick': core_repo_reset,
         },
       },
       'globals': {
@@ -268,12 +264,8 @@ function repo_init(){
         'smoke': [],
       },
       'info': '<select id=level><option value=0>Cave Corridor</option></select><input id=start type=button value="Start New Flight">',
-      'keybinds': {
-        72: {
-          'todo': canvas_setmode,
-        },
-      },
       'menu': true,
+      'reset': canvas_setmode,
       'storage': {
         'corridor-height': 500,
         'gravity': 1,
