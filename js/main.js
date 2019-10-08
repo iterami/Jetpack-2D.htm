@@ -249,6 +249,13 @@ function logic(){
     });
 }
 
+function repo_escape(){
+    if(!entity_entities['player']
+      && !core_menu_open){
+        core_repo_reset();
+    }
+}
+
 function repo_init(){
     core_repo_init({
       'events': {
