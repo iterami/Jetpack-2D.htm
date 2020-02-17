@@ -145,7 +145,7 @@ function logic(){
 
     // If new obstacle should be added this frame, add one.
     if(frame_counter % frames_per_obstacle === 0){
-        let obstacle_width = core_random_integer({
+        const obstacle_width = core_random_integer({
           'max': 15,
         }) + 20;
         entity_create({
