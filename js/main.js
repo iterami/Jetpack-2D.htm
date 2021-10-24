@@ -1,6 +1,6 @@
 'use strict';
 
-function draw_logic(){
+function repo_drawlogic(){
     canvas_buffer.save();
     canvas_buffer.translate(
       canvas_properties['width-half'],
@@ -129,7 +129,7 @@ function draw_logic(){
     }
 }
 
-function logic(){
+function repo_logic(){
     if(core_mode === 0){
         return;
     }
