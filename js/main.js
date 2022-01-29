@@ -7,7 +7,6 @@ function repo_drawlogic(){
       canvas_properties['height-half']
     );
 
-    // Draw corridor over background.
     canvas_setproperties({
       'properties': {
         'fillStyle': '#000',
@@ -20,7 +19,6 @@ function repo_drawlogic(){
       core_storage_data['corridor-height']
     );
 
-    // Draw player body.
     canvas_setproperties({
       'properties': {
         'fillStyle': core_storage_data['color-positive'],
@@ -33,7 +31,6 @@ function repo_drawlogic(){
       50
     );
 
-    // Draw jetpack.
     canvas_setproperties({
       'properties': {
         'fillStyle': '#aaa',
@@ -46,7 +43,6 @@ function repo_drawlogic(){
       20
     );
 
-    // Draw activated jetpack fire.
     if(core_mode === 1
       && core_keys[core_storage_data['jump']]['state']){
         canvas_setproperties({
@@ -62,7 +58,6 @@ function repo_drawlogic(){
         );
     }
 
-    // Draw obstacles.
     entity_group_modify({
       'groups': [
         'obstacle',
@@ -92,7 +87,6 @@ function repo_drawlogic(){
       },
     });
 
-    // Draw smoke trails behind the player.
     canvas_setproperties({
       'properties': {
         'fillStyle': '#777',
@@ -114,7 +108,6 @@ function repo_drawlogic(){
 
     canvas_buffer.restore();
 
-    // If game is over, display game over messages.
     if(core_mode === 0){
         canvas_setproperties({
           'properties': {
@@ -134,7 +127,6 @@ function repo_logic(){
         return;
     }
 
-    // Check if player is outside of game boundaries.
     if(entity_entities['player']['y'] + 25 > half_corridor_height
       || entity_entities['player']['y'] - 25 < -half_corridor_height){
         core_mode = 0;
@@ -143,7 +135,6 @@ function repo_logic(){
 
     frame_counter += 1;
 
-    // If new obstacle should be added this frame, add one.
     if(frame_counter % frames_per_obstacle === 0){
         const obstacle_width = core_random_integer({
           'max': 15,
@@ -167,14 +158,12 @@ function repo_logic(){
         });
     }
 
-    // If obstacle-increase frames reached, increase obstacle frequency.
     if(core_storage_data['obstacle-frequency'] > 0
       && frames_per_obstacle > 1
       && frame_counter % core_storage_data['obstacle-increase'] === 0){
         frames_per_obstacle -= 1;
     }
 
-    // If the player has activated jetpack, increase y speed and add smoke...
     if(core_keys[core_storage_data['jump']]['state']){
         entity_entities['player']['speed'] += core_storage_data['jetpack-power'];
         entity_create({
@@ -186,7 +175,6 @@ function repo_logic(){
           ],
         });
 
-    // ...else apply gravity.
     }else{
         entity_entities['player']['speed'] -= core_storage_data['gravity'];
     }
@@ -198,10 +186,8 @@ function repo_logic(){
         'obstacle',
       ],
       'todo': function(entity){
-          // Move obstacles left at speed.
           entity_entities[entity]['x'] -= core_storage_data['speed'];
 
-          // Check for player collision with obstacle.
           if(entity_entities[entity]['x'] > -entity_entities[entity]['width'] * 2
             && entity_entities[entity]['x'] < entity_entities[entity]['width']
             && entity_entities[entity]['y'] > -entity_entities['player']['y'] - 25 - entity_entities[entity]['height'] * 2
@@ -209,7 +195,6 @@ function repo_logic(){
               core_mode = 0;
           }
 
-          // Delete obstacles that are past left side of screen.
           if(entity_entities[entity]['x'] < -canvas_properties['width-half'] - 70){
               entity_remove({
                 'entities': [
@@ -220,7 +205,6 @@ function repo_logic(){
       },
     });
 
-    // Delete smoke trails past left side of screen.
     entity_group_modify({
       'groups': [
         'smoke',
@@ -278,12 +262,12 @@ function repo_init(){
         'obstacle-increase': 115,
         'speed': 10,
       },
-      'storage-menu': '<table><tr><td><input id=corridor-height><td>Corridor Height'
-        + '<tr><td><input id=gravity><td>Gravity'
-        + '<tr><td><input id=jetpack-power><td>Jetpack Power'
-        + '<tr><td><input id=speed><td>Jetpack Speed'
-        + '<tr><td><input id=obstacle-frequency><td>Obstacle Frequency'
-        + '<tr><td><input id=obstacle-increase><td>Obstacle Increase</table>',
+      'storage-menu': '<table><tr><td><input id=corridor-height min=1 type=number><td>Corridor Height'
+        + '<tr><td><input id=gravity type=number><td>Gravity'
+        + '<tr><td><input id=jetpack-power type=number><td>Jetpack Power'
+        + '<tr><td><input id=speed type=number><td>Jetpack Speed'
+        + '<tr><td><input id=obstacle-frequency min=1 type=number><td>Obstacle Frequency'
+        + '<tr><td><input id=obstacle-increase min=1 type=number><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
       'ui': 'Score: <span id=score></span>',
     });
