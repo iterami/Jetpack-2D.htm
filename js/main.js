@@ -262,12 +262,12 @@ function repo_init(){
         'obstacle-increase': 115,
         'speed': 10,
       },
-      'storage-menu': '<table><tr><td><input id=corridor-height min=1 step=any type=number><td>Corridor Height'
-        + '<tr><td><input id=gravity step=any type=number><td>Gravity'
-        + '<tr><td><input id=jetpack-power step=any type=number><td>Jetpack Power'
-        + '<tr><td><input id=speed step=any type=number><td>Jetpack Speed'
-        + '<tr><td><input id=obstacle-frequency min=1 step=any type=number><td>Obstacle Frequency'
-        + '<tr><td><input id=obstacle-increase min=1 step=any type=number><td>Obstacle Increase</table>',
+      'storage-menu': '<table><tr><td><input class=mini id=corridor-height min=1 step=any type=number><td>Corridor Height'
+        + '<tr><td><input class=mini id=gravity step=any type=number><td>Gravity'
+        + '<tr><td><input class=mini id=jetpack-power step=any type=number><td>Jetpack Power'
+        + '<tr><td><input class=mini id=speed step=any type=number><td>Jetpack Speed'
+        + '<tr><td><input class=mini id=obstacle-frequency min=1 step=any type=number><td>Obstacle Frequency'
+        + '<tr><td><input class=mini id=obstacle-increase min=1 step=any type=number><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
       'ui': 'Score: <span id=score></span>',
     });
