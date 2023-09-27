@@ -20,8 +20,8 @@ function repo_drawlogic(){
         return;
     }
 
-    canvas_buffer.save();
-    canvas_buffer.translate(
+    canvas.save();
+    canvas.translate(
       canvas_properties['width-half'],
       canvas_properties['height-half']
     );
@@ -31,7 +31,7 @@ function repo_drawlogic(){
         'fillStyle': '#000',
       },
     });
-    canvas_buffer.fillRect(
+    canvas.fillRect(
       -canvas_properties['width-half'],
       -half_corridor_height,
       canvas_properties['width'],
@@ -43,7 +43,7 @@ function repo_drawlogic(){
         'fillStyle': core_storage_data['color-positive'],
       },
     });
-    canvas_buffer.fillRect(
+    canvas.fillRect(
       0,
       -entity_entities['player']['y'] - 25,
       25,
@@ -55,7 +55,7 @@ function repo_drawlogic(){
         'fillStyle': '#aaa',
       },
     });
-    canvas_buffer.fillRect(
+    canvas.fillRect(
       -25,
       -entity_entities['player']['y'] - 15,
       25,
@@ -69,7 +69,7 @@ function repo_drawlogic(){
             'fillStyle': '#f00',
           },
         });
-        canvas_buffer.fillRect(
+        canvas.fillRect(
           -22,
           -entity_entities['player']['y'] + 5,
           18,
@@ -87,7 +87,7 @@ function repo_drawlogic(){
               'fillStyle': '#555',
             },
           });
-          canvas_buffer.fillRect(
+          canvas.fillRect(
             entity_entities[entity]['x'],
             entity_entities[entity]['y'],
             entity_entities[entity]['width'] * 2,
@@ -98,7 +98,7 @@ function repo_drawlogic(){
               'fillStyle': '#fff',
             },
           });
-          canvas_buffer.fillText(
+          canvas.fillText(
             entity_entities[entity]['counter'],
             entity_entities[entity]['x'],
             entity_entities[entity]['y']
@@ -116,7 +116,7 @@ function repo_drawlogic(){
         'smoke',
       ],
       'todo': function(entity){
-          canvas_buffer.fillRect(
+          canvas.fillRect(
             entity_entities[entity]['x'],
             -entity_entities[entity]['y'],
             10,
@@ -125,7 +125,7 @@ function repo_drawlogic(){
       },
     });
 
-    canvas_buffer.restore();
+    canvas.restore();
 
     if(core_mode === 0){
         canvas_setproperties({
@@ -133,7 +133,7 @@ function repo_drawlogic(){
             'fillStyle': '#f00',
           },
         });
-        canvas_buffer.fillText(
+        canvas.fillText(
           'You crashed... ☹',
           0,
           125
