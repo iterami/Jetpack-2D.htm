@@ -40,7 +40,7 @@ function repo_drawlogic(){
 
     canvas_setproperties({
       'properties': {
-        'fillStyle': core_storage_data['color-positive'],
+        'fillStyle': '#206620',
       },
     });
     canvas.fillRect(
