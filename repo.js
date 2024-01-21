@@ -269,7 +269,7 @@ function repo_init(){
         'obstacle_counter': 0,
         'smoke': [],
       },
-      'info': '<select id=level><option value=0>Cave Corridor</select><input id=start type=button value="Start New Flight">',
+      'info': '<select id=level><option value=0>Cave Corridor</select><button id=start type=button>Start New Flight</button>',
       'menu': true,
       'reset': canvas_setmode,
       'storage': {
