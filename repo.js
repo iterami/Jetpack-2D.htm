@@ -27,9 +27,7 @@ function repo_drawlogic(){
     );
 
     canvas_setproperties({
-      'properties': {
-        'fillStyle': '#000',
-      },
+      'fillStyle': '#000',
     });
     canvas.fillRect(
       -canvas_properties['width-half'],
@@ -39,9 +37,7 @@ function repo_drawlogic(){
     );
 
     canvas_setproperties({
-      'properties': {
-        'fillStyle': '#206620',
-      },
+      'fillStyle': '#206620',
     });
     canvas.fillRect(
       0,
@@ -51,9 +47,7 @@ function repo_drawlogic(){
     );
 
     canvas_setproperties({
-      'properties': {
-        'fillStyle': '#aaa',
-      },
+      'fillStyle': '#aaa',
     });
     canvas.fillRect(
       -25,
@@ -65,9 +59,7 @@ function repo_drawlogic(){
     if(core_mode === 1
       && core_keys[core_storage_data['jump']]['state']){
         canvas_setproperties({
-          'properties': {
-            'fillStyle': '#f00',
-          },
+          'fillStyle': '#f00',
         });
         canvas.fillRect(
           -22,
@@ -83,9 +75,7 @@ function repo_drawlogic(){
       ],
       'todo': function(entity){
           canvas_setproperties({
-            'properties': {
-              'fillStyle': '#555',
-            },
+            'fillStyle': '#555',
           });
           canvas.fillRect(
             entity_entities[entity]['x'],
@@ -94,9 +84,7 @@ function repo_drawlogic(){
             entity_entities[entity]['height'] * 2
           );
           canvas_setproperties({
-            'properties': {
-              'fillStyle': '#fff',
-            },
+            'fillStyle': '#fff',
           });
           canvas.fillText(
             entity_entities[entity]['counter'],
@@ -107,9 +95,7 @@ function repo_drawlogic(){
     });
 
     canvas_setproperties({
-      'properties': {
-        'fillStyle': '#777',
-      },
+      'fillStyle': '#777',
     });
     entity_group_modify({
       'groups': [
@@ -129,9 +115,7 @@ function repo_drawlogic(){
 
     if(core_mode === 0){
         canvas_setproperties({
-          'properties': {
-            'fillStyle': '#f00',
-          },
+          'fillStyle': '#f00',
         });
         canvas.fillText(
           'You crashed... ☹',
