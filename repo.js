@@ -79,18 +79,18 @@ function repo_drawlogic(){
             'fillStyle': '#555',
           });
           canvas.fillRect(
-            entity_entities[entity]['x'],
-            entity_entities[entity]['y'],
-            entity_entities[entity]['width'] * 2,
-            entity_entities[entity]['height'] * 2
+            entity['x'],
+            entity['y'],
+            entity['width'] * 2,
+            entity['height'] * 2
           );
           canvas_setproperties({
             'fillStyle': '#fff',
           });
           canvas.fillText(
-            entity_entities[entity]['counter'],
-            entity_entities[entity]['x'],
-            entity_entities[entity]['y']
+            entity['counter'],
+            entity['x'],
+            entity['y']
           );
       },
     });
@@ -104,8 +104,8 @@ function repo_drawlogic(){
       ],
       'todo': function(entity){
           canvas.fillRect(
-            entity_entities[entity]['x'],
-            -entity_entities[entity]['y'],
+            entity['x'],
+            -entity['y'],
             10,
             10
           );
@@ -191,19 +191,19 @@ function repo_logic(){
         'obstacle',
       ],
       'todo': function(entity){
-          entity_entities[entity]['x'] -= core_storage_data['speed'];
+          entity['x'] -= core_storage_data['speed'];
 
-          if(entity_entities[entity]['x'] > -entity_entities[entity]['width'] * 2
-            && entity_entities[entity]['x'] < entity_entities[entity]['width']
-            && entity_entities[entity]['y'] > -entity_entities['player']['y'] - 25 - entity_entities[entity]['height'] * 2
-            && entity_entities[entity]['y'] < -entity_entities['player']['y'] + 25){
+          if(entity['x'] > -entity['width'] * 2
+            && entity['x'] < entity['width']
+            && entity['y'] > -entity_entities['player']['y'] - 25 - entity['height'] * 2
+            && entity['y'] < -entity_entities['player']['y'] + 25){
               core_mode = 0;
           }
 
-          if(entity_entities[entity]['x'] < -canvas_properties['width-half'] - 70){
+          if(entity['x'] < -canvas_properties['width-half'] - 70){
               entity_remove({
                 'entities': [
-                  entity,
+                  entity['id'],
                 ],
               });
           }
@@ -215,12 +215,12 @@ function repo_logic(){
         'smoke',
       ],
       'todo': function(entity){
-          entity_entities[entity]['x'] -= core_storage_data['speed'];
+          entity['x'] -= core_storage_data['speed'];
 
-          if(entity_entities[entity]['x'] < -canvas_properties['width-half']){
+          if(entity['x'] < -canvas_properties['width-half']){
               entity_remove({
                 'entities': [
-                  entity,
+                  entity['id'],
                 ],
               });
           }
