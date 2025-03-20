@@ -257,6 +257,7 @@ function repo_init(){
       },
       'info': '<select id=level><option value=0>Cave Corridor</select><button id=start type=button>Start New Flight</button>',
       'menu': true,
+      'mousebinds': {},
       'reset': canvas_setmode,
       'storage': {
         'corridor-height': 500,
