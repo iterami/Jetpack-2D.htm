@@ -237,7 +237,7 @@ function repo_logic(){
 function repo_escape(){
     if(!entity_entities['player']
       && !core_menu_open){
-        canvas_setmode();
+        start();
     }
 }
 
@@ -245,7 +245,7 @@ function repo_init(){
     core_repo_init({
       'events': {
         'start': {
-          'onclick': canvas_setmode,
+          'onclick': start,
         },
       },
       'globals': {
@@ -295,4 +295,12 @@ function repo_init(){
     canvas_init();
 
     canvas_properties['clearColor'] = '#333';
+}
+
+function start(){
+    if(frame_counter > 0
+      && !globalThis.confirm('Start new flight?')){
+        return;
+    }
+    canvas_setmode();
 }
