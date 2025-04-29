@@ -237,7 +237,7 @@ function repo_logic(){
 function repo_escape(){
     if(!entity_entities['player']
       && !core_menu_open){
-        core_repo_reset();
+        canvas_setmode();
     }
 }
 
@@ -245,7 +245,7 @@ function repo_init(){
     core_repo_init({
       'events': {
         'start': {
-          'onclick': core_repo_reset,
+          'onclick': canvas_setmode,
         },
       },
       'globals': {
@@ -258,7 +258,6 @@ function repo_init(){
       'info': '<select id=level><option value=0>Cave Corridor</select><button id=start type=button>Start New Flight</button>',
       'menu': true,
       'mousebinds': {},
-      'reset': canvas_setmode,
       'storage': {
         'corridor-height': 500,
         'gravity': 1,
@@ -268,6 +267,7 @@ function repo_init(){
         'obstacle-increase': 115,
         'speed': 10,
       },
+      'storage-controls': true,
       'storage-menu': '<table><tr><td><input class=mini id=corridor-height min=1 step=any type=number><td>Corridor Height'
         + '<tr><td><input class=mini id=gravity step=any type=number><td>Gravity'
         + '<tr><td><input class=mini id=jetpack-power step=any type=number><td>Jetpack Power'
