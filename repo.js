@@ -58,7 +58,7 @@ function repo_drawlogic(){
 
     if(core_mode === 1
       && (core_keys[core_storage_data['jump']]['state']
-        || core_mouse['down-0'])){
+        || core_pointer['down-0'])){
         canvas_setproperties({
           'fillStyle': '#f00',
         });
@@ -169,7 +169,7 @@ function repo_logic(){
     }
 
     if(core_keys[core_storage_data['jump']]['state']
-      || core_mouse['down-0']){
+      || core_pointer['down-0']){
         entity_entities['player']['speed'] += core_storage_data['jetpack-power'];
         entity_create({
           'properties': {
@@ -257,7 +257,7 @@ function repo_init(){
       },
       'info': '<select id=level><option value=0>Cave Corridor</select><button id=start type=button>Start New Flight</button>',
       'menu': true,
-      'mousebinds': {},
+      'pointerbinds': {},
       'storage': {
         'corridor-height': 500,
         'gravity': 1,
