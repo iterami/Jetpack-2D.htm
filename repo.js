@@ -243,6 +243,13 @@ function repo_escape(){
 
 function repo_init(){
     core_repo_init({
+      'beforeunload': {
+        'todo': function(event){
+            if(frame_counter > 0){
+                event.preventDefault();
+            }
+        },
+      },
       'events': {
         'start': {
           'onclick': start,
