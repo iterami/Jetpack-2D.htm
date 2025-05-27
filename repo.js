@@ -126,6 +126,76 @@ function repo_drawlogic(){
     }
 }
 
+function repo_escape(){
+    if(!entity_entities['player']
+      && !core_menu_open){
+        start();
+    }
+}
+
+function repo_init(){
+    core_repo_init({
+      'beforeunload': {
+        'todo': function(event){
+            if(frame_counter > 0){
+                event.preventDefault();
+            }
+        },
+      },
+      'events': {
+        'start': {
+          'onclick': start,
+        },
+      },
+      'globals': {
+        'frame_counter': 0,
+        'frames_per_obstacle': 0,
+        'half_corridor_height': 0,
+        'obstacle_counter': 0,
+        'smoke': [],
+      },
+      'info': '<select id=level><option value=0>Cave Corridor</select><button id=start type=button>Start New Flight</button>',
+      'menu': true,
+      'pointerbinds': {},
+      'storage': {
+        'corridor-height': 500,
+        'gravity': 1,
+        'jetpack-power': 2,
+        'level': 0,
+        'obstacle-frequency': 23,
+        'obstacle-increase': 115,
+        'speed': 10,
+      },
+      'storage-controls': true,
+      'storage-menu': '<table><tr><td><input class=mini id=corridor-height min=1 step=any type=number><td>Corridor Height'
+        + '<tr><td><input class=mini id=gravity step=any type=number><td>Gravity'
+        + '<tr><td><input class=mini id=jetpack-power step=any type=number><td>Jetpack Power'
+        + '<tr><td><input class=mini id=speed step=any type=number><td>Jetpack Speed'
+        + '<tr><td><input class=mini id=obstacle-frequency min=1 step=1 type=number><td>Obstacle Frequency'
+        + '<tr><td><input class=mini id=obstacle-increase min=1 step=1 type=number><td>Obstacle Increase</table>',
+      'title': 'Jetpack-2D.htm',
+      'ui': 'Score: <span id=score></span>',
+    });
+    entity_set({
+      'type': 'obstacle',
+    });
+    entity_set({
+      'properties': {
+        'x': -20,
+      },
+      'type': 'smoke',
+    });
+    entity_set({
+      'properties': {
+        'speed': 0,
+      },
+      'type': 'player',
+    });
+    canvas_init();
+
+    canvas_properties['clearColor'] = '#333';
+}
+
 function repo_logic(){
     if(core_mode === 0){
         return;
@@ -232,76 +302,6 @@ function repo_logic(){
         'score': frame_counter,
       },
     });
-}
-
-function repo_escape(){
-    if(!entity_entities['player']
-      && !core_menu_open){
-        start();
-    }
-}
-
-function repo_init(){
-    core_repo_init({
-      'beforeunload': {
-        'todo': function(event){
-            if(frame_counter > 0){
-                event.preventDefault();
-            }
-        },
-      },
-      'events': {
-        'start': {
-          'onclick': start,
-        },
-      },
-      'globals': {
-        'frame_counter': 0,
-        'frames_per_obstacle': 0,
-        'half_corridor_height': 0,
-        'obstacle_counter': 0,
-        'smoke': [],
-      },
-      'info': '<select id=level><option value=0>Cave Corridor</select><button id=start type=button>Start New Flight</button>',
-      'menu': true,
-      'pointerbinds': {},
-      'storage': {
-        'corridor-height': 500,
-        'gravity': 1,
-        'jetpack-power': 2,
-        'level': 0,
-        'obstacle-frequency': 23,
-        'obstacle-increase': 115,
-        'speed': 10,
-      },
-      'storage-controls': true,
-      'storage-menu': '<table><tr><td><input class=mini id=corridor-height min=1 step=any type=number><td>Corridor Height'
-        + '<tr><td><input class=mini id=gravity step=any type=number><td>Gravity'
-        + '<tr><td><input class=mini id=jetpack-power step=any type=number><td>Jetpack Power'
-        + '<tr><td><input class=mini id=speed step=any type=number><td>Jetpack Speed'
-        + '<tr><td><input class=mini id=obstacle-frequency min=1 step=1 type=number><td>Obstacle Frequency'
-        + '<tr><td><input class=mini id=obstacle-increase min=1 step=1 type=number><td>Obstacle Increase</table>',
-      'title': 'Jetpack-2D.htm',
-      'ui': 'Score: <span id=score></span>',
-    });
-    entity_set({
-      'type': 'obstacle',
-    });
-    entity_set({
-      'properties': {
-        'x': -20,
-      },
-      'type': 'smoke',
-    });
-    entity_set({
-      'properties': {
-        'speed': 0,
-      },
-      'type': 'player',
-    });
-    canvas_init();
-
-    canvas_properties['clearColor'] = '#333';
 }
 
 function start(){
