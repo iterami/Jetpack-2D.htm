@@ -5,7 +5,7 @@ function load_data(id){
     frame_counter = 0;
     frames_per_obstacle = Math.floor(core_storage_data['obstacle-frequency']);
     half_corridor_height = core_storage_data['corridor-height'] / 2;
-    obstacle_counter = 0;
+    obstacle_counter = 1;
 
     entity_create({
       'id': 'player',
@@ -151,7 +151,7 @@ function repo_init(){
         'frame_counter': 0,
         'frames_per_obstacle': 0,
         'half_corridor_height': 0,
-        'obstacle_counter': 0,
+        'obstacle_counter': 1,
         'smoke': [],
       },
       'info': '<select id=level><option value=0>Cave Corridor</select><button id=start type=button>Start New Flight</button>',
