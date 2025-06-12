@@ -212,21 +212,15 @@ function repo_logic(){
     frame_counter += 1;
 
     if(frame_counter % frames_per_obstacle === 0){
-        const obstacle_width = core_random_integer({
-          'max': 15,
-        }) + 20;
+        const obstacle_width = core_random_integer(15) + 20;
         entity_create({
           'id': 'obstacle-' + obstacle_counter,
           'properties': {
             'counter': obstacle_counter++,
-            'height': core_random_integer({
-              'max': 15,
-            }) + 20,
+            'height': core_random_integer(15) + 20,
             'width': obstacle_width,
             'x': canvas_properties['width-half'] + obstacle_width,
-            'y': core_random_integer({
-              'max': core_storage_data['corridor-height'],
-            }) - half_corridor_height,
+            'y': core_random_integer(core_storage_data['corridor-height']) - half_corridor_height,
           },
           'types': [
             'obstacle',
