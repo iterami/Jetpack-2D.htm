@@ -3,8 +3,8 @@
 function load_data(id){
     core_mode = 1;
     frame_counter = 0;
-    frames_per_obstacle = Math.floor(core_storage_data['obstacle-frequency']);
-    half_corridor_height = core_storage_data['corridor-height'] / 2;
+    frames_per_obstacle = Math.floor(core_storage_data.obstacle_frequency);
+    half_corridor_height = core_storage_data.corridor_height / 2;
     obstacle_counter = 1;
 
     entity_create({
@@ -16,24 +16,24 @@ function load_data(id){
 }
 
 function repo_drawlogic(){
-    if(!entity_entities['player']){
+    if(!entity_entities.player){
         return;
     }
 
     canvas.save();
     canvas.translate(
-      canvas_properties['width-half'],
-      canvas_properties['height-half']
+      canvas_properties.width_half,
+      canvas_properties.height_half
     );
 
     canvas_setproperties({
       'fillStyle': '#000',
     });
     canvas.fillRect(
-      -canvas_properties['width-half'],
+      -canvas_properties.width_half,
       -half_corridor_height,
-      canvas_properties['width'],
-      core_storage_data['corridor-height']
+      canvas_properties.width,
+      core_storage_data.corridor_height
     );
 
     canvas_setproperties({
@@ -41,7 +41,7 @@ function repo_drawlogic(){
     });
     canvas.fillRect(
       0,
-      -entity_entities['player']['y'] - 25,
+      -entity_entities.player.y - 25,
       25,
       50
     );
@@ -51,20 +51,20 @@ function repo_drawlogic(){
     });
     canvas.fillRect(
       -25,
-      -entity_entities['player']['y'] - 15,
+      -entity_entities.player.y - 15,
       25,
       20
     );
 
     if(core_mode === 1
-      && (core_keys[core_storage_data['jump']]['state']
+      && (core_keys[core_storage_data.jump].state
         || core_pointer['down-0'])){
         canvas_setproperties({
           'fillStyle': '#f00',
         });
         canvas.fillRect(
           -22,
-          -entity_entities['player']['y'] + 5,
+          -entity_entities.player.y + 5,
           18,
           10
         );
@@ -79,18 +79,18 @@ function repo_drawlogic(){
             'fillStyle': '#555',
           });
           canvas.fillRect(
-            entity['x'],
-            entity['y'],
-            entity['width'] * 2,
-            entity['height'] * 2
+            entity.x,
+            entity.y,
+            entity.width * 2,
+            entity.height * 2
           );
           canvas_setproperties({
             'fillStyle': '#fff',
           });
           canvas.fillText(
-            entity['counter'],
-            entity['x'],
-            entity['y']
+            entity.counter,
+            entity.x,
+            entity.y
           );
       },
     });
@@ -104,8 +104,8 @@ function repo_drawlogic(){
       ],
       'todo': function(entity){
           canvas.fillRect(
-            entity['x'],
-            -entity['y'],
+            entity.x,
+            -entity.y,
             10,
             10
           );
@@ -127,7 +127,7 @@ function repo_drawlogic(){
 }
 
 function repo_escape(){
-    if(!entity_entities['player']
+    if(!entity_entities.player
       && !core_menu_open){
         start();
     }
@@ -158,21 +158,21 @@ function repo_init(){
       'menu': true,
       'pointerbinds': {},
       'storage': {
-        'corridor-height': 500,
+        'corridor_height': 500,
         'gravity': 1,
-        'jetpack-power': 2,
+        'jetpack_power': 2,
         'level': 0,
-        'obstacle-frequency': 23,
-        'obstacle-increase': 115,
+        'obstacle_frequency': 23,
+        'obstacle_increase': 115,
         'speed': 10,
       },
       'storage-controls': true,
-      'storage-menu': '<table><tr><td><input class=mini id=corridor-height min=1 step=any type=number><td>Corridor Height'
+      'storage-menu': '<table><tr><td><input class=mini id=corridor_height min=1 step=any type=number><td>Corridor Height'
         + '<tr><td><input class=mini id=gravity step=any type=number><td>Gravity'
-        + '<tr><td><input class=mini id=jetpack-power step=any type=number><td>Jetpack Power'
+        + '<tr><td><input class=mini id=jetpack_power step=any type=number><td>Jetpack Power'
         + '<tr><td><input class=mini id=speed step=any type=number><td>Jetpack Speed'
-        + '<tr><td><input class=mini id=obstacle-frequency min=1 step=1 type=number><td>Obstacle Frequency'
-        + '<tr><td><input class=mini id=obstacle-increase min=1 step=1 type=number><td>Obstacle Increase</table>',
+        + '<tr><td><input class=mini id=obstacle_frequency min=1 step=1 type=number><td>Obstacle Frequency'
+        + '<tr><td><input class=mini id=obstacle_increase min=1 step=1 type=number><td>Obstacle Increase</table>',
       'title': 'Jetpack-2D.htm',
       'ui': 'Score: <span id=score></span>',
     });
@@ -195,7 +195,7 @@ function repo_init(){
       'cursor': 'pointer',
     });
 
-    canvas_properties['clearColor'] = '#333';
+    canvas_properties.clearColor = '#333';
 }
 
 function repo_logic(){
@@ -203,8 +203,8 @@ function repo_logic(){
         return;
     }
 
-    if(entity_entities['player']['y'] + 25 > half_corridor_height
-      || entity_entities['player']['y'] - 25 < -half_corridor_height){
+    if(entity_entities.player.y + 25 > half_corridor_height
+      || entity_entities.player.y - 25 < -half_corridor_height){
         core_mode = 0;
         return;
     }
@@ -214,13 +214,13 @@ function repo_logic(){
     if(frame_counter % frames_per_obstacle === 0){
         const obstacle_width = core_random_integer(15) + 20;
         entity_create({
-          'id': 'obstacle-' + obstacle_counter,
+          'id': 'obstacle_' + obstacle_counter,
           'properties': {
             'counter': obstacle_counter++,
             'height': core_random_integer(15) + 20,
             'width': obstacle_width,
-            'x': canvas_properties['width-half'] + obstacle_width,
-            'y': core_random_integer(core_storage_data['corridor-height']) - half_corridor_height,
+            'x': canvas_properties.width_half + obstacle_width,
+            'y': core_random_integer(core_storage_data.corridor_height) - half_corridor_height,
           },
           'types': [
             'obstacle',
@@ -228,18 +228,18 @@ function repo_logic(){
         });
     }
 
-    if(core_storage_data['obstacle-frequency'] > 0
+    if(core_storage_data.obstacle_frequency > 0
       && frames_per_obstacle > 1
-      && frame_counter % Math.floor(core_storage_data['obstacle-increase']) === 0){
+      && frame_counter % Math.floor(core_storage_data.obstacle_increase) === 0){
         frames_per_obstacle -= 1;
     }
 
-    if(core_keys[core_storage_data['jump']]['state']
+    if(core_keys[core_storage_data.jump].state
       || core_pointer['down-0']){
-        entity_entities['player']['speed'] += core_storage_data['jetpack-power'];
+        entity_entities.player.speed += core_storage_data.jetpack_power;
         entity_create({
           'properties': {
-            'y': entity_entities['player']['y'] - 10,
+            'y': entity_entities.player.y - 10,
           },
           'types': [
             'smoke',
@@ -247,29 +247,29 @@ function repo_logic(){
         });
 
     }else{
-        entity_entities['player']['speed'] -= core_storage_data['gravity'];
+        entity_entities.player.speed -= core_storage_data.gravity;
     }
 
-    entity_entities['player']['y'] += entity_entities['player']['speed'];
+    entity_entities.player.y += entity_entities.player.speed;
 
     entity_group_modify({
       'groups': [
         'obstacle',
       ],
       'todo': function(entity){
-          entity['x'] -= core_storage_data['speed'];
+          entity.x -= core_storage_data.speed;
 
-          if(entity['x'] > -entity['width'] * 2
-            && entity['x'] < entity['width']
-            && entity['y'] > -entity_entities['player']['y'] - 25 - entity['height'] * 2
-            && entity['y'] < -entity_entities['player']['y'] + 25){
+          if(entity.x > -entity.width * 2
+            && entity.x < entity.width
+            && entity.y > -entity_entities.player.y - 25 - entity.height * 2
+            && entity.y < -entity_entities.player.y + 25){
               core_mode = 0;
           }
 
-          if(entity['x'] < -canvas_properties['width-half'] - 70){
+          if(entity.x < -canvas_properties.width_half - 70){
               entity_remove({
                 'entities': [
-                  entity['id'],
+                  entity.id,
                 ],
               });
           }
@@ -281,12 +281,12 @@ function repo_logic(){
         'smoke',
       ],
       'todo': function(entity){
-          entity['x'] -= core_storage_data['speed'];
+          entity.x -= core_storage_data.speed;
 
-          if(entity['x'] < -canvas_properties['width-half']){
+          if(entity.x < -canvas_properties.width_half){
               entity_remove({
                 'entities': [
-                  entity['id'],
+                  entity.id,
                 ],
               });
           }
