@@ -166,7 +166,7 @@ function repo_init(){
         'obstacle_increase': 115,
         'speed': 10,
       },
-      'storage-controls': true,
+      'storage_controls': true,
       'storage-menu': '<table><tr><td><input class=mini id=corridor_height min=1 step=any type=number><td>Corridor Height'
         + '<tr><td><input class=mini id=gravity step=any type=number><td>Gravity'
         + '<tr><td><input class=mini id=jetpack_power step=any type=number><td>Jetpack Power'
