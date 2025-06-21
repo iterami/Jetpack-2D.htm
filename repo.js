@@ -58,7 +58,7 @@ function repo_drawlogic(){
 
     if(core_mode === 1
       && (core_keys[core_storage_data.jump].state
-        || core_pointer['down-0'])){
+        || core_pointer.down_0)){
         canvas_setproperties({
           'fillStyle': '#f00',
         });
@@ -235,7 +235,7 @@ function repo_logic(){
     }
 
     if(core_keys[core_storage_data.jump].state
-      || core_pointer['down-0']){
+      || core_pointer.down_0){
         entity_entities.player.speed += core_storage_data.jetpack_power;
         entity_create({
           'properties': {
