@@ -138,6 +138,7 @@ function repo_init(){
       'beforeunload': {
         'todo': function(event){
             if(frame_counter > 0){
+                core_escape(true);
                 event.preventDefault();
             }
         },
