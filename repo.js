@@ -2,7 +2,7 @@
 
 function load_data(id){
     core_mode = 1;
-    frame_counter = 0;
+    score = 0;
     frames_per_obstacle = Math.floor(core_storage_data.obstacle_frequency);
     half_corridor_height = core_storage_data.corridor_height / 2;
     obstacle_counter = 1;
@@ -137,7 +137,7 @@ function repo_init(){
     core_repo_init({
       'beforeunload': {
         'todo': function(event){
-            if(frame_counter > 0){
+            if(score !== 0){
                 core_escape(true);
                 event.preventDefault();
             }
@@ -149,10 +149,10 @@ function repo_init(){
         },
       },
       'globals': {
-        'frame_counter': 0,
         'frames_per_obstacle': 0,
         'half_corridor_height': 0,
         'obstacle_counter': 1,
+        'score': 0,
         'smoke': [],
       },
       'info': '<select id=level><option value=0>Cave Corridor</select><button id=start type=button>Start New Flight</button>',
@@ -210,9 +210,9 @@ function repo_logic(){
         return;
     }
 
-    frame_counter += 1;
+    score += 1;
 
-    if(frame_counter % frames_per_obstacle === 0){
+    if(score % frames_per_obstacle === 0){
         const obstacle_width = core_random_integer(15) + 20;
         entity_create({
           'id': 'obstacle_' + obstacle_counter,
@@ -231,7 +231,7 @@ function repo_logic(){
 
     if(core_storage_data.obstacle_frequency > 0
       && frames_per_obstacle > 1
-      && frame_counter % Math.floor(core_storage_data.obstacle_increase) === 0){
+      && score % Math.floor(core_storage_data.obstacle_increase) === 0){
         frames_per_obstacle -= 1;
     }
 
@@ -296,13 +296,13 @@ function repo_logic(){
 
     core_ui_update({
       'ids': {
-        'score': frame_counter,
+        'score': score,
       },
     });
 }
 
 function start(){
-    if(frame_counter > 0
+    if(score !== 0
       && !globalThis.confirm('Start new flight?')){
         return;
     }
