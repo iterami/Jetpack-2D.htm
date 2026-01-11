@@ -1,20 +1,5 @@
 'use strict';
 
-function load_data(id){
-    core_mode = 1;
-    score = 0;
-    frames_per_obstacle = Math.floor(core_storage_data.obstacle_frequency);
-    half_corridor_height = core_storage_data.corridor_height / 2;
-    obstacle_counter = 1;
-
-    entity_create({
-      'id': 'player',
-      'types': [
-        'player',
-      ],
-    });
-}
-
 function repo_drawlogic(){
     if(!entity_entities.player){
         return;
@@ -197,6 +182,21 @@ function repo_init(){
     });
 
     canvas_properties.clearColor = '#333';
+}
+
+function repo_load(id){
+    core_mode = 1;
+    score = 0;
+    frames_per_obstacle = Math.floor(core_storage_data.obstacle_frequency);
+    half_corridor_height = core_storage_data.corridor_height / 2;
+    obstacle_counter = 1;
+
+    entity_create({
+      'id': 'player',
+      'types': [
+        'player',
+      ],
+    });
 }
 
 function repo_logic(){
