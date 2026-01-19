@@ -22,7 +22,7 @@ function repo_drawlogic(){
     );
 
     canvas_setproperties({
-      'fillStyle': '#206620',
+      'fillStyle': core_storage_data.player_color,
     });
     canvas.fillRect(
       0,
@@ -150,6 +150,7 @@ function repo_init(){
         'level': 0,
         'obstacle_frequency': 23,
         'obstacle_increase': 115,
+        'player_color': '#206620',
         'speed': 10,
       },
       'storage_controls': true,
@@ -158,7 +159,8 @@ function repo_init(){
         + '<tr><td><input class=mini id=jetpack_power step=any type=number><td>Jetpack Power'
         + '<tr><td><input class=mini id=speed step=any type=number><td>Jetpack Speed'
         + '<tr><td><input class=mini id=obstacle_frequency min=1 step=1 type=number><td>Obstacle Frequency'
-        + '<tr><td><input class=mini id=obstacle_increase min=1 step=1 type=number><td>Obstacle Increase</table>',
+        + '<tr><td><input class=mini id=obstacle_increase min=1 step=1 type=number><td>Obstacle Increase'
+        + '<tr><td><input id=player_color type=color><td>Player Color</table>',
       'title': 'Jetpack-2D.htm',
       'ui': 'Score: <span id=score></span>',
     });
