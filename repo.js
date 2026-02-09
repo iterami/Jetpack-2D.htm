@@ -144,14 +144,14 @@ function repo_init(){
       'menu': true,
       'pointerbinds': {},
       'storage': {
-        'corridor_height': 500,
-        'gravity': 1,
-        'jetpack_power': 2,
+        'corridor_height': 600,
+        'gravity': .5,
+        'jetpack_power': 1,
         'level': 0,
         'obstacle_frequency': 23,
         'obstacle_increase': 115,
         'player_color': '#206620',
-        'speed': 10,
+        'speed': 7,
       },
       'storage_controls': true,
       'storage_menu': '<table><tr><td><input class=mini id=corridor_height min=1 step=any type=number><td>Corridor Height'
