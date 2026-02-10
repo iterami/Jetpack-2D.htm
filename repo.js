@@ -1,5 +1,65 @@
 'use strict';
 
+function draw_obstacle(entity){
+    canvas_setproperties({
+      'fillStyle': '#555',
+    });
+    canvas.fillRect(
+      entity.x,
+      entity.y,
+      entity.width * 2,
+      entity.height * 2
+    );
+    canvas_setproperties({
+      'fillStyle': '#fff',
+    });
+    canvas.fillText(
+      entity.counter,
+      entity.x,
+      entity.y
+    );
+}
+
+function draw_smoke(entity){
+    canvas.fillRect(
+      entity.x,
+      -entity.y,
+      10,
+      10
+    );
+}
+
+function move_obstacle(entity){
+    entity.x -= core_storage_data.speed;
+
+    if(entity.x > -entity.width * 2
+      && entity.x < entity.width
+      && entity.y > -entity_entities.player.y - 25 - entity.height * 2
+      && entity.y < -entity_entities.player.y + 25){
+        core_mode = 0;
+    }
+
+    if(entity.x < -canvas_properties.width_half - 70){
+        entity_remove({
+          'entities': [
+            entity.id,
+          ],
+        });
+    }
+}
+
+function move_smoke(entity){
+    entity.x -= core_storage_data.speed;
+
+    if(entity.x < -canvas_properties.width_half){
+        entity_remove({
+          'entities': [
+            entity.id,
+          ],
+        });
+    }
+}
+
 function repo_drawlogic(){
     if(!entity_entities.player){
         return;
@@ -59,25 +119,7 @@ function repo_drawlogic(){
       'groups': [
         'obstacle',
       ],
-      'todo': function(entity){
-          canvas_setproperties({
-            'fillStyle': '#555',
-          });
-          canvas.fillRect(
-            entity.x,
-            entity.y,
-            entity.width * 2,
-            entity.height * 2
-          );
-          canvas_setproperties({
-            'fillStyle': '#fff',
-          });
-          canvas.fillText(
-            entity.counter,
-            entity.x,
-            entity.y
-          );
-      },
+      'todo': draw_obstacle,
     });
 
     canvas_setproperties({
@@ -87,14 +129,7 @@ function repo_drawlogic(){
       'groups': [
         'smoke',
       ],
-      'todo': function(entity){
-          canvas.fillRect(
-            entity.x,
-            -entity.y,
-            10,
-            10
-          );
-      },
+      'todo': draw_smoke,
     });
 
     canvas.restore();
@@ -259,41 +294,14 @@ function repo_logic(){
       'groups': [
         'obstacle',
       ],
-      'todo': function(entity){
-          entity.x -= core_storage_data.speed;
-
-          if(entity.x > -entity.width * 2
-            && entity.x < entity.width
-            && entity.y > -entity_entities.player.y - 25 - entity.height * 2
-            && entity.y < -entity_entities.player.y + 25){
-              core_mode = 0;
-          }
-
-          if(entity.x < -canvas_properties.width_half - 70){
-              entity_remove({
-                'entities': [
-                  entity.id,
-                ],
-              });
-          }
-      },
+      'todo': move_obstacle,
     });
 
     entity_group_modify({
       'groups': [
         'smoke',
       ],
-      'todo': function(entity){
-          entity.x -= core_storage_data.speed;
-
-          if(entity.x < -canvas_properties.width_half){
-              entity_remove({
-                'entities': [
-                  entity.id,
-                ],
-              });
-          }
-      },
+      'todo': move_smoke,
     });
 
     core_ui_update({
