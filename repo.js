@@ -175,7 +175,8 @@ function repo_init(){
         'score': 0,
         'smoke': [],
       },
-      'info': '<select id=level><option value=0>Cave Corridor</select><button id=start type=button>Start New Flight</button>',
+      'info': '<button class=medium id=start type=button>Start New Flight</button><br>'
+        + '<select id=level><option value=0>Cave Corridor</select>',
       'menu': true,
       'pointerbinds': {},
       'storage': {
