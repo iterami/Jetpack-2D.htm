@@ -195,7 +195,7 @@ function repo_init(){
         + '<tr><td><input class=mini id=jetpack_power step=any type=number><td>Jetpack Power'
         + '<tr><td><input class=mini id=speed step=any type=number><td>Jetpack Speed'
         + '<tr><td><input class=mini id=obstacle_frequency min=1 step=1 type=number><td>Obstacle Frequency'
-        + '<tr><td><input class=mini id=obstacle_increase min=1 step=1 type=number><td>Obstacle Increase'
+        + '<tr><td><input class=mini id=obstacle_increase min=0 step=1 type=number><td>Obstacle Increase'
         + '<tr><td><input id=player_color type=color><td>Player Color</table>',
       'title': 'Jetpack-2D.htm',
       'ui': 'Score: <span id=score></span>',
@@ -267,7 +267,7 @@ function repo_logic(){
         });
     }
 
-    if(core_storage_data.obstacle_frequency > 0
+    if(core_storage_data.obstacle_increase > 0
       && frames_per_obstacle > 1
       && score % Math.floor(core_storage_data.obstacle_increase) === 0){
         frames_per_obstacle -= 1;
