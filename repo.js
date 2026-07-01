@@ -198,7 +198,7 @@ function repo_init(){
         + '<tr><td><input class=mini id=obstacle_increase min=0 step=1 type=number><td>Obstacle Increase'
         + '<tr><td><input id=player_color type=color><td>Player Color</table>',
       'title': 'Jetpack-2D.htm',
-      'ui': 'Score: <span id=score></span>',
+      'ui': ' <span id=score></span>',
     });
     entity_set({
       'type': 'obstacle',
@@ -248,7 +248,11 @@ function repo_logic(){
         return;
     }
 
-    score += 1;
+    core_ui_update({
+      'ids': {
+        'score': ++score,
+      },
+    });
 
     if(score % frames_per_obstacle === 0){
         const obstacle_width = core_random_integer(15) + 20;
@@ -303,12 +307,6 @@ function repo_logic(){
         'smoke',
       ],
       'todo': move_smoke,
-    });
-
-    core_ui_update({
-      'ids': {
-        'score': score,
-      },
     });
 }
 
