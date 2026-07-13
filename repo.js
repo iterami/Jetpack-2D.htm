@@ -41,9 +41,7 @@ function move_obstacle(entity){
 
     if(entity.x < -canvas_properties.width_half - 70){
         entity_remove({
-          'entities': [
-            entity.id,
-          ],
+          'entities': [entity.id],
         });
     }
 }
@@ -53,9 +51,7 @@ function move_smoke(entity){
 
     if(entity.x < -canvas_properties.width_half){
         entity_remove({
-          'entities': [
-            entity.id,
-          ],
+          'entities': [entity.id],
         });
     }
 }
@@ -116,9 +112,7 @@ function repo_drawlogic(){
     }
 
     entity_group_modify({
-      'groups': [
-        'obstacle',
-      ],
+      'groups': ['obstacle'],
       'todo': draw_obstacle,
     });
 
@@ -126,9 +120,7 @@ function repo_drawlogic(){
       'fillStyle': '#777',
     });
     entity_group_modify({
-      'groups': [
-        'smoke',
-      ],
+      'groups': ['smoke'],
       'todo': draw_smoke,
     });
 
@@ -155,13 +147,11 @@ function repo_escape(){
 
 function repo_init(){
     core_repo_init({
-      'beforeunload': {
-        'todo': function(event){
-            if(score !== 0){
-                core_escape(true);
-                event.preventDefault();
-            }
-        },
+      'beforeunload': function(event){
+          if(score !== 0){
+              core_escape(true);
+              event.preventDefault();
+          }
       },
       'events': {
         'start': {
@@ -231,9 +221,7 @@ function repo_load(id){
 
     entity_create({
       'id': 'player',
-      'types': [
-        'player',
-      ],
+      'types': ['player'],
     });
 }
 
@@ -265,9 +253,7 @@ function repo_logic(){
             'x': canvas_properties.width_half + obstacle_width,
             'y': core_random_integer(core_storage_data.corridor_height) - half_corridor_height,
           },
-          'types': [
-            'obstacle',
-          ],
+          'types': ['obstacle'],
         });
     }
 
@@ -284,9 +270,7 @@ function repo_logic(){
           'properties': {
             'y': entity_entities.player.y - 10,
           },
-          'types': [
-            'smoke',
-          ],
+          'types': ['smoke'],
         });
 
     }else{
@@ -296,16 +280,12 @@ function repo_logic(){
     entity_entities.player.y += entity_entities.player.speed;
 
     entity_group_modify({
-      'groups': [
-        'obstacle',
-      ],
+      'groups': ['obstacle'],
       'todo': move_obstacle,
     });
 
     entity_group_modify({
-      'groups': [
-        'smoke',
-      ],
+      'groups': ['smoke'],
       'todo': move_smoke,
     });
 }
